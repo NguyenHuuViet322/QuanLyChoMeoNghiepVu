@@ -1,0 +1,10 @@
+<svg id="icon-report" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M2.50116 2.5H10.0012" stroke="white" stroke-miterlimit="10" />
+  <path d="M2.50116 4.58337H7.50116" stroke="white" stroke-miterlimit="10" />
+  <path d="M11.667 9.58337V10.8334H15.0003V12.0834H17.917V9.58337H11.667Z" fill="white" />
+  <path d="M12.0837 7.08337V9.58337" stroke="white" stroke-miterlimit="10" stroke-linejoin="round" />
+  <path d="M2.08368 10.8334V13.75C2.08368 16.184 4.68588 17.9167 8.33368 17.9167C11.9815 17.9167 15.0003 16.184 15.0003 13.75V10.8334" stroke="white" stroke-miterlimit="10" stroke-linejoin="round" />
+  <path d="M12.0837 7.08325C11.0837 6.67445 9.84988 6.5144 8.58573 6.5144C4.93793 6.5144 2.08368 8.39929 2.08368 10.8333C2.08368 13.2672 5.10255 15.4166 8.75035 15.4166C12.3981 15.4166 15.0003 13.2672 15.0003 10.8333H8.75035L12.0837 7.08325Z" stroke="white"
+        stroke-miterlimit="10" stroke-linejoin="round" />
+  <path d="M15.0003 5.83337L11.667 9.58337H17.917C17.917 7.99218 16.8934 6.60696 15.0003 5.83337Z" fill="white" />
+</svg>

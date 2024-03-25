@@ -1,0 +1,108 @@
+﻿@using ESD.Application.Models.ViewModels;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMUser>
+@{
+    ViewData["Title"] = "Danh sách người dùng";
+    ViewBag.BreadcrumbMenu = "Quản trị hệ thống";
+    ViewBag.Breadcrumb = new List<string> { "Quản lý người dùng" };
+    List<SelectListItem> listStatus = (ViewBag.ListStatus as List<SelectListItem>) ?? new List<SelectListItem>();
+    List<SelectListItem> lstDepts = (ViewBag.ListAgency as List<SelectListItem>) ?? new List<SelectListItem>();
+    List<SelectListItem> listPosition = (ViewBag.ListPosition as List<SelectListItem>) ?? new List<SelectListItem>();
+    List<SelectListItem> lstOrgan = (ViewBag.ListOrgan as List<SelectListItem>) ?? new List<SelectListItem>();
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+
+<div class="container pt-30">
+    <div class="box-wrap-cs">
+        <form method="post" data-target="#ContentAreaTable" id="frmUser" asp-action="SearchByCondition" class="quickSearch">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text" name="Keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Nhập tên tài khoản / Tên người dùng"
+                               aria-label="Nhập tên nhóm quyền" aria-describedby="search-addon">
+                        <div class="input-group-append position-relative">
+                            <button type="button" class="btn btn-sm btn-default bg-white dropdown-toggle rounded-right font-weight-bold" data-toggle="dropdown" data-display="static" aria-expanded="false">
+                                Tìm kiếm nâng cao
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-center mt-2 p-20 w-370 minus-l-70-per">
+                                <div class="form-group">
+                                    <label for="Statuses">Trạng thái</label>
+                                    @Html.CusDropdownListSelect2("Statuses", "Statuses", "", listStatus, new { @class = "is-select2-search", data_placeholder = "Trạng thái" }, isMultiple: true)
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Agencies">Cơ quan</label>
+                                    @Html.CusDropdownListSelect2("Agencies", "Agencies", "", lstOrgan, new { @class = "is-select2-search", data_placeholder = "Cơ quan" }, isMultiple: true)
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Agencys">Đơn vị</label>
+                                    @Html.CusDropdownListSelect2("Agencys", "Agencys", "", lstDepts, new { @class = "is-select2-search", data_placeholder = "Đơn vị" }, isMultiple: true)
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Positions">Chức vụ</label>
+                                    @Html.CusDropdownListSelect2("Positions", "Positions", "", listPosition, new { @class = "is-select2-search", data_placeholder = "Chức vụ" }, isMultiple: true)
+                                </div>
+
+                                <div class="form-group mb-0 d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary" type="reset">Xóa bộ lọc</button>
+                                    <button class="btn btn-outline-primary" type="button">Áp dụng</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/User/Deletes" title="Xóa"
+                           data-comfirm-message="Bạn có chắc chắn muốn xoá {n} người dùng đã chọn?">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate text-success ml-28 ml-10-ip"
+                           href="/User/CreatePopup" data-target="#planCreateModal" aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a class="ml-28 quickSprint" data-target="#dataTables_wrapper" title="Xuất file pdf">
+                            <i class="bid-icons bid-icon-pdf"></i>
+                        </a>
+                        <a class="quickExport ml-5" action="/User/Export" data-target="#frmUser" aria-controls="data_table" title="Xuất Excel">
+                            <i class="bid-icons bid-icon-csv"></i>
+                        </a>
+
+                        <a title="Đồng bộ" data-comfirm-message="Đồng bộ người dùng"
+                           class="btn-icon-search quickComfirm ml-5" data-original-title="Đồng bộ người dùng"
+                           href="/User/Sync" data-toggle="tooltip">
+                            <i class="fas fa-fw fa-sync"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15 mb-15">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div id="ContentAreaTable">
+                        @await Html.PartialAsync("_IndexUser", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade popup-modal" id="planCreateModal" role="dialog" aria-labelledby="planCreateModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/UsersController.js" asp-append-version="true"></script>
+    <script src="~/js/controller/AgencyController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        jQuery(function () {
+            UsersConfig.Init();
+            UsersConfig.ClickUploadTemplate();
+            UsersConfig.ClickButtonUpload();
+            UsersConfig.ClickSubmitImport();
+            InitCollectionReport();
+        })
+    </script>
+}

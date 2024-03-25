@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["PageHeaderContent"] = "Profile";
+    Layout = "";
+    int stt = Model.VMProfiles.PageSize * (Model.VMProfiles.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+}
+@model ESD.Application.Models.ViewModels.VMIndexProfile
+
+<div class="table-responsive">
+    <table id="data_table" class="table table-bordered table-striped data_table" role="grid">
+        <thead>
+            <tr>
+                <th class="text-center col-min">STT</th>
+                <th class="text-center col-min">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="group-checkable custom-control-input" id="checkall" value="">
+                        <label class="custom-control-label" for="checkall"></label>
+                    </div>
+                </th>
+                <th>Mã hồ sơ</th>
+                <th>Số và ký hiệu hồ sơ</th>
+                <th>Tiêu đề hồ sơ</th>
+                <th>Năm hình thành</th>
+                <th>Phông</th>
+                <th class="col-min" data-column-id="commands" data-formatter="commands" data-sortable="false">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.VMProfiles)
+            {
+                stt++;
+                <tr>
+                    <td class="text-center">@stt</td>
+                    <td class="text-center">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="checkboxes custom-control-input" id="role-@item.ID" data-id="@item.ID" value="@item.ID">
+                            <label class="custom-control-label" for="role-@item.ID"></label>
+                        </div>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.FileCode)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FileNotation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FileCatalog)</td>
+                    <td>
+                        @item.ProfileTemplateName
+                    </td>
+                    <td>
+                        <a title="Xem chi tiết" class="btn btn-sm btn-outline-secondary btn-hover-success quickUpdate" href="/Profile/Details?id=@item.ID"
+                           data-target="#mdUpdateProfile" data-toggle="tooltip" data-original-title="Xem chi tiết">
+                            <i class="fas fa-fw fa-info"></i>
+                        </a>
+                        <a title="Sửa" class="btn btn-sm btn-outline-secondary btn-hover-info quickUpdate" href="/Profile/Edit?id=@item.ID"
+                           data-target="#mdUpdateProfile" data-toggle="tooltip" data-original-title="Sửa">
+                            <i class="fas fa-fw fa-edit"></i>
+                        </a>
+                        <a title="Xoá" data-comfirm-message="Bạn có chắc chắn muốn xoá hồ sơ này?" class="btn btn-sm btn-outline-secondary btn-hover-danger quickDelete" href="/Profile/Delete?id=@item.ID" data-id="@item.ID" 
+                           data-toggle="tooltip" data-original-title="Xóa">
+                            <i class="fas fa-fw fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="card-footer">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            @if (Model.VMProfiles.TotalFilter == 0)
+            {
+                <span>@ESD.Application.Constants.MessageConst.MSG_NOT_FOUND</span>
+            }
+            else
+            {
+                <span>Có tổng cộng <span class="text-red">@Model.VMProfiles.TotalFilter</span> bản ghi</span>
+            }
+        </div>
+        <div class="col-sm-12 col-md-8">
+            @if (Model.VMProfiles.TotalFilter > Model.VMProfiles.PageSize)
+            {
+                <nav class="d-flex justify-content-end" aria-label="Pagination">
+                    <div class="form-group d-flex align-items-center mr-4">
+                        <span>Hiển thị:&nbsp;&nbsp;</span>
+                        <select id="drdPageSize" class="select2 onChangePageSize" data-form="#frmProfile">
+                            @foreach (var pageSize in pageSizes)
+                            {
+                                if (pageSize == Model.VMProfiles.PageSize)
+                                {
+                                    <option value="@pageSize" selected>@pageSize</option>
+                                }
+                                else
+                                {
+                                    <option value="@pageSize">@pageSize</option>
+                                }
+                            }
+                        </select>
+                        <span>&nbsp;&nbsp;bản ghi/trang.</span>
+                    </div>
+                    <ul class="pagination pagination-md justify-content-end mb-0">
+                        <li class="page-item @(!Model.VMProfiles.HasPreviousPage ? "disabled" : "")">
+                            <a href="#" class="page-link onSetPageIndex"
+                               data-page="@(!Model.VMProfiles.HasPreviousPage ? "" : (Model.VMProfiles.PageIndex - 1).ToString())"
+                               data-page-size="@Model.VMProfiles.PageSize" aria-label="Previous"
+                               data-form="#frmProfile">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        @{
+                            int distance = 1;
+                            int min = Model.VMProfiles.PageIndex - distance;
+                            int max = Model.VMProfiles.PageIndex + distance;
+                            if (min == 0)
+                            {
+                                min = 1;
+                                if (max < Model.VMProfiles.TotalPages) { max++; }
+
+                            }
+                            if (max > Model.VMProfiles.TotalPages)
+                            {
+                                max = Model.VMProfiles.TotalPages;
+                                if (min > 1) { min--; }
+
+                            }
+                        }
+                        @for (int i = min; i <= max; i++)
+                        {
+                            <li class="page-item @(Model.VMProfiles.PageIndex == i ? "active" : "")">
+                                <a href="#" class="page-link onSetPageIndex" data-page="@i" data-page-size="@Model.VMProfiles.PageSize"
+                                   data-form="#frmProfile">
+                                    @i
+                                    @if (Model.VMProfiles.PageIndex == i)
+                                    {
+                                        <span class="sr-only">(current)</span>
+                                    }
+                                </a>
+                            </li>
+                        }
+                        <li class="page-item @(!Model.VMProfiles.HasNextPage ? "disabled" : "")">
+                            <a href="#" class="page-link onSetPageIndex"
+                               data-page="@(!Model.VMProfiles.HasNextPage ? "" : (Model.VMProfiles.PageIndex + 1).ToString())"
+                               data-page-size="@Model.VMProfiles.PageSize" data-form="#frmProfile"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>

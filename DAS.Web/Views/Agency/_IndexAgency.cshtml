@@ -1,0 +1,51 @@
+﻿@using ESD.Application.Models.ViewModels;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMAgency>
+@{
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+}
+
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable table-bid-custom dtr-inline useTreegrid" role="grid" data-tree="2">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="text-center col-min py-2 col-min font-s-14 font-weight-500 text-body-title p-l-r-12">STT</th>
+                <th class="m-w-96-px font-s-14 font-weight-500 text-body-title p-l-r-12">Mã đơn vị</th>
+                <th class="m-w-150-px font-s-14 font-weight-500 text-body-title p-l-r-12">Tên đơn vị</th>
+                <th class="m-w-150-px font-s-14 font-weight-500 text-body-title p-l-r-12">Đơn vị cha</th>
+                <th class="m-w-136-px font-s-14 font-weight-500 text-body-title p-l-r-12">Cơ quan</th>
+                <th class="m-w-76-px font-s-14 font-weight-500 text-body-title p-l-r-12">Thao tác</th>
+            </tr>
+        </thead>
+        @if (Model != null && Model.Count > 0)
+        {
+            <tbody>
+                @{ int stt = Model.PageSize * (Model.PageIndex - 1); }
+                @foreach (var item in Model)
+                {
+                    stt++;
+                    var clss = "treegrid-" + item.ID + (item.ParentId > 0 ? " treegrid-parent-" + item.ParentId : string.Empty);
+                    <tr class="@clss">
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@stt</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@Html.DisplayFor(modelItem => item.Code)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@Html.DisplayFor(modelItem => item.ParentName)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@Html.DisplayFor(modelItem => item.OrganName)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">
+                            <div class="d-flex is-btn-action">
+                                <a title="Xem chi tiết" class="quickUpdate"
+                                   href="/Agency/DetailPopup?id=@item.ID" data-target="#planCreateModal" data-toggle="tooltip">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a title="Sửa" class="quickUpdate"
+                                   href="/Agency/EditPopup?id=@item.ID" data-target="#planCreateModal" data-toggle="tooltip">
+                                    <i class="fas fa-fw fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+@await Html.PartialAsync("_PagingFooter", Model, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmAgency" } })

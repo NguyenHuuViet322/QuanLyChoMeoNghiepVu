@@ -1,0 +1,135 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels
+@model VMCreateCategory
+@{
+    ViewData["PageHeaderContent"] = "Thêm mới danh mục mới";
+    var url = Model.ID > 0 ? "/Category/Edit" : "/Category/Create";
+    //var parentCategory = new VMCategoryType();
+}
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+
+    <form role="form" asp-action="" class="validateForm bv-form modal-content" id="frmGroupPermUpdate">
+
+        <div class="modal-header bg-success">
+            <h3 class="modal-title" id="planCreateModalTitle">@ViewData["Title"]</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            @if (Model.VMCategoryTypeFields.IsNotEmpty())
+            {
+                foreach (var field in Model.VMCategoryTypeFields)
+                {
+                    var data = Model.CategoryFields.FirstOrNewObj(n => n.IDCategoryTypeField == field.ID);
+                    var fieldName = "Field" + field.ID;
+                    if (field.Code == "Name" || field.Code == "Code")
+                    {
+                        fieldName = field.Code;
+                    }
+                    else if (field.InputType == (int)EnumCategoryType.InputType.Parent)
+                    {
+                        fieldName = "ParentId";
+                    }
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label @(field.IsRequire ? "input-required" :string.Empty)">@field.Name</label>
+                        <div class="col-sm-8">
+                            @switch (field.InputType)
+                            {
+                                case (int)EnumCategoryType.InputType.CategoryType:
+                                case (int)EnumCategoryType.InputType.Agency:
+                                //case (int)EnumCategoryType.InputType.ProfileList:
+                                case (int)EnumCategoryType.InputType.ProfileTemplate:
+                                case (int)EnumCategoryType.InputType.Parent:
+
+                                    var codeType = string.Empty;
+                                    if (field.InputType == (int)EnumCategoryType.InputType.CategoryType)
+                                    {
+                                        codeType = Model.VMCategoryTypes.FirstOrNewObj(n => n.ID == field.IDCategoryTypeRelated).Code;
+                                    }
+                                    else if (field.InputType == (int)EnumCategoryType.InputType.ProfileTemplate)
+                                    {
+                                        codeType = EnumCategoryType.Code.DM_Phong.ToString();
+                                    }
+                                    else if (field.InputType == (int)EnumCategoryType.InputType.Parent)
+                                    {
+                                        codeType = Model.VMCategoryType.Code;
+                                    }
+                                    @Html.CusDropdownListSelect2("mySelect" + field.ID, fieldName, "--" + field.Name + "--", (data.IntVal > 0) ? new List<SelectListItem> { new SelectListItem { Text = data.DisplayVal, Value = data.IntVal.ToString(), Selected = true @*Chỉ trả về 1 item đc chọn*@} } : null, new
+{
+@class = "form-control select2 onOpenCate onAutoUpdateChildData",
+@data_code_type = codeType,
+@data_categorytype_id = field.IDCategoryTypeRelated,
+@data_category_id = Model.ID,
+@data_category_parents = Model.ParentPath,
+@data_selected_id = data.IntVal,
+@data_default_text = "--" + field.Name + "--",
+@data_default_value = field.IsRequire ? "" : "0",
+@data_input_type = field.InputType,
+@data_source_url = "/Category/GetOptions",
+@data_placeholder = "--Chọn " + field.Name.ToLower() + "--"
+}, field.Name, field.IsRequire, field.IsReadonly, false, field.IsRequire ? "" : "0")
+                                    break;
+                                case (int)EnumCategoryType.InputType.InpTextArea:
+                                    @Html.CusTextArea("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, 5, 5, field.IsReadonly, field.Minlenght, field.Maxlenght)
+                                    break;
+                                case (int)EnumCategoryType.InputType.InpDate:
+                                    if (field.IsReadonly)
+                                    {
+                                        <div class="input-group date_input" id="search_create-date@(field.ID)" data-target-input="nearest">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                            @Html.CusTextBoxDate("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, 0, field.IsReadonly)
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                        <div class="input-group date_input" data-format="@field.Format" id="search_create-date@(field.ID)" data-target-input="nearest">
+                                            <div class="input-group-prepend" data-target="#search_create-date@(field.ID)" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                            @Html.CusTextBoxDate("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, new
+                                            {
+                                                 data_target = "#search_create-date" + field.ID,
+                                                 data_toggle = "datetimepicker",
+                                            }, 0)
+                                        </div>
+                                    }
+                                    break;
+                                case (int)EnumCategoryType.InputType.InpNumber:
+                                    @Html.CustTexBoxNumber("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, field.IsReadonly, field.Minlenght, field.Maxlenght, field.MinValue, field.MaxValue)
+                                    break;
+                                case (int)EnumCategoryType.InputType.InpFloat:
+                                    @Html.CustTexBoxFloat("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, field.IsReadonly, ".", field.Minlenght, field.Maxlenght, field.MinValue, field.MaxValue)
+                                    break;
+                                case (int)EnumCategoryType.InputType.InpMoney:
+                                    @Html.CusTextBoxMoney("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, field.IsReadonly, field.Minlenght, field.Maxlenght, field.MinValue, field.MaxValue)
+                                    break;
+                                default:
+                                    @Html.CustTexBox("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, field.IsReadonly, field.Minlenght, field.Maxlenght, field.MinValue, field.MaxValue)
+                                    break;
+                            }
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+            </button>
+            <input type="hidden" value="@Model.ID" name="ID" />
+            <input type="hidden" value="@Model.CodeType" name="CodeType" />
+            <input type="hidden" value="@Model.IdCategoryType" name="IdCategoryType" />
+            <button data-url="@url" class="btn btn-outline-primary quickSubmit"> <i class="fas fa-fw fa-save"></i><span>Lưu</span></button>
+        </div>
+    </form>
+</div>
+
+

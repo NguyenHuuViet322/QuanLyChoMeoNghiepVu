@@ -1,0 +1,178 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateTCDinhLuongAnChoNV
+@{
+    var title = (Model.ID > 0 ? "Cập nhật" : "Thêm mới") + " tcdinhluonganchonv";
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+    var url = Model.ID > 0 ? "/TCDinhLuongAnChoNV/Change" : "/TCDinhLuongAnChoNV/Save";
+
+    var isUpdate = Model.ID > 0;
+
+
+}
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUTCDinhLuongAnChoNV">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+             
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="DanhMucDinhMuc"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="DanhMucDinhMuc" class="form-control" />
+                        <span asp-validation-for="DanhMucDinhMuc" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Tu30KgDuoi2Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Tu30KgDuoi2Thang_DM" class="form-control" />
+                        <span asp-validation-for="Tu30KgDuoi2Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Tu30KgTu3Den4Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Tu30KgTu3Den4Thang_DM" class="form-control" />
+                        <span asp-validation-for="Tu30KgTu3Den4Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Tu30KgTu5Den10Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Tu30KgTu5Den10Thang_DM" class="form-control" />
+                        <span asp-validation-for="Tu30KgTu5Den10Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Tu30KgTu11Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Tu30KgTu11Thang_DM" class="form-control" />
+                        <span asp-validation-for="Tu30KgTu11Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="HuanLuyenTu30Kg_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="HuanLuyenTu30Kg_DM" class="form-control" />
+                        <span asp-validation-for="HuanLuyenTu30Kg_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="GiongTu30Kg_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="GiongTu30Kg_DM" class="form-control" />
+                        <span asp-validation-for="GiongTu30Kg_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Duoi30KgDuoi2Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Duoi30KgDuoi2Thang_DM" class="form-control" />
+                        <span asp-validation-for="Duoi30KgDuoi2Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Duoi30KgTu3Den4Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Duoi30KgTu3Den4Thang_DM" class="form-control" />
+                        <span asp-validation-for="Duoi30KgTu3Den4Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Duoi30KgTu5Den10Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Duoi30KgTu5Den10Thang_DM" class="form-control" />
+                        <span asp-validation-for="Duoi30KgTu5Den10Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Duoi30KgTu11Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Duoi30KgTu11Thang_DM" class="form-control" />
+                        <span asp-validation-for="Duoi30KgTu11Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="HuanLuyenDuoi30Kg_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="HuanLuyenDuoi30Kg_DM" class="form-control" />
+                        <span asp-validation-for="HuanLuyenDuoi30Kg_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="GiongDuoi30Kg_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="GiongDuoi30Kg_DM" class="form-control" />
+                        <span asp-validation-for="GiongDuoi30Kg_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="NhapNoiTu30KgTrong12Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="NhapNoiTu30KgTrong12Thang_DM" class="form-control" />
+                        <span asp-validation-for="NhapNoiTu30KgTrong12Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="NhapNoiTu30KgTu13Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="NhapNoiTu30KgTu13Thang_DM" class="form-control" />
+                        <span asp-validation-for="NhapNoiTu30KgTu13Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="NhapNoiDuoi30Trong12Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="NhapNoiDuoi30Trong12Thang_DM" class="form-control" />
+                        <span asp-validation-for="NhapNoiDuoi30Trong12Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="NhapNoiDuoi30Tu13Thang_DM"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="NhapNoiDuoi30Tu13Thang_DM" class="form-control" />
+                        <span asp-validation-for="NhapNoiDuoi30Tu13Thang_DM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="DonViTinh"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="DonViTinh" class="form-control" />
+                        <span asp-validation-for="DonViTinh" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="NienHan"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="NienHan" class="form-control" />
+                        <span asp-validation-for="NienHan" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button data-url="@url" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                    <span class="text-white font-s-14">Lưu</span>
+                </button>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <input type="hidden" value="1" name="IsConfig" />
+            </div>
+        </form>
+    </div>
+</div>

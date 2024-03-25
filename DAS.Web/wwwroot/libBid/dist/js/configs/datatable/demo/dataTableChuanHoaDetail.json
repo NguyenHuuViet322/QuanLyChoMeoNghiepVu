@@ -1,0 +1,102 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "heading": "Nhà thầu"
+    },
+    {
+      "no": "1",
+      "content": "Dự án",
+      "tenFile": "A",
+      "status": "0",
+      "text": "Hoàn thành",
+      "id": "5421"
+    },
+    {
+      "no": "2",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "8422"
+    },
+    {
+      "no": "3",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "1562"
+    },
+    {
+      "no": "4",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "6224"
+    },
+    {
+      "no": "5",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "5407"
+    },
+    {
+      "no": "6",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "4804"
+    },
+    {
+      "no": "7",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "9608"
+    },
+    {
+      "no": "8",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "6200"
+    },
+    {
+      "no": "9",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "0",
+      "text": "Hoàn thành",
+      "id": "2360"
+    },
+    {
+      "no": "10",
+      "content": "Kế hoạch lựa chọn nhà thầu",
+      "tenFile": "B",
+      "status": "1",
+      "text": "Đang kiểm tra",
+      "id": "1667"
+    },
+    {
+      "no": "2",
+      "heading": "Nhà đầu tư"
+    },
+    {
+      "no": "11",
+      "content": "Danh sách dự án công bố",
+      "tenFile": "L",
+      "status": "0",
+      "text": "Hoàn thành",
+      "id": "3814"
+    }
+  ]
+}

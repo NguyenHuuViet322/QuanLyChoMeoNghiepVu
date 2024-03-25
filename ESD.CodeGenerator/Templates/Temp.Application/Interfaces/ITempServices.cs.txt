@@ -1,0 +1,23 @@
+﻿using Temp.Application.Models.CustomModels;
+using Temp.Application.Models.ViewModels;
+using Temp.Application.Models.ViewModels{.Group};
+using Temp.Application.Models.Param{.Group};
+using Temp.Domain.Models{.Group};
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Temp.Application.Interfaces{.Group}
+{
+    public interface I{Table}Services
+    {
+        Task<IEnumerable<{Table}>> GetsList();
+        Task<{Table}> Get({idDatatype} id);
+        Task<VMIndex{Table}> SearchByConditionPagging({Table}Condition {Table}Condition);
+        Task<VMUpdate{Table}> Create();
+        Task<ServiceResult> Save(VMUpdate{Table} vm{Table});
+        Task<VMUpdate{Table}> Update({idDatatype}? id);
+        Task<ServiceResult> Change(VMUpdate{Table} vm{Table});
+        Task<ServiceResult> Delete({idDatatype} id);
+        Task<ServiceResult> Delete(IEnumerable<{idDatatype}> ids);
+    }
+}

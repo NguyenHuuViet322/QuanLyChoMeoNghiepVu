@@ -1,0 +1,54 @@
+﻿@model ESD.Application.Models.ViewModels.VMCreateRole
+<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <form role="form" class="modal-content onUpdateInputState" id="planCreateForm">
+        <div class="modal-header d-flex align-items-center">
+            <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">Chỉnh sửa vai trò </h5>
+            <span class="w-h-32 icon-exit-white ml-auto" data-dismiss="modal" aria-hidden="true"></span>
+        </div>
+        <div class="modal-body">
+            <input asp-for="ID" type="hidden" class="form-control" />
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-4 col-form-label input-required"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Name" class="form-control" placeholder="Tên vai trò" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Description" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
+                    <textarea asp-for="Description" class="form-control" placeholder="Mô tả" rows="2"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="IDGroupPermissionStrs" class="col-sm-4 col-form-label"></label>
+                <div class="col-sm-8">
+                    @if (ViewBag.ListGroupPermission == null)
+                    {
+                        <select asp-for="IDGroupPermissionStrs" class="form-control select2" multiple data-placeholder="Chọn nhóm quyền"></select>
+                    }
+                    else
+                    {
+                        <select asp-for="IDGroupPermissionStrs" asp-items="@(new SelectList(ViewBag.ListGroupPermission,"Value","Text"))" class="form-control select2" multiple data-placeholder="Chọn nhóm quyền"></select>
+                    }
+                    <span asp-validation-for="IDGroupPermissionStrs" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button data-url="/Role/Update" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                <span class="text-white font-s-14">Lưu</span>
+            </button>
+            <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+            </button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        RoleConfig.OpenPopup();
+    });
+</script>

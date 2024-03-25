@@ -1,0 +1,18 @@
+﻿@model List<ESD.Domain.Models.DAS.Module>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="col col-auto" data-id="@item.ID">
+            <div class="info-box">
+                <a href="javascript:;" class="fa fa-fw fa-arrows-alt-h handle" title="Sắp xếp" data-toggle="tooltip"></a>
+                <a href="@item.Url" class="info-box-icon bg-gradient-success text-white elevation-1"><i class="fas @item.Icon"></i></a>
+                <div class="info-box-content">
+                    <h5 class="info-box-text mb-0"><a href="@item.Url">@item.Name</a></h5>
+                    <a href="javascript:;" class="fa fa-times btn-close" title="Bỏ lối tắt trang chủ" data-toggle="tooltip"></a>
+                </div>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,98 @@
+﻿@using ESD.Application.Models.ViewModels;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMAgency>
+@using ESD.Utility.Helper
+@{
+    ViewData["Title"] = "Danh sách đơn vị";
+    ViewData["PageHeaderContent"] = "Agency";
+    ViewBag.BreadcrumbMenu = "Quản trị hệ thống";
+    ViewBag.Breadcrumb = new List<string> { "Quản lý đơn vị" };
+    var parents = ViewBag.Parents == null ? null : (IEnumerable<HierachyAgency>)ViewBag.Parents;
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15">
+        <form asp-action="SearchByCondition" id="frmAgency" role="form" method="post" class="quickSearch" data-target="#divAgencys">
+            <div class="row row-ip">
+                <div class="col-md-6 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-6 col-ip-12">
+                    <div class="input-group input-group-sm mb-3">
+                        @Html.CustTexBoxSearch("", "Keyword", (object)ViewBag.Keyword, "", "Nhập tên đơn vị")
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        
+                        <a class="btn-icon-search quickUpdate ml-28 text-success"
+                           href="/Agency/CreatePopup" data-target="#planCreateModal"
+                           aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a class="quickExport ml-5" action="/Agency/Export" data-target="#frmAgency" aria-controls="data_table" title="Xuất Excel">
+                            <i class="bid-icons bid-icon-csv"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div class="row">
+                        @if (parents != null && parents.Count() > 0)
+                        {
+                            <div class="col-3">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-space table-hover dataTable table-bid-custom dtr-inline">
+                                        <thead class="thead-light">
+                                            <tr class="elevation-1">
+                                                <th class="py-2 font-s-14 font-weight-500 text-body-title p-l-r-12">Danh sách đơn vị</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in parents)
+                                            {
+                                                @if (item.HasChild)
+                                                {
+                                                    <tr data-widget="expandable-table" class="expandable-table" aria-expanded="false" id="expandable-@item.ID">
+                                                        <td class="font-s-13 text-color-4545 p-b-t-16">
+                                                            <i class="fas fa-caret-right fa-fw"></i>
+                                                            @item.Name
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="expandable-body"></tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td class="font-s-13 text-color-4545 p-b-t-16">@item.Name</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        <div class="@(parents != null && parents.Count() > 0 ? "col-9" : "col-12")" id="divAgencys">
+                            @await Html.PartialAsync("_IndexAgency", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade popup-modal" id="planCreateModal" role="dialog" aria-labelledby="planCreateModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/AgencyController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        jQuery(function () {
+            AgencyConfig.ExpandTable();
+            AgencyConfig.ClickUploadTemplate();
+            AgencyConfig.ClickButtonUpload();
+            AgencyConfig.ClickSubmitImport();
+        });
+    </script>
+}

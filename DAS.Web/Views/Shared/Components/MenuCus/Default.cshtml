@@ -1,0 +1,388 @@
+﻿@using DAS.Web.Constants;
+@using ESD.Application.Enums.DasKTNN;
+@using ESD.Application.Enums.ESDTieuChuanKiemDinh;
+@using Microsoft.AspNetCore.Html;
+@using System.Linq;
+@using ESD.Utility.Helper
+@using ESD.Application.Enums;
+@using ESD.Infrastructure.ContextAccessors
+@using DAS.Web.Attributes;
+@using ESD.Utility;
+@model IEnumerable<LeftMenuComponentModel>
+@{
+    var lstMenu = Model.ToList();
+    var acc = ViewBag.UserAcc as IUserPrincipalService;
+}
+<aside class="main-sidebar sidebar-light-primary elevation-2">
+    <a href="@Url.RouteUrl("Welcome")" class="brand-link">
+        <img src="~/libBid/dist/img/logo.png" alt="Hệ thống lưu trữ dữ liệu số" class="brand-image my-0 ml-2" />
+        <div class="brand-text text-uppercase text-bold">
+            <p class="mb-0 small text-white font-s-14 font-weight-500 mb-3">Hệ thống quản lý</p>
+            <p class="mb-0 text-white font-s-13">ĐỘNG VẬT NGHIỆP VỤ</p>
+        </div>
+    </a>
+    <div class="sidebar">
+        <nav id="nav-left-menu-bid">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-legacy" data-widget="treeview" role="menu" data-accordion="true">
+                @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.DongVatNghiepVu
+                || n.Code == (int)EnumModule.Code.CoSoVatChat
+                || n.Code == (int)EnumModule.Code.DonViNghiepVu
+                || n.Code == (int)EnumModule.Code.ThongTinCanBo
+                ) || acc.IsSuperUser)
+                {
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon text-primary fas fa-fw fa-industry"></i>
+                            <p>Quản lý nghiệp vụ<i class="right fas fa-angle-down jsIconDown"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview nav-lv-1">
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.DongVatNghiepVu) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/DongVatNghiepVu" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý động vật nghiệp vụ </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/DongVatNghiepVu/@((int)MenuDVNV.Loai)" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý động vật chết, bị loại </p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.CoSoVatChat) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/CoSoVatChat" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý cơ sở vật chất</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.DonViNghiepVu) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/DonViNghiepVu" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý đơn vị</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.ThongTinCanBo) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="@Url.RouteUrl(CustomsConfig.RouterThongTinCanBo)" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý cán bộ</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                @*<li class="nav-item">
+                                    <a href="@Url.RouteUrl(CustomsConfig.RouterThongTinCanBo, new { type = (int)TypeCanBo.CanhSat })" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý cán bộ cảnh sát</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.RouteUrl(CustomsConfig.RouterThongTinCanBo, new { type = (int)TypeCanBo.ThuY })" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý cán bộ thú y</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.RouteUrl(CustomsConfig.RouterThongTinCanBo, new { type = (int)TypeCanBo.CapDuong })" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý cán bộ cấp dưỡng</p>
+                                        </div>
+                                    </a>
+                                </li>*@
+                            }
+                        </ul>
+                    </li>
+                }
+                
+                @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.CapPhatCSVC) || acc.IsSuperUser)
+                {
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon text-primary fas fa-fw fa-boxes"></i>
+                            <p>Cấp phát hàng nghiệp vụ<i class="right fas fa-angle-down jsIconDown"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview nav-lv-1">
+                            <li class="nav-item">
+                                <a href="/TCDMTrangBi_DonVi/TongHop" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Cấp phát hàng nghiệp vụ CSVC cho đơn vị</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDMTrangBiCBCS_ChoNV" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Cấp phát hàng nghiệp vụ CSVC cho cán bộ</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDMTrangBiChoNV" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Cấp phát hàng nghiệp vụ CSVC cho động vật</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDinhLuongAnChoNV" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Bảng tính định lượng ăn cho động vật</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                } 
+                @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.QLDM) || acc.IsSuperUser)
+                {
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon text-primary fas fa-fw fa-list"></i>
+                            <p>Quản lý danh mục<i class="right fas fa-angle-down jsIconDown"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview nav-lv-1">
+                            <li class="nav-item">
+                                <a href="/NghiepVuDongVat" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục nghiệp vụ động vật</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/LoaiChoNghiepVu" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục loại chó nghiệp vụ</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/ChuyenMonKiThuat" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục chuyên môn kỹ thuật</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDMTrangBi_DonVi" class="nav-link  d-none">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục cấp phát hàng nghiệp vụ CSVC cho đơn vị</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDMTrangBiCBCS_ChoNV" class="nav-link  d-none">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục cấp phát hàng nghiệp vụ CSVC cho cán bộ</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDMTrangBiChoNV" class="nav-link  d-none">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục cấp phát hàng nghiệp vụ CSVC cho động vật</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/TCDinhLuongAnChoNV" class="nav-link  d-none">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Danh mục định lượng ăn cho động vật</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.M20010
+                || n.Code == (int)EnumModule.Code.S9023
+                || n.Code == (int)EnumModule.Code.NKHT
+                || n.Code == (int)EnumModule.Code.CHTS
+                || n.Code == (int)EnumModule.Code.QLMENU
+                || n.Code == (int)EnumModule.Code.M20020
+                || n.Code == (int)EnumModule.Code.S9030
+                || n.Code == (int)EnumModule.Code.S9010
+                || n.Code == (int)EnumModule.Code.S9020
+                || n.Code == (int)EnumModule.Code.M20030) || acc.IsSuperUser)
+                {
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon text-primary fas fa-user-cog"></i>
+                            <p>Quản trị hệ thống <i class="right fas fa-fw fa-angle-down jsIconDown"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview nav-lv-1">
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.QLMENU) || acc.IsSuperUser)
+                            {
+                                @*<li class="nav-item">
+                        <a href="/Module" class="nav-link">
+                        <div class="d-flex align-items-center">
+                        <span class="animation-menu"></span>
+                        <p>Quản lý Menu</p>
+                        </div>
+                        </a>
+                        </li>*@
+                            }
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.S9030) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/GroupPermission" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý nhóm quyền</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @*@if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.S9030) || acc.IsSuperUser)
+                        {
+                        <li class="nav-item">
+                        <a href="/Role" class="nav-link">
+                        <div class="d-flex align-items-center">
+                        <span class="animation-menu"></span>
+                        <p>Quản lý vai trò</p>
+                        </div>
+                        </a>
+                        </li>
+                        }*@
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.M20020) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/Agency" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý đơn vị</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.M20030) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/Position" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý chức vụ</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.S9010) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/Team" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý nhóm người dùng</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.S9020) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/User" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Quản lý người dùng</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (lstMenu.Any(n => n.Code == (int)EnumModule.Code.NKHT) || acc.IsSuperUser)
+                            {
+                                <li class="nav-item">
+                                    <a href="/SystemLog" class="nav-link">
+                                        <div class="d-flex align-items-center">
+                                            <span class="animation-menu"></span>
+                                            <p>Nhật ký hệ thống</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @* @if (acc.IsSuperUser)
+                        {
+                        <li class="nav-item">
+                        <a href="/NotificationConfig" class="nav-link">
+                        <div class="d-flex align-items-center">
+                        <span class="animation-menu"></span>
+                        <p>Cấu hình thông báo</p>
+                        </div>
+                        </a>
+                        </li>
+                        }*@
+                        </ul>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon text-primary fas fa-file"></i>
+                            <p>Báo cáo <i class="right fas fa-fw fa-angle-down jsIconDown"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview nav-lv-1">
+                            <li class="nav-item">
+                                <a href="/DongVatMat_BiLoai" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Báo cáo Động vật chết, thải loại</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/BaoCaoTongHopDonVi" class="nav-link">
+                                    <div class="d-flex align-items-center">
+                                        <span class="animation-menu"></span>
+                                        <p>Báo cáo Tổng hợp</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</aside> 

@@ -1,0 +1,105 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Models.ViewModels
+@using ESD.Application.Enums;
+@model VMGroupPermision
+@{
+    var modules = Model.Permissions.IsNotEmpty()
+        ? Model.Permissions.GroupBy(n => n.IDModule).ToDictionary(n => n.Key, n => n.FirstOrDefault().ModuleName)
+        : new Dictionary<int, string>();
+    var index = 0;
+    var fullMenu = Model.Modules ?? new List<ESD.Domain.Models.DAS.Module>();
+    void RenderTree(IEnumerable<ESD.Domain.Models.DAS.Module> menu, Nullable<int> parentID)
+    {
+        foreach (var module in menu.Where(x => x.ParentId.Equals(parentID)).OrderBy(x => x.SortOrder))
+        {
+            //Render Branch
+            var countSub = menu.Where(x => x.ParentId.Equals(module.ID)).Count();
+            if (countSub > 0)
+            {
+                var hierarchy = menu.Where(x => ("|" + x.ParentPath + "|").Contains("|" + module.ID + "|")).Select(x => x.ID).ToList();
+                if (Model.Permissions.Any(n => hierarchy.Contains(n.IDModule)))
+                {
+                    <li class="branch">
+                        <a href="#collapse-@(module.ID)" class="fa fa-fw fa-caret-right" role="button" data-toggle="collapse"
+                        aria-expanded="false" aria-controls="collapse-@(module.ID)"></a>
+                        <div class="custom-control custom-checkbox readonly d-inline-block">
+                            <input type="checkbox" class="custom-control-input" @(Model.Permissions.Where(n => n.IDModule == module.ID || hierarchy.Contains(n.IDModule)).Any(n => !n.IsCheck) ? string.Empty : "checked") id="cbModule@(module.ID)" disabled />
+                            <label for="cbModule@(module.ID)" class="custom-control-label font-weight-bold">@module.Name</label>
+                        </div>
+
+                        <ul id="collapse-@(module.ID)" class="collapse">
+                            @{
+                                RenderTree(fullMenu, module.ID);
+                            }
+                            @{
+                                var permissions = Model.Permissions.Where(n => n.IDModule == module.ID).OrderBy(n => n.Type).ToList();
+                                foreach (var permission in permissions)
+                                {
+
+                                    <li>
+                                        <div class="custom-control custom-checkbox readonly d-inline-block">
+                                            <input readonly class="custom-control-input @(permission.Type ==(int)EnumPermission.Type.Read?"dfPermisson":"")" type="checkbox" id="cbPer@(permission.IDPermission)" name="Permissions[@index].IsChecked" value="1" @(permission.IsCheck ? "checked" : string.Empty) disabled>
+                                            <label for="cbPer@(permission.IDPermission)" class="custom-control-label">@permission.PermissionName</label>
+                                        </div>
+
+                                        <input type="hidden" name="Permissions[@index].IDPermissionGroupPer" value="@permission.IDPermissionGroupPer" />
+                                        <input type="hidden" name="Permissions[@index].IDPermission" value="@permission.IDPermission" />
+
+                                    </li>
+                                    index++;
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+            else
+            {
+                if (Model.Permissions.Any(n => n.IDModule == module.ID))
+                {
+                    <li class="branch">
+                        <a href="#collapse-@(module.ID)" class="fa fa-fw fa-caret-right" role="button" data-toggle="collapse"
+           aria-expanded="false" aria-controls="collapse-@(module.ID)"></a>
+                        <div class="custom-control custom-checkbox readonly d-inline-block">
+                            <input type="checkbox" class="custom-control-input" @(Model.Permissions.Where(n => n.IDModule == module.ID).Any(n => !n.IsCheck) ? string.Empty : "checked") id="cbModule@(module.ID)" disabled />
+                            <label for="cbModule@(module.ID)" class="custom-control-label font-weight-bold">@module.Name</label>
+                        </div>
+
+                        <ul id="collapse-@(module.ID)" class="collapse">
+                            @{
+                                var permissions = Model.Permissions.Where(n => n.IDModule == module.ID).OrderBy(n => n.Type).ToList();
+                                foreach (var permission in permissions)
+                                {
+
+                                    <li>
+                                        <div class="custom-control custom-checkbox readonly d-inline-block">
+                                            <input readonly class="custom-control-input @(permission.Type ==(int)EnumPermission.Type.Read?"dfPermisson":"otPermisson")" type="checkbox" id="cbPer@(permission.IDPermission)" name="Permissions[@index].IsChecked" value="1" @(permission.IsCheck ? "checked" : string.Empty) disabled />
+                                            <label for="cbPer@(permission.IDPermission)" class="custom-control-label">@permission.PermissionName</label>
+                                        </div>
+
+                                        <input type="hidden" name="Permissions[@index].IDPermissionGroupPer" value="@permission.IDPermissionGroupPer" />
+                                        <input type="hidden" name="Permissions[@index].IDPermission" value="@permission.IDPermission" />
+
+                                    </li>
+                                    index++;
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+
+            }
+        }
+    }
+}
+
+@{
+    RenderTree(fullMenu, 0);
+}
+
+<script type="text/javascript">
+    jQuery(function () {
+        GroupPermisionConfig.CheckBoxTree()
+    })
+</script>

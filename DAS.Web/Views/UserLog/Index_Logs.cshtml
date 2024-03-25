@@ -1,0 +1,43 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels;
+@model PaginatedList<VMUserLogInfo>
+@{
+    int stt = 0;
+    if (Model != null)
+    { stt = Model.PageSize * (Model.PageIndex - 1); }
+}
+
+<div class="table-responsive">
+    <table id="data_table" class="table table-borderless table-space table-hover dataTable no-footer dtr-inline" role="grid">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="text-center col-min font-s-14 font-weight-500 text-body-title p-l-r-12">STT</th>
+                <th class="m-w-300-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">Thao tác</th>
+                <th class="m-w-200-px text-center font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">Thời điểm</th>
+                <th class="m-w-50-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">ID tài khoản</th>
+                <th class="m-w-150-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">Tài khoản</th>
+                <th class="m-w-150-px font-s-14 font-weight-500 text-body-title p-l-r-12">Địa chỉ IP</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    stt++;
+                    <tr>
+                        <td class="text-center font-s-13 text-color-4545 p-b-t-16">@stt</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@Html.DisplayFor(modelItem => item.Action)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16 text-center">@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16 text-center">@Html.DisplayFor(modelItem => item.UserId)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16 text-center">@Html.DisplayFor(modelItem => item.Username)</td>
+                        <td class="font-s-13 text-color-4545 p-b-t-16">@Html.DisplayFor(modelItem => item.IPAddress)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@await Html.PartialAsync("_PagingFooter", Model, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmUserLog" } })

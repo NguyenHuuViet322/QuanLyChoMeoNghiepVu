@@ -1,0 +1,77 @@
+.treegrid-indent {width:25px; height: 16px; display: inline-block; position: relative;}
+
+.treegrid-expander {width:16px; height: 14px; display: inline-block; position: relative; cursor: pointer;}
+
+.treegrid-expander-expanded{background-image: url(../img/collapse.png); }
+.treegrid-expander-collapsed{background-image: url(../img/expand.png);}
+
+.useTreegrid.v2 td {
+    padding: 0;
+}
+.useTreegrid.v2 .bootstrap-select button{
+    border: none;
+}
+.useTreegrid.v2 .treegrid-expander {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+.useTreegrid.v2 .treegrid-expander-expanded {
+    background: none;
+}
+.useTreegrid.v2 .treegrid-expander-collapsed {
+    background: none;
+    padding-left: 4px !important;
+}
+.useTreegrid.v2 .treegrid-expander-collapsed::before {
+    content: "\f105";
+}
+.useTreegrid.v2 .treegrid-expander-expanded::before {
+    content: "\f107";
+}
+.useTreegrid.v2 .treegrid-expander {
+    width: 10px;
+    height: 12px;
+    top: -1px;
+    padding-left: 2px;
+}
+.useTreegrid.v2 input[type="checkbox"] ~ .text,
+.useTreegrid.v2 input[type="radio"] ~ .text {
+    position: relative;
+    z-index: 11;
+    display: inline-block;
+    margin: 0;
+    line-height: 12px;
+    min-height: 12px;
+    min-width: 12px;
+    font-weight: normal;
+}
+.useTreegrid.v2 input[type="checkbox"] ~ .text::before, 
+.useTreegrid.v2 input[type="radio"] ~ .text::before {
+    height: 12px;
+    line-height: 10px;
+    min-width: 12px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.useTreegrid.v2 input[type=checkbox] ~ .text:hover:before,
+.useTreegrid.v2 input[type=radio] ~ .text:hover:before {
+    border-color: #339a99;
+}
+
+.useTreegrid.v2 input[type=checkbox]:checked ~ .text:before,
+.useTreegrid.v2 input[type=radio]:checked ~ .text:before {
+    content: "\f3fd" !important;
+    border-color: #57b5e3 !important;
+    font-family: "Ionicons" !important;
+    line-height: 10px;
+}
+
+.useTreegrid.v2 input[type=checkbox]:active ~ .text :before,
+.useTreegrid.v2 input[type=radio]:active ~ .text :before {
+    box-shadow: none !important;
+}

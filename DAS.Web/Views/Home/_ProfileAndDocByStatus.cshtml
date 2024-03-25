@@ -1,0 +1,15 @@
+﻿@using ESD.Application.Models.ViewModels;
+@model VMDashBoardProfile
+
+<div class="card card-outline card-success">
+    <div class="card-header">
+        <h3 class="card-title">Trạng thái thu thập hồ sơ, tài liệu</h3>
+    </div>
+    <div class="card-body">
+        <div id="plan_chart_container" class="chart_container" style="padding: 0 1rem 1rem 0">
+            <canvas id="plan_chart"></canvas>
+        </div>
+    </div>
+    <div class="card-footer"></div>
+</div>
+<input type="hidden" id="hddprofiles" value="@Model.ProfileDictStr" />

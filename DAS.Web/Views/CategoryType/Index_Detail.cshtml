@@ -1,0 +1,135 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Application.Models.ViewModels;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+@model VMCategoryType
+@{
+    ViewData["Title"] = "Danh mục tuỳ biến";
+    Layout = "";
+    var url = Model.ID > 0 ? "/CategoryType/Edit" : "/CategoryType/Create";
+    var lstInputType = Model.DictInputTypes.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString()
+    }).ToList();
+    var lstCategoryType = Model.DictCategoryTypes.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString()
+    }).ToList();
+    var lstDefaultValueTypes = Model.DictDefaultValueTypes.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString()
+    }).ToList();
+    var lstParent = Model.DictParents.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.ParentId
+    }).ToList();
+}
+<div class="modal-dialog modal-xl  modal-dialog-scrollable" role="document">
+    <form role="form" asp-action="" class="modal-content bv-form onUpdateInputState" id="frmGroupPermUpdate">
+        <div class="modal-header bg-success">
+            <h3 class="modal-title" id="planCreateModalTitle">Chi tiết danh mục tuỳ biến </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label input-required" asp-for="Code"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Code" class="form-control" readonly />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label input-required" asp-for="Name"></label>
+
+                <div class="col-sm-8">
+                    <input asp-for="Name" class="form-control" readonly />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" asp-for="Description"></label>
+                <div class="col-sm-8">
+                    <textarea asp-for="Description" readonly class="form-control" rows="5">@Model.Description</textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" asp-for="ParentId"></label>
+                <div class="col-sm-8">
+                    @Html.CusDropdownListSelect2("ParentId", "ParentId", "--Chọn cấp trên--", lstParent, new { @class = "select2 w-100", @data_placeholder = "--Chọn cấp trên--" }, isReadonly: true)
+                    <span asp-validation-for="ParentId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="table-control divConfigs">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 text-left mb-2 mb-md-0">
+                        <label>Cấu hình trường thông tin</label>
+                    </div>
+                    <div class="col-md-9 col-sm-12 text-md-right">
+                        @*<a class="btn btn-success btn-sm onAppendTemplate" tabindex="0" href="#" data-target="#bodyConfigCategoryType" data-template="#tempUpdateConfig">
+                        <span><i class="fas fa-plus mr-2"></i>Thêm dòng</span>
+                    </a>*@
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive divConfigs">
+                @*Todo use class*@
+                <table id="tbConfigCategoryType" class="table table-bordered table-striped data_table" role="grid">
+                    <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Mã</th>
+                            <th>Kiểu nhập</th>
+                            <th>Danh mục / Định dạng</th>
+                            <th class="col-min text-center text-wrap">Bắt buộc</th>
+                            <th class="col-min text-center text-wrap">Hiển thị trên lưới</th>
+                            <th class="col-min text-center text-wrap">Tìm kiếm</th>
+                            <th>Số ký tự tối thiểu</th>
+                            <th>Số ký tự tối đa</th>
+                            <th>Giá trị tối thiểu</th>
+                            <th>Giá trị tối đa</th>
+                            <th>Thứ tự</th>
+                            <th>Dữ liệu mặc định</th>
+                            <th class="col-min text-center text-wrap">Không cho phép sửa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyConfigCategoryType">
+                        @if (Utils.IsNotEmpty(Model.CategoryTypeFields))
+                        {
+                            var index = 0;
+                            foreach (var item in Model.CategoryTypeFields)
+                            {
+                                item.DlInputTypes = lstInputType;
+                                item.DlCategoryTypes = lstCategoryType;
+                                item.DlDefaultValueTypes = lstDefaultValueTypes;
+                                item.Index = index;
+                                item.IsDetail = true;
+                                //item.Index = index;
+                                @await Html.PartialAsync("Update_TrConfig", item)
+                                index++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+            </button>
+
+            <input type="hidden" value="@Model.ID" name="ID" />
+            <a class="btn btn-outline-info quickUpdate" href="/CategoryType/Edit?id=@Model.ID" data-target="#mdUpdateCategoryType"><i class="fas fa-fw fa-edit"></i><span>Chỉnh sửa</span></a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,78 @@
+@using ESD.Application.Enums.DasKTNN;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu;
+@using ESD.Utility;
+@using System.IO;
+@using QRCoder;
+@using System.Drawing;
+@model VMReportDongVatNghiepVu
+@{
+    int stt = Model.DongVatNghiepVus.PageSize * (Model.DongVatNghiepVus.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+    var gioitinhs = Utils.EnumToDic<GioiTinhDongVat>();
+    var searchParam = Model.SearchParam;
+}
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable dtr-inline useTreegrid table-bid-custom" role="grid" data-tree="3">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="pb-2 col-min">STT</th>
+                <th class="pb-2 m-w-150-px">Họ tên CBHL</th>
+                <th class="pb-2 m-w-200-px">Đơn vị</th>
+                <th class="pb-2 m-w-150-px">Tên chó NV</th>
+                <th class="pb-2 m-w-150-px">Giống chó</th>
+                <th class="pb-2">Tính biệt</th>
+                <th class="pb-2">CK</th>
+                <th class="pb-2 m-w-50-px">Số hiệu</th>
+                <th class="pb-2">Chết</th>
+                <th class="pb-2">Thải loại</th>
+                <th class="pb-2 m-w-150-px">Nguyên nhân</th>
+                <th class="pb-2 m-w-150-px">Thời gian</th>
+                <th class="pb-2 m-w-150-px">Ghi chú</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.DongVatNghiepVus)
+            {
+                stt++;
+                var giong = Model.LoaiChoNghiepVus.FirstOrNewObj(n => n.ID == item.IDLoaiChoNghiepVu);
+                var donvihl = Model.DonViNghiepVus.FirstOrNewObj(n => n.ID == item.IDDonViNghiepVu);
+                var canBo = Model.ThongTinCanBos.FirstOrNewObj(n => n.ID == item.IDThongTinCanBo);
+
+                var hysinh = item.PhanLoai == 3 ? 1 : 0;
+                var thailoai = item.PhanLoai == 2 ? 1 : 0;
+                DateTime time;
+                if (item.KhaiBaoDate == null)
+                    time = DateTime.Now;
+                else
+                    time = (DateTime)item.KhaiBaoDate;
+
+                string chuyenKhoa = "";
+                if (item.IDNghiepVuDongVat != null)
+                {
+                    var tmp = Model.NghiepVuDongVats.Where(p => p.ID == item.IDNghiepVuDongVat).FirstOrDefault();
+                    chuyenKhoa = (tmp==null)?(""):(tmp.Code);
+                }
+
+                <tr>
+                    <td class="text-center">@stt</td>
+                    <td>@canBo.TenCanBo</td>
+                    <td>@donvihl.Ten</td>
+                    <td>@item.Ten</td>
+                    <td>@giong.Ten</td>
+                    <td>@gioitinhs.GetValueOrDefault(item.GioiTinh??0)</td>
+                    <td>@chuyenKhoa</td>
+                    <td>@item.SoQDBS</td>
+                    <td>@hysinh</td>
+                    <td>@thailoai</td>
+                    <td>@item.LyDo</td>
+                    <td>@time.ToString("dd/MM/yyyy")</td>
+                    <td>@item.GhiChu</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_PagingFooter", Model.DongVatNghiepVus, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmDongVatNghiepVu" } })

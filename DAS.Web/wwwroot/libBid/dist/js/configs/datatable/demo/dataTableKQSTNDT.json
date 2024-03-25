@@ -1,0 +1,51 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "id": "5421",
+      "TBMST": "20210612175 - 00",
+      "tenDuAn": "Khu dân cư thương mại và Chợ Nguyễn Thị Minh Khai",
+      "loaiDuAn": "Dự án đầu tư có sử dụng đất",
+      "tongTien": "55.217.653.000",
+      "benMT": "Văn phòng Hội đồng nhân dân và Ủy ban nhân dân thành phố Bắc Kạn",
+      "ngayDang": "9/6/2021",
+      "ngaySoTuyen": "04/06/2021"
+    },
+    {
+      "no": "2",
+      "id": "8422",
+      "TBMST": "20210612175 - 00",
+      "tenDuAn": "Cảng du thuyền",
+      "loaiDuAn": "Dự án đầu tư có sử dụng đất",
+      "tongTien": "55.217.653.000",
+      "benMT": "Sở Giao thông vận tải tỉnh Tiền Giang",
+      "ngayDang": "04/06/2021",
+      "ngaySoTuyen": "8/6/2021 9:32:00"
+    },
+    {
+      "no": "3",
+      "id": "1562",
+      "TBMST": "20210612175 - 00",
+      "tenDuAn": "Phát triển nhà ở thương mại khu dân cư thôn Thái, xã Nguyên Xá, huyện Vũ Thư, tỉnh Thái Bình",
+      "loaiDuAn": "Dự án đầu tư có sử dụng đất",
+      "tongTien": "55.217.653.000",
+      "benMT": "sở Xây dựng tỉnh Thái Bình",
+      "ngayDang": "8/6/2021 9:27:00",
+      "ngaySoTuyen": "8/6/2021 9:32:00"
+    },
+    {
+      "no": "4",
+      "id": "6224",
+      "TBMST": "20210612175 - 00",
+      "tenDuAn": "Khu dân cư thương mại và Chợ Nguyễn Thị Minh Khai",
+      "loaiDuAn": "Dự án đầu tư có sử dụng đất",
+      "tongTien": "55.217.653.000",
+      "benMT": "Văn phòng Hội đồng nhân dân và Ủy ban nhân dân thành phố Bắc Kạn",
+      "ngayDang": "04/06/2021",
+      "ngaySoTuyen": "8/6/2021 9:32:00"
+    }
+  ]
+}
+

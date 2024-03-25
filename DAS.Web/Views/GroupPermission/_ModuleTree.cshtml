@@ -1,0 +1,44 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Models.ViewModels
+@model VMGroupPermision
+@{
+    var modules = Model.Permissions.IsNotEmpty()
+        ? Model.Permissions.GroupBy(n => n.IDModule).ToDictionary(n => n.Key, n => n.FirstOrDefault().ModuleName)
+        : new Dictionary<int, string>();
+    var index = 0;
+}
+@foreach (var module in modules)
+{
+    var childModules = Model.Permissions.Where(n => n.IDModule == module.Key).GroupBy(n => n.IDModuleChild).ToDictionary(n => n.Key, n => n.FirstOrDefault().ModuleChildName);
+    <li class="branch">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" @(Model.Permissions.Where(n => n.IDModule == module.Key).Any(n => !n.IsCheck) ? string.Empty : "checked") id="cbModule@(module.Key)" />
+            <label for="cbModule@(module.Key)" class="custom-control-label">@module.Value</label>
+        </div>
+
+        <ul>
+            @{var permissions = Model.Permissions.Where(n => n.IDModule == module.Key).ToList();
+                foreach (var permission in permissions)
+                {
+
+                    <li>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="cbPer@(permission.IDPermission)" name="Permissions[@index].IsChecked" value="1" @(permission.IsCheck ? "checked" : string.Empty)>
+                            <label for="cbPer@(permission.IDPermission)" class="custom-control-label">@permission.PermissionName</label>
+                        </div>
+
+                        <input type="hidden" name="Permissions[@index].IDPermissionGroupPer" value="@permission.IDPermissionGroupPer" />
+                        <input type="hidden" name="Permissions[@index].IDPermission" value="@permission.IDPermission" />
+
+                    </li>
+                    index++;
+                }
+            }
+        </ul>
+    </li>
+}
+<script type="text/javascript">
+    GroupPermisionConfig.InitTree();
+    GroupPermisionConfig.CheckBoxTree();
+</script>

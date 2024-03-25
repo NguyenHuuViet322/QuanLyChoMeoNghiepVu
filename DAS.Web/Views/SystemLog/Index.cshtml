@@ -1,0 +1,106 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels;
+@model PaginatedList<VMLogInfo>
+@{
+    ViewBag.BreadcrumbMenu = "Quản trị hệ thống";
+    ViewBag.Breadcrumb = new List<string> { "Nhật ký hệ thống" };
+    ViewData["Title"] = "Nhật ký hệ thống";
+    var title = ViewData["Title"];
+    ViewData["PageHeaderContent"] = "SystemLog";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+    List<SelectListItem> lstAction = new List<SelectListItem>
+    {
+        new SelectListItem{Text = "Thêm mới",Value = "Thêm mới"},
+        new SelectListItem{Text = "Cập nhật",Value = "Cập nhật"},
+        new SelectListItem{Text = "Xóa",Value = "Xóa"},
+        new SelectListItem{Text = "Xóa Logic",Value = "Xóa Logic"},
+    };
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs">
+        <div class="row row-ip">
+            <div class="col-md-3 col-xl-6 align-items-center d-flex col-ip-sm-12 mb-ip-sm-10">
+                <p class="is-header-table-search"><span>@title</span></p>
+            </div>
+            <div class="col-md-9 col-xl-6 col-ip-sm-12">
+                <form asp-action="SearchByConditionPagging" id="frmSystemLog" role="form" method="post" class="quickSearch" data-target="#divSystemLogs">
+                    <div class="input-group input-group-sm justify-content-end justify-content-ip-sm-start">
+                        <input id="Keyword" type="text" class="form-control d-none" name="Keyword" value="@ViewBag.Keyword"
+                               placeholder="Nhập tên tài khoản" title="Nhập tên tài khoản"
+                               aria-label="Nhập tên tài khoản" aria-describedby="search-addon">
+                        <div class="form-list-bid__avanced d-flex position-relative">
+                            <div class="form-group mb-0 mr-5 w-125-px">
+                                @Html.CusDropdownListSelect2("ActionCRUD", "ActionCRUD", "", lstAction, new { @class = "select2-cs-single select2 w-100 h-100", @data_placeholder = "Thao tác", @data_width = "100%" }, isMultiple: false)
+                            </div>
+
+                            <div class="form-group mb-0 mr-5 w-125-px">
+                                <div class="input-group date_input" id="search_from-date" data-target-input="nearest">
+                                    @Html.CusTextBoxDate("FromDate", "FromDate", "", "", "Từ ngày", false, new { data_target = "#search_from-date", data_toggle = "datetimepicker", }, 0)
+                                    <div class="input-group-prepend" data-target="#search_from-date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0 mr-5 w-125-px">
+                                <div class="input-group date_input" id="search_to-date" data-target-input="nearest">
+                                    @Html.CusTextBoxDate("ToDate", "ToDate", "", "", "Đến ngày", false, new { data_target = "#search_to-date", data_toggle = "datetimepicker", }, 0)
+                                    <div class="input-group-prepend" data-target="#search_to-date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="search-addon" class="input-group-append mr-5 ml-5">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    Tìm kiếm
+                                </button>
+                            </div>
+                            <div class="table-control d-flex align-items-center ml-ip-sm-auto">
+                                <div class="form-item__icon d-flex ml-auto ml-28">
+                                    <a class="ml-0 quickExport" action="/SystemLog/Export" data-target="#divSystemLogs" aria-controls="data_table" title="Xuất Excel">
+                                        <i class="bid-icons bid-icon-csv"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-10">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div id="divSystemLogs">
+                        @await Html.PartialAsync("Index_SystemLogs", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ViewJsonModal" aria-labelledby="comfirmModel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Json Viewer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <pre id="json-renderer"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/controller/SystemLogController.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    SystemLogConfig.Init();
+</script>
+

@@ -1,0 +1,51 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu;
+@using ESD.Utility;
+@model VMIndexTCDMTrangBi_DonVi
+@{
+    int stt = Model.TCDMTrangBi_DonVis.PageSize * (Model.TCDMTrangBi_DonVis.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+    var loaiPhongs = Model.TCDMTrangBi_DonVis.Select(n => n.MaPhong).Distinct();
+}
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable dtr-inline useTreegrid table-bid-custom" role="grid" data-tree="3">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="pb-2 col-min">STT</th>
+                <th class="pb-2 m-w-200-px">Trang bị</th>
+                <th class="pb-2 m-w-200-px">Đơn vị tính</th>
+                <th class="pb-2 m-w-200-px">Niên hạn</th>
+                <th class="pb-2 m-w-200-px">SL cấp phát</th>
+                <th class="pb-2 m-w-200-px">SL dự trú</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                var roomIndex = 0;
+                foreach (var loaiPhong in loaiPhongs)
+                {
+                    roomIndex++;
+                    <tr class="text-bold">
+                        <td class="text-center">@roomIndex.ToRoman()</td>
+                        <td colspan="5">@Model.LoaiPhongs.GetValueOrDefault(loaiPhong)</td>
+                    </tr>
+                    var trangBis = Model.TCDMTrangBi_DonVis.Where(n => n.MaPhong == loaiPhong);
+                    foreach (var item in trangBis)
+                    {
+                        stt++;
+                        <tr>
+                            <td class="text-center">@stt</td>
+                            <td>@item.DanhMucDinhMuc</td>
+                            <td>@item.StrDonViTinh</td>
+                            <td>@item.StrNienHan</td>
+                            <td>@item.SoLuong</td>
+                            <td>@item.StrDuTru</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_PagingFooter", Model.TCDMTrangBi_DonVis, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmTCDMTrangBi_DonVi" } })

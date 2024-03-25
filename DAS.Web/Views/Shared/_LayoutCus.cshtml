@@ -1,0 +1,136 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @{
+        ViewData["ModuleBookmark"] = null;
+    }
+    @if (ViewData["Title"] != null)
+    {
+        <title>@ViewData["Title"]</title>
+    }
+    else
+    {
+        <title>Hệ thống tra quản lý dữ liệu</title>
+    }
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bundle & minify css -->
+    <!-- Theme font: Roboto -->
+    <link href="~/libBid/dist/css/font-roboto.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link href="~/libBid/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- overlayScrollbars -->
+    <link href="~/libBid/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" />
+    <!-- Select2 -->
+    <link href="~/libBid/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/libBid/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+    <!-- daterange picker -->
+    <link href="~/libBid/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/libBid/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" />
+    <!-- Sweet Alert 2-->
+    <link rel="stylesheet" href="~/libBid/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" />
+    <!-- bootstrapValidator -->
+    <link rel="stylesheet" href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.css" />
+    <!-- treegrid -->
+    <link rel="stylesheet" href="~/lib/treegrid/jquery.treegrid.css" />
+    <!-- DataTables -->
+    <link href="~/libBid/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/libBid/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/libBid/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/libBid/dist/css/adminlte.min.css" asp-append-version="true" />
+    <link href="~/css/siteBid.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/cust.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/siteBidAlpIpad.css" rel="stylesheet" />
+</head>
+<body class="hold-transition text-sm sidebar-mini layout-fixed layout-navbar-fixed">
+    <input type="hidden" id="LayoutUserId" name="LayoutUserId" value="@ViewBag.LayoutUserId" />
+    <input type="hidden" id="LayoutNotifyUrl" name="LayoutNotifyUrl" value="@ViewBag.NotifyUrl" />
+    <input type="hidden" id="LayoutCheckLoadPage" name="LayoutCheckLoadPage" />
+    <div class="wrapper">
+        <!-- Navbar -->
+        @await Html.PartialAsync("_LayoutCus_Navbar")
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        @await Component.InvokeAsync("MenuCus")
+        @*Content Wrapper. Contains page content*@
+        <div class="content-wrapper">
+            @* @await Html.PartialAsync("~/Views/Common/_ContentHeader.cshtml")*@
+            <!-- Main content -->
+            <div class="content @ViewBag.ClassContent">
+                @RenderBody()
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Main Footer -->
+        <footer class="main-footer bg-primary p-2" style="display:block; height:auto;background: linear-gradient(180deg, #1D4C90 35.75%, #005B8B 100%), #0089D1;">
+            <div class="h5 text-white" style="padding: 0.5em;"><strong style="font-family: 'Roboto'">Bộ Tư lệnh Cảnh sát Cơ động</strong></div>
+            <div class="text-white" style="padding-left: 0.5em;">Trụ sở:  Số 23 Nguyễn Khang, phường Trung Hòa, quận Cầu Giấy, Thành phố Hà Nội</div>
+        </footer>
+
+    
+        @await Html.PartialAsync("_Message")
+
+    </div>
+    <div id='change-password-modal' class='modal fade'></div>
+    <!-- required scripts -->
+    <!-- google charts -->
+    <script src="~/libbid/plugins/google-charts/loader.js"></script>
+    <!-- jquery -->
+    <script src="~/libbid/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/libBid/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/libBid/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/libBid/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/libBid/plugins/select2/js/i18n/vi.js"></script>
+    <!-- moment -->
+    <script src="~/libBid/plugins/moment/moment.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="~/libBid/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/libBid/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- bootstrapValidator -->
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+    <!-- Tree Grid -->
+    <script src="~/lib/treegrid/jquery.treegrid.js"></script>
+    <!-- Sweet Alert 2-->
+    <script src="~/libBid/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/libBid/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/libBid/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/libBid/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/libBid/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="~/lib/adminLte/plugins/chart.js/Chart.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/libBid/dist/js/adminlte.js"></script>
+    <script src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script src="~/libBid/dist/js/configs/datatable/callback.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/js/Common.js"></script>
+    <script src="~/js/controller/AccountController.js"></script>
+    <script src="~/js/Notification.js"></script>
+    <script src="~/js/Upload/uploader.js"></script>
+    <script src="~/js/Upload/upfile.js"></script>
+    <script type="text/javascript">
+        InitCommonJs();
+        AccountConfig.Init();
+        Notification.ReadNotify();
+    </script>
+    <script src="~/js/siteBid.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

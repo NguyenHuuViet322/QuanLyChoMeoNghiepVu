@@ -1,0 +1,267 @@
+.actMultiTicks.hidden {
+    display: none;
+}
+
+ul.useTree {
+    margin-top: 5px;
+    list-style: none;
+}
+
+    ul.useTree ul {
+        list-style: none;
+    }
+
+    ul.useTree li {
+        cursor: pointer;
+    }
+
+    ul.useTree .custom-control {
+        display: inline;
+    }
+
+.input-group.has-error .control-label,
+.form-group.has-error .help-block,
+.input-group.has-error .help-block,
+.form-group.has-error .help-inline,
+.input-group.has-error .help-inline {
+    color: #e46f61;
+}
+
+.form-group.has-error input,
+.input-group.has-error input,
+.form-group.has-error .select,
+.input-group.has-error .select,
+.form-group.has-error textarea,
+.input-group.has-error textarea {
+    border-color: #E7BEBE;
+    border-top-color: rgb(231, 190, 190);
+    border-right-color: rgb(231, 190, 190);
+    border-bottom-color: rgb(231, 190, 190);
+    border-left-color: rgb(231, 190, 190);
+}
+
+span.red {
+    color: red;
+}
+
+.custom-control.custom-checkbox.readonly,
+.custom-control.custom-radio.readonly {
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.toasts-bottom-right {
+    z-index: 9999;
+}
+
+.quickShowDetail td .right {
+    float: right;
+    padding: 0.25rem;
+    line-height: 1rem;
+    text-align: center;
+    width: 1.5rem;
+}
+
+/*Begin customize pdf viewer */
+#toolbarContainer, .findbar, .secondaryToolbar {
+    background-color: #107c41;
+    background-image: url(/pdf/images/texture.png), linear-gradient(hsl(147deg 77% 27%), hsl(147deg 70% 38%));
+}
+
+#errorWrapper {
+    display: none;
+}
+
+.jsonContain {
+    max-width: 100px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/*End customize pdf viewer */
+.input-group > .input-control {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.groupradios label {
+    margin-right: 15px;
+}
+
+.groupradios label {
+    margin-left: 7px;
+}
+
+.onMoveTr {
+    z-index: 99;
+}
+
+/* Remove PDF Toolbar*/
+#toolbarContainer {
+    display: none;
+}
+
+#viewerContainer {
+    top: 0;
+    border-top: 0;
+}
+
+/* Fix PDF Viewer Responsibility */
+#outerContainer {
+    height: auto;
+    min-height: 500px;
+}
+
+#mainContainer,
+#viewerContainer {
+    position: relative;
+}
+
+.canvasWrapper,
+.pdfViewer .page,
+.pdfViewer .page canvas {
+    width: 100% !important;
+    height: auto !important;
+    margin: auto;
+    border-width: 0.5rem;
+}
+
+.textLayer {
+    display: none;
+}
+
+.min-h-50vh {
+    min-height: 50vh;
+}
+
+/* Bookmark button */
+.btn-bookmark {
+    line-height: 1rem;
+    margin-left: 0.5rem;
+}
+
+.nav-item .btn-bookmark {
+    line-height: 2rem;
+}
+
+.quickShowDetail:nth-child(4n+3) {
+    background-color: transparent !important;
+}
+
+.col-text-13 {
+    width: 13%;
+}
+
+.col-text-15 {
+    width: 15%;
+}
+
+.col-text-20 {
+    width: 15%;
+}
+
+.pd-top-7 {
+    padding-top: 7px;
+}
+
+.pd-top-10 {
+    padding-top: 10px;
+}
+
+.mg-top-10 {
+    margin-top: 10px;
+}
+
+.mg-top-20 {
+    margin-top: 20px;
+}
+
+.mg-bottom-5 {
+    margin-bottom: 5px;
+}
+
+.mg-right-20 {
+    margin-right: 20px !important;
+}
+
+th.input-required::after {
+    font-size: 0.95rem;
+}
+
+.expandable-body .datepicker-days .table {
+    margin: 0;
+}
+
+.input-required.text-left::after {
+    right: auto !important;
+}
+
+.no-border {
+    border: none !important;
+}
+
+#overlaypdf {
+    position: absolute !important;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+#textOverLay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+
+.w-80 {
+    width: 80px;
+}
+
+@media(max-width: 480px) {
+    .login-info .login-title, .login-info .register-title, .register-info .login-title, .register-info .register-title {
+        font-size: 1rem;
+    }
+
+    .login-info .login-logo, .login-info .register-logo, .register-info .login-logo, .register-info .register-logo {
+        width: 90px;
+    }
+
+    .login-info, .register-info {
+        margin-top: -100px;
+    }
+}
+
+@media(max-width: 320px) {
+    .login-info .login-title, .login-info .register-title, .register-info .login-title, .register-info .register-title {
+        font-size: 0.8rem;
+    }
+
+    .login-info .login-logo, .login-info .register-logo, .register-info .login-logo, .register-info .register-logo {
+        margin-top: 0.5rem;
+        width: 80px;
+    }
+
+    .login-info, .register-info {
+        padding-left: 0;
+        margin-top: -80px;
+    }
+}

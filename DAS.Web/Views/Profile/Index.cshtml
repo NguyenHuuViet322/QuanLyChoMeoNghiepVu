@@ -1,0 +1,72 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@{
+    ViewData["PageHeaderContent"] = "Profile";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var lstProfileTemplate = Model.DictProfileTemplate.Select(n => new SelectListItem
+    {
+        Value = n.Key.ToString(),
+        Text = n.Value,
+        Selected = Model.ProfileCondition.ArrIDProfileTemplates.IsNotEmpty() && Model.ProfileCondition.ArrIDProfileTemplates.Contains(n.Key.ToString())
+    });
+}
+@model ESD.Application.Models.ViewModels.VMIndexProfile
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách hồ sơ</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="SearchByCondition" id="frmProfile" role="form" method="post" class="quickSearch" data-target="#divProfiles">
+                    <div class="row">
+                        <div class="col-3">
+                            <input type="text" value="@Model.ProfileCondition.Keyword" name="Keyword" class="form-control" placeholder="Nhập mã hồ sơ, số và ký hiệu hồ sơ">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" value="@Model.ProfileCondition.Title" name="Title" class="form-control" placeholder="Nhập tiêu đề">
+                        </div>
+                        <div class="col-3">
+                            @Html.CusDropdownListSelect2("IDProfileTemplates", "IDProfileTemplates", null, lstProfileTemplate, new { @class = "select2 w-100", @data_placeholder = "Phông", @data_width="100%" }, isMultiple: true)
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-search"></i><span>Tìm kiếm</span></button>
+                        </div>
+                    </div>
+                </form>
+                <div id="data_table_wrapper" class="dataTables_wrapper">
+                    <div class="table-control">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12 text-left mb-2 mb-md-0"></div>
+                            <div class="col-md-9 col-sm-12 text-md-right">
+                                <span class="actMultiTicks hidden">
+                                    <a class="btn btn-danger quickDeletes" data-url="/Profile/Deletes" tabindex="0" data-comfirm-message="Bạn có chắc chắn muốn xoá {n} hồ sơ đã chọn?">
+                                        <span><i class="fas fa-trash-alt mr-2"></i>Xoá</span>
+                                    </a>
+                                </span>
+
+                                <a class="btn btn-success quickUpdate" tabindex="0" href="/Profile/Create"
+                                   data-target="#mdUpdateProfile" aria-controls="data_table">
+                                    <i class="fas fa-fw fa-plus"></i><span>Thêm mới</span>
+                                </a>
+                                <a class="btn btn-primary quickExport" tabindex="0" href="#" action="/Profile/Export" data-target="#frmProfile" aria-controls="data_table">
+                                    <i class="fas fa-fw fa-file-export"></i><span>Xuất file</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divProfiles">
+                        @await Html.PartialAsync("Index_Profiles", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdUpdateProfile"  aria-labelledby="UpdateProfile" aria-hidden="true"></div>
+
+<script src="~/js/controller/AutocompleteController.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    InitAutocomplete();
+</script>

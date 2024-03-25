@@ -1,0 +1,66 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateNghiepVuDongVat
+@{
+    var title = (Model.ID > 0 ? "Điều chỉnh" : "Khai báo") + " nghiệp vụ động vật"; 
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+    var url = Model.ID > 0 ? "/NghiepVuDongVat/Change" : "/NghiepVuDongVat/Save";
+
+    var isUpdate = Model.ID > 0;
+
+
+}
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUNghiepVuDongVat">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+             
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Code"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Ten"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Ten" class="form-control" />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="MoTa"></label>
+                    <div class="col-sm-9">
+                        <textarea asp-for="MoTa" class="form-control" rows="5">@Model.MoTa</textarea>
+                        <span asp-validation-for="MoTa" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button data-url="@url" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                    <span class="text-white font-s-14">Lưu</span>
+                </button>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <input type="hidden" value="1" name="IsConfig" />
+            </div>
+        </form>
+    </div>
+</div>

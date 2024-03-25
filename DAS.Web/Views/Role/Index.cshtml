@@ -1,0 +1,56 @@
+﻿@using ESD.Application.Models.ViewModels;
+@using ESD.Utility.Helper
+@model ESD.Application.Models.ViewModels.PaginatedList<VMRole>
+@{
+    ViewData["Title"] = "Quản lý vai trò";
+    ViewData["PageHeaderContent"] = "Roles";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+    ViewBag.BreadcrumbMenu = "Quản trị hệ thống";
+    ViewBag.Breadcrumb = new List<string> { "Quản lý vai trò" };
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs">
+        <form asp-action="SearchByCondition" id="frmRole" role="form" method="post" class="quickSearch" data-target="#divRoles">
+            <div class="row row-ip">
+                <div class="col-md-6 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-6 col-ip-12">
+                    <div class="input-group input-group-sm">
+                        @Html.CustTexBoxSearch("", "Keyword", (object)ViewBag.Keyword, "", "Nhập tên Menu")
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/Role/DeleteMulti" title="Xóa"
+                           data-comfirm-message="Bạn có chắc chắn muốn xoá {n} vai trò đã chọn?">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate ml-5 text-success"
+                           href="/Role/CreatePopup" data-target="#planCreateModal"
+                           aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a class="btn-icon-search quickExport ml-5 text-success"
+                           href="/Role/Export" data-target="#frmRole"
+                           aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-file-export"></i>
+                        </a>
+                    </div>
+                </div><!-- /.col -->
+            </div>
+        </form>
+
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15 mb-15">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div id="divRoles">
+                        @await Html.PartialAsync("_IndexRole", Model)
+                    </div>
+                </div>
+            </div><!-- /.card -->
+        </div><!-- /Card 1 -->
+    </div>
+</div>
+<div class="modal fade popup-modal" id="planCreateModal" role="dialog" aria-labelledby="planCreateModalTitle" aria-hidden="true"></div>
+<script src="~/js/controller/RoleController.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    RoleConfig.Init();
+</script>

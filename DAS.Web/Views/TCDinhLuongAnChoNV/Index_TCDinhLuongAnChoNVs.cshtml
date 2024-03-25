@@ -1,0 +1,36 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu;
+@model VMIndexTCDinhLuongAnChoNV
+@{
+    int stt = Model.TCDinhLuongAnChoNVs.PageSize * (Model.TCDinhLuongAnChoNVs.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+}
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable dtr-inline useTreegrid table-bid-custom" role="grid" data-tree="3">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="pb-2 col-min">STT</th>
+                <th class="pb-2 m-w-200-px">Trang bị</th>
+                <th class="pb-2 m-w-50-px text-center">Đơn vị tính</th>
+                <th class="pb-2 m-w-50-px text-center">Niên hạn</th>
+                <th class="pb-2 m-w-50-px text-center">Số lượng cần cấp phát</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model.TCDinhLuongAnChoNVs)
+                {
+                    stt++;
+                    <tr>
+                        <td class="text-center">@stt</td>
+                        <td>@item.DanhMucDinhMuc</td>
+                        <td class="text-center">@Model.DonViTinhs[item.DonViTinh]</td>
+                        <td class="text-center">@Model.NienHans[item.NienHan]</td>
+                        <td class="text-center">@item.SoLuong</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_PagingFooter", Model.TCDinhLuongAnChoNVs, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmTCDinhLuongAnChoNV" } })

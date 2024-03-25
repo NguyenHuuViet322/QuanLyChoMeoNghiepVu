@@ -1,0 +1,14 @@
+ESDNghiepVu.ChuyenMonKiThuat
+ESDNghiepVu.CoSoVatChat
+ESDNghiepVu.CoSoVatChat_DonVi
+ESDNghiepVu.DongVatNGhiepVu
+ESDNghiepVu.DonViNghiepVu
+ESDNghiepVu.LoaiChoNghiepVu
+ESDNghiepVu.NghiepVuDongVat
+ESDNghiepVu.NghiepVuDongVat_DinhKem
+ESDNghiepVu.ThongTinCanBo
+ESDNghiepVu.ThongTinCanBo
+ESDNghiepVu.TCDinhLuongAnChoNV
+ESDNghiepVu.TCDMTrangBi_DonVi
+ESDNghiepVu.TCDMTrangBiCBCS_ChoNV
+ESDNghiepVu.TCDMTrangBiChoNV

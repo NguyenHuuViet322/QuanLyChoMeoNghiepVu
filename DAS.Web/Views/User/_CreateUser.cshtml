@@ -1,0 +1,208 @@
+﻿@using ESD.Utility;
+@using ESD.Domain.Enums;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.VMCreateUser
+@{
+    var agencies = (ViewBag.ListOrgan as List<SelectListItem>) ?? new List<SelectListItem>();
+    var positions = (ViewBag.ListPosition as List<SelectListItem>) ?? new List<SelectListItem>();
+    var teams = (ViewBag.ListTeam as List<SelectListItem>) ?? new List<SelectListItem>();
+    var groupPers = (ViewBag.ListGroupPer as List<SelectListItem>) ?? new List<SelectListItem>();
+}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+    <form id="planCreateForm" class="modal-content onUpdateInputState" role="form" asp-action="" autocomplete="off">
+        <div class="modal-header d-flex align-items-center">
+            <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">Thêm mới người dùng</h5>
+            <span class="w-h-32 icon-exit-white ml-auto" data-dismiss="modal" aria-hidden="true"></span>
+        </div>
+        <div class="modal-body">
+            <input asp-for="ID" type="hidden" class="form-control" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label asp-for="AccountName" class="col-sm-4 col-form-label input-required"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="AccountName" class="form-control font-s-13" placeholder="Tên tài khoản" maxlength="50" />
+                            <span asp-validation-for="AccountName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Password" class="col-sm-4 col-form-label input-required"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Password" class="form-control font-s-13" placeholder="Mật khẩu" type="password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="ConfirmPassword" class="col-sm-4 col-form-label input-required"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="ConfirmPassword" class="form-control font-s-13" placeholder="Nhập lại mật khẩu" type="password" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-sm-4 col-form-label input-required"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Name" class="form-control font-s-13" placeholder="Họ và tên" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="IdentityNumber" class="col-sm-4 col-form-label input-required onlynumber"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="IdentityNumber" class="form-control font-s-13" placeholder="Số CMND/Hộ chiếu" />
+                            <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Email" class="col-sm-4 col-form-label input-required"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Email" class="form-control font-s-13" placeholder="Email" type="email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Phone" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Phone" class="form-control onlynumber font-s-13" placeholder="Số điện thoại" type="tel" maxlength="20" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Address" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Address" class="form-control font-s-13" placeholder="Địa chỉ" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row form-input-admin">
+                        <label asp-for="IDOrgan" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDOrgan", "IDOrgan", "Chọn cơ quan", agencies, new
+                            {
+                                @class = "select2 w-100",
+                                @data_placeholder = "Chọn cơ quan",
+                                @disabled = true
+                            }, defaultVal: null)
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-input-admin">
+                        <label asp-for="IDAgency" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8" id="elmBindingIDAgency">
+                            @Html.CusDropdownListSelect2("IDAgency", "IDAgency", "Chọn đơn vị", new List<SelectListItem>(), new
+                            {
+                                @class = "select2 w-100",
+                                @data_placeholder = "Chọn đơn vị"
+                            }, defaultVal: null)
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-input-admin">
+                        <label asp-for="IDPosition" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDPosition", "IDPosition", "Chọn chức vụ", positions, new
+                            {
+                                @class = "select2 w-100",
+                                @data_placeholder = "Chọn chức vụ"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-input-admin">
+                        <div class="col-sm-4">
+                            <div class="d-flex justify-content-between">
+                                <label asp-for="IDGroupPerStrs" class="col-form-label w-96"></label>
+                                <div class="col-form-label custom-control custom-checkbox ml-2 pt-0">
+                                    <input class="custom-control-input" type="checkbox" id="ckAllUserGroupPers" />
+                                    <label for="ckAllUserGroupPers" class="custom-control-label">Tất cả</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-8" id="editUserGroupPer">
+                            @Html.CusDropdownListSelect2("IDGroupPerStrs", "IDGroupPerStrs", "", groupPers, new
+                            {
+                                @class = "select2 w-100 is-select2-search",
+                                @data_placeholder = "Chọn nhóm quyền"
+                            }, isMultiple: true)
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-input-admin">
+                        <div class="col-sm-4">
+                            <div class="d-flex justify-content-between">
+                                <label asp-for="IDTeamStrs" class="col-form-label w-96"></label>
+                                <div class="col-form-label custom-control custom-checkbox ml-2 pt-0">
+                                    <input class="custom-control-input" type="checkbox" id="ckAllTeams" />
+                                    <label for="ckAllTeams" class="custom-control-label">Tất cả</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8" id="editTeam">
+                            @Html.CusDropdownListSelect2("IDTeamStrs", "IDTeamStrs", "", teams, new
+                            {
+                                @class = "select2 w-100 is-select2-search",
+                                @data_placeholder = "Chọn nhóm người dùng"
+                                }, isMultiple: true)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Status" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <div class="input-group col-form-label justify-content-between align-content-center">
+                                <div class="custom-control custom-radio form-check-inline">
+                                    <input class="custom-control-input" type="radio" id="ActiveStatus" value="@((int)EnumCommon.Status.Active)" name="Status" checked required />
+                                    <label for="ActiveStatus" class="custom-control-label">@StringUltils.GetEnumDescription(EnumCommon.Status.Active)</label>
+                                </div>
+                                <div class="custom-control custom-radio form-check-inline">
+                                    <input class="custom-control-input" type="radio" id="InActiveStatus" value="@((int)EnumCommon.Status.InActive)" name="Status" required />
+                                    <label for="InActiveStatus" class="custom-control-label">@StringUltils.GetEnumDescription(EnumCommon.Status.InActive)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="HasOrganPermission" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <div class="input-group col-form-label justify-content-between align-content-center">
+                                <div class="custom-control custom-checkbox form-check-inline">
+                                    <input class="custom-control-input" type="checkbox" id="HasOrganPermissionStr" />
+                                    <input type="hidden" id="HasOrganPermission" name="HasOrganPermission" value="false" />
+                                    <label for="HasOrganPermissionStr" class="custom-control-label" style="top: -10px;"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-url="/User/Create" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                <span class="text-white font-s-14">Lưu</span>
+            </button>
+            <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+            </button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    jQuery(function () {
+        UsersConfig.OpenPopup();
+        CommonJs.FormatPassword()
+    })
+</script>

@@ -1,0 +1,89 @@
+@{
+    var title = "Cấp phát hàng nghiệp vụ CSVC cho đơn vị";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/TCDMTrangBi_DonVi", title);
+    ViewBag.Breadcrumb = new List<string> { "Cấp phát hàng nghiệp vụ CSVC cho đơn vị", "Danh sách tiêu chuẩn" };
+    ViewData["PageHeaderContent"] = "TCDMTrangBi_DonVi";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using ESD.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndexTCDMTrangBi_DonVi
+@{
+    var searchParam = Model.SearchParam;
+    var lstDonVis = Model.DonViNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                Selected = searchParam.IDDonvi == n.ID
+            }).ToList();
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="TongHopTieuChuan" id="frmTCDMTrangBi_DonVi" role="form" method="post" class="quickSearch" data-target="#divTCDMTrangBi_DonVis">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>Danh sách tiêu chuẩn</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+
+                        <div class="form-group row" style="max-width: 200px !important">
+                            <div class=" w-150" style="padding-right: 2rem !important">
+                                @Html.CusDropdownListSelect2("srIDDonvi", "IDDonvi", "Chọn đơn vị", lstDonVis,
+                                new {
+                                @class = "select2 w-150 mw-200",
+                                @style = "max-width:200px",
+                                @data_placeholder = "Đơn vị",
+                                @data_container = "body",
+                                @data_width = "150px",
+                                })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class=" pr-5 mw-200 w-150" style="padding-right: 2rem !important ">
+                                @Html.CusDropdownListSelect2("srNienHan", "NienHan", "Chọn niên hạn", Model.NienHans,
+                                new {
+                                @class = "select2 w-150",
+                                @data_placeholder = "Niên hạn",
+                                @data_container = "body",
+                                @data_width = "150px",
+                                })
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tổng hợp</button>
+
+                        <a class="btn btn-sm btn-primary ml-5 quickExport" tabindex="0" href="#" action="/TCDMTrangBi_DonVi/ExportTongHop" data-target="#frmTCDMTrangBi_DonVi" aria-controls="data_table" title="Xuất file">
+                            Xuất Excel
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divTCDMTrangBi_DonVis">
+                    @await Html.PartialAsync("TongHop_TCDMTrangBi_DonVis", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUTCDMTrangBi_DonVi" aria-labelledby="TCDMTrangBi_DonViModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/ESDNghiepVu/TCDMTrangBi_DonViController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitTCDMTrangBi_DonVi();
+    </script>
+
+}
+
+

@@ -1,0 +1,11 @@
+﻿var {Table}Config = {
+
+    onEvents: function () {
+
+         
+    },
+};
+
+var Init{Table} = function () {
+    {Table}Config.onEvents();
+} 

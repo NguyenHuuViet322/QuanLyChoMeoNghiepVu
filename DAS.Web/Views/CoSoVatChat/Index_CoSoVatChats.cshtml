@@ -1,0 +1,69 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu;
+@model VMIndexCoSoVatChat
+@{
+    int stt = Model.CoSoVatChats.PageSize * (Model.CoSoVatChats.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+    var lstDonViNghiepVu = Model.DonViNghiepVus.ToList();
+    var lstCoSoVatChat_DonVi = Model.CoSoVatChat_DonVis.ToList();
+}
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable dtr-inline useTreegrid table-bid-custom" role="grid" data-tree="3">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="pb-2 col-min">STT</th>
+               
+                <th class="text-center col-min">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="group-checkable custom-control-input" id="checkall" value="">
+                        <label class="custom-control-label" for="checkall"></label>
+                    </div>
+                </th> 
+                <th class="pb-2 m-w-50-px">Mã CSVC</th>
+                <th class="pb-2 m-w-100-px">Tên CSVC</th>
+                <th class="pb-2 m-w-150-px">Đối tượng sử dụng</th>
+                <th class="pb-2 m-w-50-px">Đơn vị tính</th>
+                <th class="pb-2 m-w-100-px">Niên hạn sử dụng</th>
+                <th class="pb-2 col-min text-center">Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.CoSoVatChats)
+            {
+                stt++;
+                var editLink = $"/CoSoVatChat/Edit?id={item.ID}";
+                <tr>
+                    <td class="text-center">@stt</td>
+                    <td class="text-center">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="checkboxes custom-control-input" id="role-@item.ID" data-id="@item.ID" value="@item.ID">
+                            <label class="custom-control-label" for="role-@item.ID"></label>
+                        </div>
+                    </td>
+                    
+                    <td>@item.Code</td>
+                    <td>@item.Ten</td>
+                    <td>@lstDonViNghiepVu.Where(p => p.ID == lstCoSoVatChat_DonVi.Where(link => link.IDCoSoVatChat == item.ID)
+                        .FirstOrDefault().IDDonViNghiepVu).FirstOrDefault().Ten</td>
+                    <td>@item.DonViTinh</td>
+                    <td>@item.NienHanSuDung</td>
+                    
+                    <td class="text-center">
+                        <div class="d-flex is-btn-action">
+                            <a title="Sửa" class=" quickUpdate" href="@editLink"
+                           data-target="#mdIUCoSoVatChat" data-toggle="tooltip" data-original-title="Sửa">
+                                <i class="fas fa-fw fa-edit"></i>
+                            </a>
+                            <a title="Xoá" data-comfirm-message="Xoá danh mục cơ sở vật chất: Bạn có chắc chắn muốn xoá danh mục cơ sở vật chất này?" class=" quickDelete" href="/CoSoVatChat/Delete?id=@item.ID" data-id="@item.ID"
+                           data-toggle="tooltip" data-original-title="Xóa">
+                                <i class="fas fa-fw fa-trash-alt"></i>
+                            </a>
+                        </div>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_PagingFooter", Model.CoSoVatChats, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmCoSoVatChat" } })

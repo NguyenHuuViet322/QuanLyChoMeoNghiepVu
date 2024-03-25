@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>ESD.Application</AssemblyName>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="ClosedXML" Version="0.95.3" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.8.0" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.8.0" />
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
+	  <Compile Remove="Models\CacheModel\**" />
+	  <EmbeddedResource Remove="Models\CacheModel\**" />
+	  <None Remove="Models\CacheModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Compile Remove="Models\MobileApiModel\DetailDocCondition.cs" />
+	  <Compile Remove="Models\MobileApiModel\DetailProfileCondition.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMDocTypeApi.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMDocTypeFieldApi.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMIndexDocBorrowMobile.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileAdvanceSearch.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileAgency.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileBorrowCart.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileCatalogingBorrowDoc.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileCatalogingDoc.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileCatalogingDocCreate.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileCatalogingProfile.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileDocBorrow.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileIndexBorrowCart.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileListItem.cs" />
+	  <Compile Remove="Models\MobileApiModel\VMMobileUpdateCatalogingBorrow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESD.Infrastructure\ESD.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="iOneAPI">
+      <HintPath>Lib\iOneAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

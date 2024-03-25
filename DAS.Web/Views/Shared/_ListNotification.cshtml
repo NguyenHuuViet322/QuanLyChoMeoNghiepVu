@@ -1,0 +1,126 @@
+﻿@using ESD.Infrastructure.ContextAccessors;
+@using ESD.Application.Models.ViewModels;
+@using ESD.Utility;
+@using ESD.Domain.Enums;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMNotification>
+@{
+    ViewData["Title"] = "Quản lý thông báo";
+    ViewData["PageHeaderContent"] = "Notifications";
+
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+}
+
+<div id="data_table_wrapper" class="dataTables_wrapper">
+    @if (Model != null && Model.Count() > 0)
+    {
+        <div class="table-responsive">
+            <table id="data_table" class="table table-bordered table-striped data_table" role="grid">
+                <thead>
+                    <tr>
+                        <th class="">Thông báo</th>
+                        <th class="text-center col-min">Thời gian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int stt = Model.PageSize * (Model.PageIndex - 1);}
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="dropdown-item @(item.IsRead == true ? "" : "notRead")" style="cursor: pointer; @(item.IsRead == true ? "" : "background-color: #D6F6F9;")" data-id="@item.ID">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <a href="@item.Url" class="text-sm">@item.Content</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@item.CreatedDate.ToString("dd/MM/yyyy hh:mm:ss")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                @if (Model == null || Model.TotalFilter == 0)
+                {
+                    <span>@ESD.Application.Constants.MessageConst.MSG_NOT_FOUND</span>
+                }
+                else
+                {
+                    <span>Có tổng cộng <span class="text-red">@Model.TotalFilter</span> thông báo</span>
+                }
+            </div>
+            <div class="col-sm-12 col-md-8">
+                @if (Model != null && Model.TotalFilter > Model.PageSize)
+                {
+                    <nav class="d-flex justify-content-end" aria-label="Pagination">
+                        <div class="form-group d-flex align-items-center mr-4">
+                            <span>Hiển thị:&nbsp;&nbsp;</span>
+                            <select id="drdPageSize" class="select2 onChangePageSize" data-form="#frmUser">
+
+                                @foreach (var pageSize in pageSizes)
+                                {
+                                    if (pageSize == Model.PageSize)
+                                    {
+                                        <option value="@pageSize" selected>@pageSize</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@pageSize">@pageSize</option>
+                                    }
+                                }
+                            </select>
+                            <span>&nbsp;&nbsp;bản ghi/trang.</span>
+                        </div>
+                        <ul class="pagination pagination-md justify-content-end mb-0">
+                            <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                                <a href="#" class="page-link onSetPageIndex" data-page="@(!Model.HasPreviousPage ? "" : (Model.PageIndex - 1).ToString())" data-page-size="@Model.PageSize" aria-label="Previous" data-form="#frmUser">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            @{
+                                int distance = 1;
+                                int min = Model.PageIndex - distance;
+                                int max = Model.PageIndex + distance;
+                                if (min == 0)
+                                {
+                                    min = 1;
+                                    if (max < Model.TotalPages)
+                                        max++;
+                                }
+                                if (max > Model.TotalPages)
+                                {
+                                    max = Model.TotalPages;
+                                    if (min > 1)
+                                        min--;
+                                }
+                            }
+                            @for (int i = min; i <= max; i++)
+                            {
+                                <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                                    <a href="#" class="page-link onSetPageIndex" data-page="@i" data-page-size="@Model.PageSize" data-form="#frmUser">
+                                        @i
+                                        @if (Model.PageIndex == i)
+                                        {
+                                            <span class="sr-only">(current)</span>
+                                        }
+                                    </a>
+                                </li>
+                            }
+                            <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                                <a href="#" class="page-link onSetPageIndex" data-page="@(!Model.HasNextPage ? "" : (Model.PageIndex + 1).ToString())" data-page-size="@Model.PageSize" data-form="#frmUser" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            </div>
+        </div>
+    </div>
+</div>

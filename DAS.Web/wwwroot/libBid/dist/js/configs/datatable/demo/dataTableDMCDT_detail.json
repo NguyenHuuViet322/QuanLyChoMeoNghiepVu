@@ -1,0 +1,27 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "id": "5421",
+      "maDinhDanh": "000.00.18.G01",
+      "tenDonVi": "Cục an ninh mạng - Bộ Công an",
+      "maNganSach": "1053191",
+      "soDKKD": "104928378",
+      "phanLoai": "|Khối bộ ngành, các cơ quan trung ương|Bộ Công An",
+      "diaChi": "Số 107 A, Nguyễn Phong Sắc, Nghĩa Đô"
+    },
+    {
+      "no": "2",
+      "id": "8422",
+      "maDinhDanh": "000.00.18.G01",
+      "tenDonVi": "Bộ Công an - Cục an ninh mạng",
+      "maNganSach": "1053191",
+      "soDKKD": "104928378",
+      "phanLoai": "|Khối bộ ngành, các cơ quan trung ương|Bộ Công An",
+      "diaChi": "Số 107 A, Nguyễn Phong Sắc, Nghĩa Đô"
+    }
+  ]
+}
+

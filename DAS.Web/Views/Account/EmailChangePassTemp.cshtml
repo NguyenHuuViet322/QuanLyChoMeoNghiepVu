@@ -1,0 +1,63 @@
+﻿@model ESD.Application.Models.ViewModels.VMAccount
+
+<table class="x_table-wrap" style="width: 100%; font-family: 'Helvetica Neue', Arial, sans-serif; color: #4a4a4a; max-width: 640px; margin: 0 auto; border: 0; border-spacing: 0; border-collapse: collapse">
+    <thead>
+        <tr>
+            <th style="padding: 1rem 0.5rem">
+                <table style="color: #4a4a4a; border: 0; border-spacing: 0; border-collapse: collapse; width: 100%">
+                    <tbody>
+                        <tr>
+                            <td valign="middle" style="width: 67%; min-height: 1px; text-align: left">
+                                <b>Hệ thống quản lý CSDL dùng chung</b>
+                            </td>
+                            <td valign="middle" style="width: 33%; min-height: 1px; text-align: right">
+                                <img src="~/lib/adminLte/dist/assets/logo.png" alt="DAS Logo"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border-width: 3px 0; border-style: solid; border-color: #107c41; padding: 1rem 0.5rem">
+                <table style="color: #4a4a4a; border: 0; border-spacing: 0; border-collapse: collapse; width: 100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 30px 0px 20px 0px; text-align: center">
+                                <h1>Đã đặt lại mật khẩu cho tài khoản của bạn</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px; line-height: 24px; text-align: justify">
+                                <p>Xin chào <b>@Model.UserName,</b></p>
+                                <p>Mật khẩu cho tài khoản <b>@Model.AccountName</b> của bạn đã đặt lại thành công.</p>
+                                <p>Nếu bạn không thực hiện thay đổi này hoặc tin rằng có người đã truy cập trái phép vào tài khoản, hãy truy cập 
+                                    <a class="text-primary" target="_blank" href="@Model.Url" rel="noopener noreferrer" style="text-align: left; color: #107c41">Quên mật khẩu</a> 
+                                    để đặt lại mật khẩu ngay lập tức.
+                                </p>
+                                <p>Trân trọng.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td style="padding: 1rem 0.5rem">
+                <table style="color: #4a4a4a; border: 0; border-spacing: 0; border-collapse: collapse; width: 100%">
+                    <tbody>
+                        <tr>
+                            <td style="font-size: 16px; line-height: 24px; text-align: center">
+                                <p><b>Cám ơn Quý khách đã sử dụng dịch vụ của FSI Vietnam!</b></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tfoot>
+</table>

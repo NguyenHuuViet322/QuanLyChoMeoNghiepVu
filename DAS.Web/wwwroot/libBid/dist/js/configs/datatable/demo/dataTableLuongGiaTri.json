@@ -1,0 +1,90 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "thang": "Tháng 1/2020",
+      "soLuong": "4",
+      "giaTri": "14",
+      "id": "5421"
+    },
+    {
+      "no": "2",
+      "thang": "Tháng 2/2020",
+      "soLuong": "4",
+      "giaTri": "22",
+      "id": "8422"
+    },
+    {
+      "no": "3",
+      "thang": "Tháng 3/2020",
+      "soLuong": "4",
+      "giaTri": "11",
+      "id": "1562"
+    },
+    {
+      "no": "4",
+      "thang": "Tháng 4/2020",
+      "soLuong": "4",
+      "giaTri": "21",
+      "id": "6224"
+    },
+    {
+      "no": "5",
+      "thang": "Tháng 5/2020",
+      "soLuong": "4",
+      "giaTri": "40",
+      "id": "5407"
+    },
+    {
+      "no": "6",
+      "thang": "Tháng 6/2020",
+      "soLuong": "4",
+      "giaTri": "65",
+      "id": "4804"
+    },
+    {
+      "no": "7",
+      "thang": "Tháng 7/2020",
+      "soLuong": "4",
+      "giaTri": "32",
+      "id": "9608"
+    },
+    {
+      "no": "8",
+      "thang": "Tháng 8/2020",
+      "soLuong": "4",
+      "giaTri": "5",
+      "id": "5421"
+    },
+    {
+      "no": "9",
+      "thang": "Tháng 9/2020",
+      "soLuong": "4",
+      "giaTri": "10",
+      "id": "8422"
+    },
+    {
+      "no": "10",
+      "thang": "Tháng 10/2020",
+      "soLuong": "4",
+      "giaTri": "30",
+      "id": "1562"
+    },
+    {
+      "no": "11",
+      "thang": "Tháng 11/2020",
+      "soLuong": "4",
+      "giaTri": "47",
+      "id": "6224"
+    },
+    {
+      "no": "12",
+      "thang": "Tháng 12/2020",
+      "soLuong": "4",
+      "giaTri": "65",
+      "id": "5407"
+    }
+  ]
+}

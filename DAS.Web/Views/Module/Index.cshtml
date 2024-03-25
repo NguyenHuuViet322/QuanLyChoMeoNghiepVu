@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Danh sách Menu";
+    ViewData["PageHeaderContent"] = "Module";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+    ViewBag.BreadcrumbMenu = "Quản trị hệ thống";
+    ViewBag.Breadcrumb = new List<string> { "Danh sách Menu" };
+}
+@using ESD.Application.Models.ViewModels;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMModule>
+@using ESD.Utility.Helper
+<div class="container pt-30">
+    <div class="box-wrap-cs">
+        <form asp-action="SearchByCondition" id="frmModule" role="form" method="post" class="quickSearch" data-target="#divModules">
+            <div class="row row-ip">
+                <div class="col-md-6 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-6 col-ip-12">
+                    <div class="input-group input-group-sm">
+                        @Html.CustTexBoxSearch("", "Keyword", (object)ViewBag.Keyword, "", "Nhập tên Menu")
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/Module/Deletes" title="Xóa"
+                           data-comfirm-message="Bạn có chắc chắn muốn xoá {n} Menu đã chọn?">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate ml-5 text-success"
+                           href="/Module/Create" data-target="#mdUpdateModule"
+                           aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div><!-- /.col -->
+            </div>
+        </form>
+
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15 mb-15">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div id="divModules">
+                        @await Html.PartialAsync("Index_Modules", Model)
+                    </div>
+                </div>
+            </div><!-- /.card -->
+        </div><!-- /Card 1 -->
+    </div>
+</div>
+<div class="modal fade" id="mdUpdateModule" aria-labelledby="planEditModalTitle" aria-hidden="true"></div>
+<div class="modal fade" id="mdIconPicker" aria-labelledby="mdIconPickerTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">Chọn icon </h5>
+                <span class="w-h-32 icon-exit-white ml-auto" data-dismiss="modal" aria-hidden="true"></span>
+            </div>
+          
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="icon_select"><i class="fas fa-fw fa-save mr-2"></i>Chọn</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-fw fa-ban mr-2"></i>Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<script src="~/js/controller/ModuleController.js" asp-append-version="true"></script>

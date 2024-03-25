@@ -1,0 +1,67 @@
+﻿@using ESD.Application.Models.ViewModels;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.DasKTNN.VMNotificationConfig
+@{
+    ViewData["Title"] = "Cấu hình thông báo";
+    ViewBag.BreadcrumbMenu = "Cấu hình thông báo";
+    ViewBag.Breadcrumb = new List<string> { "Cấu hình thông báo", "Danh sách" };
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmNotificationConfig" role="form" method="post" class="quickSearch" data-target="#divNotificationConfig">
+            <div class="row row-ip">
+                <div class="col-md-6 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-6 col-ip-12">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="search" name="Keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Nhập từ tìm kiếm">
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divNotificationConfig">
+                    @await Html.PartialAsync("Index_Records", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        jQuery(document).on("change", ".ChangeValueCheckbox", function () {
+            debugger;
+            let checkBox = $(this);
+            let id = checkBox.attr("data-id");
+            let url = checkBox.attr("data-url");
+            var formData = new FormData();
+            var ActiveNotification = 0;
+            if (checkBox.prop("checked")) {
+                ActiveNotification = 1;
+            }
+            formData.append("ID", id);
+            formData.append("ActiveNotification", ActiveNotification);
+            jQuery.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    checkBox.addClass('disabled', true);
+                },
+                success: function (rs) {
+                    checkBox.removeClass('disabled', false);
+                    CommonJs.SetMessageNotRefresh(rs);
+                }
+            });
+            return false;
+        })
+    </script>
+}

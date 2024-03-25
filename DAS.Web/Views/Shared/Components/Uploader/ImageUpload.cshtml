@@ -1,0 +1,70 @@
+﻿@using ESD.Application.Models.CustomModels;
+@using ESD.Application.Models.ViewModels;
+@using ESD.Utility;
+@model InputUploadModel
+@{
+    Layout = null;
+    var rand = DateTime.Now.Ticks;
+    var inputFileId = Model.Name + "_" + rand;
+    var targetId = "files_" + Model.Name + "_" + rand;
+    var tempFileId = "tempFile_" + Model.Name + "_" + rand;
+    var multiple = Model.Multiple ? "multiple" : string.Empty;
+    var disabled = Model.ReadOnly ? "disabled" : string.Empty;
+
+    if (Model.Accept.IsEmpty())
+    {
+        Model.Accept = "image/png, image/gif, image/jpeg";
+    }
+}
+<div class="col-sm-12 form-group">
+    <button type="button"
+            data-rel="#@inputFileId"
+            class="@(Model.ReadOnly ? string.Empty :"attachFile") @Model.BtnClass" @disabled>
+
+        <i class="fas fa-images fa-fw"></i> @Model.Title
+
+    </button>
+    @if (!Model.ReadOnly)
+    {
+        <input type="file" class="inputUpFile" id="@inputFileId" hidden
+           accept="@Model.Accept"
+           data-template="#@tempFileId"
+           data-target="#@targetId" @multiple />
+    }
+</div>
+
+<div class="col-sm-12 form-group">
+    <div id="@targetId" class="uploaded-files row">
+        @if (Model.Files.IsNotEmpty())
+        {
+            foreach (var item in Model.Files)
+            {
+                <div class="col-md-3 file-item">
+                    <div class="file-info">
+                        <img title="@item.Name" src="@($"/{item.Path}")" />
+                        <input name="@(Model.Name)Name" value="@item.Name" hidden="">
+                        <input name="@(Model.Name)Path" value="@item.Path" hidden="">
+                        @if (item.AllowDelete && !Model.ReadOnly)
+                        {
+                            <a href="#" class="onRemoveFile text-danger" title="Xóa file"><i class="fa fa-times"></i></a>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@if (!Model.ReadOnly)
+{
+    <script type="text/template" id="@tempFileId">
+        <div class="col-md-3 file-item">
+               <div class="file-info">
+                    <img title="{name}" src="{path}" alt="{name}" />
+                    <input hidden name="@(Model.Name)Name" value="{name}" />
+                    <input hidden name="@(Model.Name)Path" value="{path}" />
+                     <a href="#" class="onRemoveFile text-danger" title="Xóa file"><i class="fa fa-times"></i></a>
+                </div>
+         </div>
+    </script>
+}

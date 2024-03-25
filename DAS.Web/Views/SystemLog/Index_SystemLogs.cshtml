@@ -1,0 +1,72 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels;
+@model PaginatedList<VMLogInfo>
+@{
+    int stt = 0;
+    if (Model != null)
+        stt = Model.PageSize * (Model.PageIndex - 1);
+
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+}
+
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable table-bid-custom dtr-inline">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="text-center col-min py-2 font-s-14 font-weight-500 text-body-title p-l-r-12">STT</th>
+                <th class="text-center col-min py-2 font-s-14 font-weight-500 text-body-title p-l-r-12">ID bản ghi</th>
+                <th class="m-w-120-px font-s-14 font-weight-500 text-body-title p-l-r-12">Bảng</th>
+                <th class="m-w-150-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">Thao tác</th>
+                <th class="m-w-200-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center"> Thời điểm</th>
+                <th class="m-w-120-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">ID tài khoản</th>
+                <th class="m-w-150-px font-s-14 font-weight-500 text-body-title p-l-r-12 text-center">Tài khoản</th>
+                <th>Giá trị cũ</th>
+                <th>Giá trị mới</th>
+                <th>Thay đổi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    stt++;
+                    <tr>
+                        <td class="text-center">@stt</td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.TagName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Entity)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Action)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.UserId)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td class ="jsonContain"  data-target="#ViewJsonModal" data-renderer="#json-renderer" style="cursor:pointer">
+                            @Html.DisplayFor(modelItem => item.OldValue)
+                        </td>
+                        <td class ="jsonContain"  data-target="#ViewJsonModal" data-renderer="#json-renderer" style="cursor:pointer">
+                            @Html.DisplayFor(modelItem => item.NewValue)
+                        </td>
+                        <td class ="jsonContain"  data-target="#ViewJsonModal" data-renderer="#json-renderer" style="cursor:pointer">
+                            @Html.DisplayFor(modelItem => item.ChangedValue)
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+@await Html.PartialAsync("_PagingFooter", Model, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmSystemLog" } })

@@ -1,0 +1,142 @@
+﻿@using ESD.Application.Models.ViewModels;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.VMUserProfile
+@{
+    ViewData["Title"] = "Thông tin người dùng";
+    ViewData["PageHeaderContent"] = "Thông tin người dùng";
+    var srcAvatar = !string.IsNullOrWhiteSpace(Model.SrcAvatar) ? Model.SrcAvatar : "/lib/adminLte/dist/img/avatar_default.png";
+    var pathAvatar = string.Empty;
+    if (string.IsNullOrWhiteSpace(Model.PhysicalPath))
+    {
+        pathAvatar = "/lib/adminLte/dist/img/avatar_default.png";
+    }
+    else
+    {
+        pathAvatar = Model.PhysicalPath;
+    }
+}
+
+<div class="container pt-30">
+    @*@using (Html.BeginForm("TestUploadAction", "Account", FormMethod.Post, new { @data_target = "#imgProfile", @role = "form", @class = "col-md-12", @enctype = "multipart/form-data" }))
+        {*@
+    <div class="row">
+        <div class="col-md-3 col-ip-sm-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                    <div class="avatar-frame">
+                        <a href="javascript:void(0);" title="@Model.Name" class="avatar">
+                            @*<img class="profile-user-img" id="imgProfile" src="@srcAvatar" alt="User profile picture" onerror="this.onerror=null;this.src=@pathAvatar" />*@
+                            <img class="profile-user-img" id="imgProfile" src="~/@pathAvatar" alt="User profile picture" onerror="this.onerror=null;this.src='/lib/adminLte/dist/img/avatar_default.png'" />
+                        </a>
+                    </div>
+
+                    <input asp-for="File" type="file" name="File" id="File" data-url="/Account/TestUploadAction" style="display: none" accept="image/x-png,image/gif,image/jpeg" />
+
+                    <h3 class="profile-username text-center">@Model.Name</h3>
+                    <p class="text-muted text-center">@Model.PositionName</p>
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Đơn vị</b>
+                            <a class="float-right">@Model.AgencyName</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Cơ quan</b>
+                            <a class="float-right">@Model.OrganName</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9 col-ip-sm-8">
+            <div class="card card-tabs card-primary">
+                <div class="card-header px-2 pt-1 pb-0">
+                    <ul class="nav nav nav-tabs" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Cập nhật thông tin</a></li>
+                        <li class="nav-item d-none"><a class="nav-link" href="#signature" data-toggle="tab">Quản lý chữ ký</a></li>
+                    </ul>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="settings">
+                            <form asp-action="" class="bv-form">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-ip-sm-3" asp-for="AccountName"></label>
+                                    <div class="col-sm-10 col-ip-sm-9">
+                                        <input id="AccountName" type="text" class="form-control" asp-for="AccountName" placeholder="Tên tài khoản" readonly />
+                                        <span asp-validation-for="AccountName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label input-required col-ip-sm-3" asp-for="Name"></label>
+                                    <div class="col-sm-10 col-ip-sm-9">
+                                        <input id="Name" class="form-control" asp-for="Name" placeholder="Họ và tên" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label input-required col-ip-sm-3" asp-for="Email"></label>
+                                    <div class="col-sm-10 col-ip-sm-9">
+                                        <input id="Email" type="email" class="form-control" asp-for="Email" placeholder="Email" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label input-required col-ip-sm-3" asp-for="IdentityNumber"></label>
+                                    <div class="col-sm-10 col-ip-sm-9">
+                                        <input id="IdentityNumber" type="text" class="form-control onlynumber" asp-for="IdentityNumber" placeholder="Số CMND/Hộ chiếu" />
+                                        <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-ip-sm-3" asp-for="Phone"></label>
+                                    <div class="col-sm-10 col-ip-sm-9">
+                                        <input id="Phone" type="text" class="form-control onlynumber" asp-for="Phone" placeholder="Số điện thoại" />
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-ip-sm-3" asp-for="Address"></label>
+                                    <div class="col-sm-10 col-ip-sm-9">
+                                        <input id="Address" type="text" class="form-control" asp-for="Address" placeholder="Địa chỉ" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10 offset-ip-sm-3 col-ip-sm-9">
+                                        <button type="submit" class="btn btn-sm btn-primary quickSubmitUserProfile" data-url="/Account/UpdateProfileUser"><i class="fas fa-fw fa-save"></i> Lưu</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane d-none" id="signature">
+                            Table of signature
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+
+@section scripts{
+    <script src="~/js/Common.js"></script>
+    <script src="~/js/controller/AccountController.js"></script>
+    <script type="text/javascript">
+        AccountConfig.ClickAvatar();
+        AccountConfig.ClickUploadAvar();
+        AccountConfig.ClickUpdateProfile();
+        AccountConfig.OnLeaveTextbox();
+    </script>
+}

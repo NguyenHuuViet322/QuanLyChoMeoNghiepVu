@@ -1,0 +1,83 @@
+@using ESD.Application.Enums.DasKTNN;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateDongVatNghiepVu
+@{
+    var title = "Điều chuyển động vật nghiệp vụ";
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+    var url = "/DongVatNghiepVu/LuuDieuChuyen";
+    var lstDonVi = Model.DonViNghiepVus.Where(n => n.ID != Model.IDDonViQuanLy).Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+            }).ToList();
+
+    var donViHienTai = Model.DonViNghiepVus.FirstOrNewObj(n => n.ID == Model.IDDonViQuanLy);
+}
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUDongVatNghiepVu">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class=" row">
+                    <div class="col-sm-12 form-group">
+                        <label class="col-sm-12 col-form-label">Đơn vị điều chuyển</label>
+                        <div class="col-sm-12">
+                            <input class="form-control" readonly value="@donViHienTai.Ten" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" row">
+                    <div class="form-group col-sm-12">
+                        <label class="col-sm-12 col-form-label" asp-for="IDDonViQuanLy"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upIDDonViQuanLy", "IDDonViQuanLy", "--Chọn đơn vị nhận điều chuyển--", lstDonVi,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn đơn vị nhận điều chuyển--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            })
+                            <span asp-validation-for="IDDonViQuanLy" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" row">
+                    <div class="col-sm-12 form-group">
+                        <label class="col-sm-12 col-form-label required" asp-for="LyDoDieuChuyen"></label>
+                        <div class="col-sm-12">
+                            <textarea asp-for="LyDoDieuChuyen" class="form-control" rows="5">@Model.LyDoDieuChuyen</textarea>
+                            <span asp-validation-for="LyDoDieuChuyen" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-url="@url" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                    <span class="text-white font-s-14">Lưu thông tin</span>
+                </button>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+                <input type="hidden" value="@Model.ID" name="ID" />
+            </div>
+        </form>
+    </div>
+</div>

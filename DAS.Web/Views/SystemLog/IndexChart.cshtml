@@ -1,0 +1,85 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels;
+@model VMLogInfo
+@{
+    ViewBag.BreadcrumbMenu = "Báo cáo thống kê";
+    ViewBag.Breadcrumb = new List<string> { "Báo cáo thống kê về lịch sử truy cập hệ thống" };
+    ViewData["Title"] = "Báo cáo thống kê về lịch sử truy cập hệ thống";
+    var title = ViewData["Title"];
+    ViewData["PageHeaderContent"] = "SystemLog";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+    var StartDate = ViewBag.StartDate as string;
+    var EndDate = ViewBag.EndDate as string;
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs">
+        <div class="row row-ip">
+            <div class="col-md-3 col-xl-6 align-items-center d-flex col-ip-sm-12 mb-ip-sm-10">
+                <p class="is-header-table-search"><span>@title</span></p>
+            </div>
+            <div class="col-md-9 col-xl-6 col-ip-sm-12">
+                <form asp-action="SearchByConditionChart" id="frmSystemLog" role="form" method="post" class="quickSearch" data-target="#divSystemLogs">
+                    <div class="input-group input-group-sm justify-content-end justify-content-ip-sm-start">
+                        <div class="form-list-bid__avanced d-flex position-relative">
+                            <div class="form-group mb-0 mr-5 w-125-px">
+                                <div class="input-group date_input" id="search_from-date" data-target-input="nearest">
+                                    @Html.CusTextBoxDate("FromDate", "FromDate", StartDate, "", "Từ ngày", false, new { data_target = "#search_from-date", data_toggle = "datetimepicker", }, 0)
+                                    <div class="input-group-prepend" data-target="#search_from-date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0 mr-5 w-125-px">
+                                <div class="input-group date_input" id="search_to-date" data-target-input="nearest">
+                                    @Html.CusTextBoxDate("ToDate", "ToDate", EndDate, "", "Đến ngày", false, new { data_target = "#search_to-date", data_toggle = "datetimepicker", }, 0)
+                                    <div class="input-group-prepend" data-target="#search_to-date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="search-addon" class="input-group-append mr-5 ml-5">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    Tìm kiếm
+                                </button>
+                                <a class="ml-28 quickSprint" data-target="#cardImgChart" title="In màn hình" data-callback="InitSystemLogConfigStatistic();">
+                                    <i class="bid-icons bid-icon-print"></i>
+                                </a>
+                                <div class="table-control d-flex align-items-center ml-ip-sm-auto">
+                                    <div class="form-item__icon d-flex ml-auto ml-28">
+                                        <a class="ml-0 quickExport" action="/SystemLog/ExportChart" data-target="#divSystemLogs" aria-controls="data_table" title="Xuất Excel">
+                                            <i class="bid-icons bid-icon-csv"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-10">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div id="divSystemLogs">
+                        @await Html.PartialAsync("Index_SystemLogsChart", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+
+    <script type="text/javascript" src="~/lib/adminLte/plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="~/js/controller/SystemLogController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitSystemLogConfigStatistic();
+    </script>
+
+}
+

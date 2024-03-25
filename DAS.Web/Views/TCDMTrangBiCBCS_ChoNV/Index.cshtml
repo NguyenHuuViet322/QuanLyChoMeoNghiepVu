@@ -1,0 +1,117 @@
+@{
+    var title = "Cấp phát hàng nghiệp vụ CSVC cho cán bộ";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/InputInfo", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Danh sách tiêu chuẩn", "Cấp phát hàng nghiệp vụ CSVC cho cán bộ" };
+    ViewData["PageHeaderContent"] = "InputInfo";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+
+    var lstDonViNghiepVu = Model.DonViNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                //Selected = n.ID == Model.IDDonViNghiepVu
+            }).ToList();
+
+    var lstChuyenMonKiThuat = Model.ChuyenMonKiThuats.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                //Selected = n.ID == Model.IDDonViNghiepVu
+            }).ToList();
+
+    var lstNienHan = Model.NienHans.Select(n => new SelectListItem
+            {
+                Text = n.Value.ToString(),
+                Value = n.Key.ToString(),
+                //Selected = n.ID == Model.IDDonViNghiepVu
+            }).ToList();
+}
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using ESD.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndexTCDMTrangBiCBCS_ChoNV
+@{
+    var searchParam = Model.SearchParam;
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmTCDMTrangBiCBCS_ChoNV" role="form" method="post" class="quickSearch" data-target="#divTCDMTrangBiCBCS_ChoNVs">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+                        <div class="form-group row" style="max-width:200px">
+                                <div class="col-xs-12" style="padding-right: 2rem !important;max-width:200px;">
+                                    @Html.CusDropdownListSelect2("searchIdDonViNghiepVu", "IdDonViNghiepVu", "Chọn đơn vị", lstDonViNghiepVu,
+                                    new {
+                                        @class = "select2 w-150 mw-200",
+                                        @style = "max-width:200px",
+                                        @data_placeholder = "Đơn vị",
+                                        @data_container = "body",
+                                        @data_width = "150px",
+                                    })
+                                </div>
+                            </div>
+
+                        <div class="form-group row" style="max-width:200px">
+                            <div class="col-xs-12 mw-200" style="padding-right: 2rem !important;max-width:200px;">
+                                    @Html.CusDropdownListSelect2("searchIdChuyenMonKiThuat", "IdChuyenMonKiThuat", "Chọn đối tượng", lstChuyenMonKiThuat,
+                                    new {
+                                    @class = "select2 w-150 mw-200",
+                                    @style = "max-width:200px",
+                                    @data_placeholder = "Đối tượng",
+                                    @data_container = "body",
+                                    @data_width = "150px",
+                                    })
+                                </div>
+                            </div>
+
+                            <div class="form-group row"  style="max-width:200px">
+                                <div class="col-xs-12 pr-5 mw-200" style="padding-right: 2rem !important;width:150px !important">
+                                    @Html.CusDropdownListSelect2("searchNienHan", "NienHan", "Chọn niên hạn", lstNienHan,
+                                    new {
+                                        @class = "select2 w-150",
+                                        @data_placeholder = "Niên hạn",
+                                        @data_container = "body",
+                                        @data_width = "150px",
+                                    })
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary ml-5">Tổng hợp</button>
+
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/TCDMTrangBiCBCS_ChoNV/Deletes" tabindex="0" data-comfirm-message="Xoá nhiều tcdmtrangbicbcs_chonv: Bạn có muốn xoá {n} tcdmtrangbicbcs_chonv đã chọn?" title="Xóa">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                         <a class="btn-icon-search quickExport ml-5 text-success" tabindex="0" href="#" action="/TCDMTrangBiCBCS_ChoNV/Export" data-target="#frmTCDMTrangBiCBCS_ChoNV" aria-controls="data_table" title="Xuất file">
+                            <button type="submit" class="btn btn-sm btn-primary ml-5">Xuất Excel</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divTCDMTrangBiCBCS_ChoNVs">
+                    @await Html.PartialAsync("Index_TCDMTrangBiCBCS_ChoNVs", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUTCDMTrangBiCBCS_ChoNV" aria-labelledby="TCDMTrangBiCBCS_ChoNVModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/ESDNghiepVu/TCDMTrangBiCBCS_ChoNVController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitTCDMTrangBiCBCS_ChoNV();
+    </script>
+
+}
+
+

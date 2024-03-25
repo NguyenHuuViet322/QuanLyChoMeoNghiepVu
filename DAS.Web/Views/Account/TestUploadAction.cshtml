@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Test Upload Large file";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-4">
+    <div class="login-background">
+        <img src="~/lib/adminLte/dist/assets/bg-page-left.jpg" />
+    </div>
+    <div class="login-info">
+        <h1 class="login-logo">
+            <a href="javascript:void(0)" title="FSI Vietnam">
+                <svg width="112" height="60" viewBox="0 0 56 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#ED1C24" d="M23.9668 0H11.853C8.19681 0 4.84227 2.79205 3.99447 6.32593L0 29.1189H4.04745C6.2118 29.1148 8.27425 27.4029 8.73076 25.2589L10.0065 17.9873H16.8379C18.9819 17.9873 21.0239 16.3039 21.509 14.1885L22.0307 11.1764H11.2008L11.7592 8.00524H19.0349C20.9302 7.80144 22.6625 6.32593 23.1964 4.46728L23.9668 0Z"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#00A651" d="M45.329 0H45.0396C39.0194 0 37.3156 0 31.2954 0C27.7696 0 24.5496 3.04476 23.9504 6.79467L23.2494 11.1682C22.6502 14.9181 24.8757 17.9873 28.4218 17.9873H34.4094L33.9081 21.1177H25.3648C23.3757 21.1218 21.4804 22.8133 21.0483 24.945L20.3799 29.1189C31.2791 29.1189 23.5143 29.1189 34.4135 29.1189C37.9515 29.1189 41.1552 26.0863 41.7584 22.3242L42.4514 17.971C43.0464 14.2415 40.7965 11.1764 37.2789 11.1764H31.2954L31.8049 8.00524H40.3481C42.325 8.00524 44.2122 6.32593 44.6565 4.21049L45.329 0Z"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#2E3192" d="M56 0H52.0096C49.8656 0 47.8236 1.68338 47.3385 3.79882L42.8998 29.1189H46.9432C49.0871 29.1148 51.0762 27.4355 51.5613 25.32L56 0Z"></path>
+                </svg>
+            </a>
+        </h1>
+        <h2 class="login-title">
+            <small>Hệ thống quản lý</small>
+            <br />
+            <span class="text-success">Lưu trữ điện tử</span>
+        </h2>
+    </div>
+</div>
+<div class="col-8">
+    <div class="login-background bg-success">
+        <img src="~/lib/adminLte/dist/assets/bg-page-right.svg" />
+    </div>
+    <div class="login-form text-center">
+        <div class="login-box">
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <h3 class="login-box-msg mt-2">Upload file large</h3>
+                    <a href="javascript:void(0)" id="browseButton">Select files</a>
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <div class="modal"></div>
+    <script src="~/js/Upload/resumable.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var r = new Resumable({
+                target: '/Account/TestUploadAction/',
+                query: {},
+                maxChunkRetries: 2,
+                maxFiles: 3,
+                prioritizeFirstAndLastChunk: true,
+                simultaneousUploads: 4,
+                chunkSize: 1 * 1024 * 1024,
+                testChunks: false
+            });
+
+            r.assignBrowse(document.getElementById('browseButton'));
+
+            r.on('fileSuccess', function (file) {
+                console.debug('fileSuccess', file);
+                alert("Upload file thành công");
+            });
+            r.on('fileProgress', function (file) {
+                console.debug('fileProgress', file);
+            });
+            r.on('fileAdded', function (file, event) {
+                r.upload();
+                console.debug('fileAdded', event);
+            });
+            r.on('filesAdded', function (array) {
+                r.upload();
+                console.debug('filesAdded', array);
+            });
+            r.on('fileRetry', function (file) {
+                console.debug('fileRetry', file);
+            });
+            r.on('fileError', function (file, message) {
+                console.debug('fileError', file, message);
+            });
+            r.on('uploadStart', function () {
+                console.debug('uploadStart');
+            });
+            r.on('complete', function () {
+                console.debug('complete');
+            });
+            r.on('progress', function () {
+                console.debug('progress');
+            });
+            r.on('error', function (message, file) {
+                console.debug('error', message, file);
+            });
+            r.on('pause', function () {
+                console.debug('pause');
+            });
+            r.on('cancel', function () {
+                console.debug('cancel');
+            });
+        })
+    </script>
+}

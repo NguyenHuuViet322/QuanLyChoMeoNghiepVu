@@ -1,0 +1,152 @@
+﻿@model ESD.Application.Models.ViewModels.VMLogin
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-4">
+    <div class="login-background bg-white">
+        <img class="is-new" src="~/img/login/login-2.png" />
+    </div>
+    <div class="login-info">
+        <h1 class="login-logo">
+            <a href="/">
+                <img src="/img/login/logo.png"/>
+            </a>
+        </h1>
+        <h2 class="login-title" style="position:absolute !important; top:175px !important; margin-top: 0% !important">
+            <small class="text-primary">Hệ thống quản lý</small>
+            <br />
+            <span>ĐỘNG VẬT NGHIỆP VỤ</span>
+        </h2>
+    </div>
+    <div class="d-flex justify-content-between align-items-center is-footer">
+        <div class="is-footer-left">
+            <p>Bộ Tư lệnh Cảnh sát Cơ động</p>
+            <p>Trụ sở:  Số 23 Nguyễn Khang, phường Trung Hòa, quận Cầu Giấy, Thành phố Hà Nội</p>
+        </div>
+    </div>
+</div>
+<div class="col-8">
+    <div class="login-background linear-gradient-primary">
+        <div class="is-bg-top">
+            <img src="~/img/login/Vector-t-1.png" />
+            <img src="~/img/login/Vector-t-2.png" />
+        </div>
+        <div class="is-bg-bottom">
+            <img src="~/img/login/Vector-b-1.png" />
+            <img src="~/img/login/Vector-b-2.png" />
+            <p>Beta ver 1.1</p>
+        </div>
+    </div>
+    <div class="login-form text-center">
+        <div class="is-mobile">
+            <div class="mt-99 d-flex justify-content-center align-items-center">
+                <div class="is-header">
+                    <div class="img-logo"></div>
+                    <p>Hệ thống quản lý</p>
+                    <p>ĐỘNG VẬT NGHIỆP VỤ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-box">
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <h1 class="login-box-msg mt-2">Đăng nhập hệ thống</h1>
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", @class = "col-md-12", id = "is-login" }))
+                    {
+                        @Html.HiddenFor(x => x.IsMobile)
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="input-group">
+                            <label class="col-form-label star">Tên đăng nhập</label>
+                        </div>
+                        <div class="input-group mb-10">
+                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control textbox-for-login", @placeholder = "Tài khoản" })
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <div class="is-line"></div>
+                                    <i class="bid-icons bid-icon-person"></i>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger font-s-13" })
+                        </div>
+                        <div class="input-group">
+                            <label class="col-form-label star">Mật khẩu</label>
+                        </div>
+                        <div class="input-group mb-15">
+                            @Html.PasswordFor(model => model.Password, new { @id= "password", @class = "form-control textbox-for-login", @placeholder = "Mật khẩu" })
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <div class="is-line"></div>
+                                    <i class="fa fa-eye-slash" style="opacity: 0.75; " id="toggle_pw_icon" onclick="togglePassword(this)">
+
+                                    </i>
+                                   
+                                </div>
+                            </div>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <div class="is-line"></div>
+
+                                    <i class="bid-icons bid-icon-password"></i>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger font-s-13" })
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-6 text-left">
+                                <div class="custom-control custom-checkbox">
+                                    @Html.CheckBoxFor(model => model.RememberMe, new { @class = "custom-control-input", @id = "RememberMe", @checked = "" })
+                                    @Html.LabelFor(model => model.RememberMe, new { @class = "custom-control-label pl-5" })
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6 text-right">
+                                <a href="@Url.Action("ForgotPassword", "Account")" class="text-primary-lightest text-underline">Quên mật khẩu</a>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <p class="mb-3">
+                            <button type="submit" class="btn btn-block btn-primary">Đăng nhập</button>
+                        </p>
+                        @if (ViewData["IntergratedSso"] != null && ViewData["IntergratedSso"].ToString().ToLower() == "true")
+                        {
+                            <br />
+                            <p class="mb-3">
+                                @*<button type="button" class="btn btn-block btn-primary" onclick="location.href='/'">Đăng nhập qua SSO nội bộ</button>*@
+                                <button type="button" class="btn btn-block btn-primary" onclick="location.href = '@Url.Action("IndexBid", "Home", new { IsSso = true })'">Đăng nhập qua SSO nội bộ</button>
+                            </p>
+                        }
+
+                        <div class="row mt-99 hidden">
+                            <div class="col-12 text-right">
+                                <div class="text-gray"> Bạn chưa có tài khoản? Hãy <span class="ml-5"><a href="#" class="text-primary-lightest text-underline">Đăng ký tại đây</a></span></div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="is-mobile">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-0 m-2">Bộ Tư lệnh Cảnh sát Cơ động</p>
+                                    <p class="text-primary">Trụ sở:  Số 23 Nguyễn Khang, phường Trung Hòa, quận Cầu Giấy, Thành phố Hà Nội</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/js/Common.js"></script>
+    <script src="~/js/controller/AccountController.js"></script>
+    <script type="text/javascript">
+        jQuery(function () { AccountConfig.OnLeaveTextbox() })
+    </script>
+}

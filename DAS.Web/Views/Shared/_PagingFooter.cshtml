@@ -1,0 +1,119 @@
+﻿@model dynamic
+@{
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+    var targetForm = (string)ViewData["TargetForm"] ?? "";
+    if (targetForm != "")
+    {
+        targetForm = "#" + targetForm;
+    }
+    else
+    {
+        //target là class
+        targetForm = (string)ViewData["TargetFormClass"] ?? "";
+    }
+}
+<style>
+    .text-sm .select2-container--default .select2-selection--single .select2-selection__rendered {
+        margin-top: -5px !important
+    }
+</style>
+
+<div class="card-footer @(Model == null || Model.TotalFilter == 0 ? "minus-mt-1" : "") card-footer--cs">
+    <div class="row">
+        <div class="col-sm-12 col-md-4 d-flex align-items-center mb-2 mb-md-0">
+            @if (Model == null || Model.TotalFilter == 0)
+            {
+                <span>@ESD.Application.Constants.MessageConst.MSG_NOT_FOUND</span>
+            }
+            else
+            {
+                int stt = Model.TotalFilter;
+                <span>Có tổng cộng<span class="text-dark-blue font-weight-bold mx-1 TotalRecord">@Model.TotalFilter</span>bản ghi</span>
+            }
+        </div>
+        @if (Model != null)
+        {
+            <div class="col-sm-12 col-md-8">
+                @*@if (Model.TotalFilter > Model.PageSize)
+            {*@
+                <nav class="row justify-content-between justify-content-md-end" aria-label="Pagination" @(Model.TotalFilter > Model.PageSize ? "" : "hidden")>
+                    <div class="col-auto">
+                        <div class="form-group d-flex align-items-center mb-2 mb-md-0 mr-4">
+                            <span>Hiển thị:</span>
+                            <span class="mx-1">
+                                <select class="drdPageSize select2 onChangePageSize" data-form="@targetForm">
+                                    @foreach (var pageSize in pageSizes)
+                                    {
+                                        if (pageSize == Model.PageSize)
+                                        {
+                                            <option value="@pageSize" selected>@pageSize</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@pageSize">@pageSize</option>
+                                        }
+                                    }
+                                </select>
+                            </span>
+                            <span>bản ghi/trang.</span>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <ul class="pagination pagination-md justify-content-end mb-0">
+                            <li class="page-item@(!Model.HasPreviousPage ? " disabled" : "")">
+                                <a href="javascript:void(0)" class="page-link onSetPageIndex"
+                               data-page="@(!Model.HasPreviousPage ? "" : (Model.PageIndex - 1).ToString())"
+                               data-page-size="@Model.PageSize" aria-label="Previous"
+                               data-form="@targetForm">
+                                    <span aria-hidden="true">
+                                        <span class="icon-prev mr-0"></span>
+                                    </span>
+                                </a>
+                            </li>
+                            @{
+                                int distance = 1;
+                                int min = Model.PageIndex - distance;
+                                int max = Model.PageIndex + distance;
+                                if (min == 0)
+                                {
+                                    min = 1;
+                                    if (max < Model.TotalPages) { max++; }
+
+                                }
+                                if (max > Model.TotalPages)
+                                {
+                                    max = Model.TotalPages;
+                                    if (min > 1) { min--; }
+
+                                }
+                            }
+                            @for (int i = min; i <= max; i++)
+                            {
+                                <li class="page-item@(Model.PageIndex == i ? " active" : "")">
+                                    <a href="javascript:void(0)" class="page-link onSetPageIndex" data-page="@i" data-page-size="@Model.PageSize"
+                               data-form="@targetForm">
+                                        @i
+                                        @if (Model.PageIndex == i)
+                                        {
+                                            <span class="sr-only">(current)</span>
+                                        }
+                                    </a>
+                                </li>
+                            }
+                            <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                                <a href="javascript:void(0)" class="page-link onSetPageIndex"
+                               data-page="@(!Model.HasNextPage ? "" : (Model.PageIndex + 1).ToString())"
+                               data-page-size="@Model.PageSize" data-form="@targetForm"
+                               aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <span class="icon-next mr-0"></span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        }
+    </div>
+</div>

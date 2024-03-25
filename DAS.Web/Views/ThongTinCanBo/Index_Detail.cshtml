@@ -1,0 +1,104 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateThongTinCanBo
+@{
+    var title = "Thông tin chi tiết";
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+
+    var lstDonViNghiepVu = Model.DonViNghiepVus.Select(n => new SelectListItem
+    {
+        Text = n.Ten.ToString(),
+        Value = n.ID.ToString(),
+        Selected = n.ID == Model.IDDonViNghiepVu
+    }).ToList();
+    var lstChuyenMonKiThuat = Model.ChuyenMonKiThuats.Select(n => new SelectListItem
+    {
+        Text = n.Ten.ToString(),
+        Value = n.ID.ToString(),
+        Selected = n.ID == Model.IDChuyenMonKiThuat
+    }).ToList();
+
+    void RenderBoolenRadio(string id, string name, bool isCheck, string strTrue, string strFalse, bool isDisabled = false)
+    {
+        <div class="custom-control custom-radio form-check-inline" title="@(strTrue)">
+            <input class="custom-control-input" @(isCheck ? "checked" : string.Empty) @(isDisabled ? "disabled" : string.Empty) type="radio" value="1" id="@(id)True" name="@name">
+            <label class="custom-control-label" for="@(id)True">@strTrue</label>
+        </div>
+        <div class="custom-control custom-radio form-check-inline" title="@(strFalse)">
+            <input class="custom-control-input" @(!isCheck ? "checked" : string.Empty) @(isDisabled ? "disabled" : string.Empty) type="radio" value="0" id="@(id)False" name="@name">
+            <label class="custom-control-label" for="@(id)False">@strFalse</label>
+        </div>
+    }
+}
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUThongTinCanBo">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row d-flex align-items-center">
+                    <label class="col-sm-3 col-form-label" asp-for="TenCanBo"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="TenCanBo" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center" style="display: flex; align-items: center; height: 40px;">
+                    <label class="col-sm-3 col-form-label" asp-for="GioiTinh"></label>
+                    <div class="col-sm-9">
+                        @{
+                            RenderBoolenRadio("GioiTinh", "GioiTinh", Model.GioiTinh > 0, "Nam", "Nữ", true);
+                        }
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center">
+                    <label class="col-sm-3 col-form-label" asp-for="IDDonViNghiepVu"></label>
+                    <div class="col-sm-9">
+                        @Html.CusDropdownListSelect2("upIDDonViNghiepVu", "IDDonViNghiepVu", "--Chọn Đơn vị nghiệp vụ--", lstDonViNghiepVu,
+                        new
+                        {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn Đơn vị nghiệp vụ--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                        }, isReadonly: true)
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center">
+                    <label class="col-sm-3 col-form-label" asp-for="IDChuyenMonKiThuat"></label>
+                    <div class="col-sm-9">
+                        @Html.CusDropdownListSelect2("upIDChuyenMonKiThuat", "IDChuyenMonKiThuat", "--Chọn Chuyên môn kỹ thuật--", lstChuyenMonKiThuat,
+                        new
+                        {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn Chuyên môn kỹ thuật--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                        }, isReadonly: true)
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center">
+                    <label class="col-sm-3 col-form-label">Số lượng chó quản lý</label>
+                    <div class="col-sm-9">
+                        <input value="@(Model.SoLuongCho + " (con)")" disabled class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <input type="hidden" value="@Model.PhanLoai" name="PhanLoai" />
+            </div>
+        </form>
+    </div>
+</div>

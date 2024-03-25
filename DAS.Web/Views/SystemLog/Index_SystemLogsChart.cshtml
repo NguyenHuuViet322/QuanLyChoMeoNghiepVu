@@ -1,0 +1,60 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels;
+@model VMLogInfo
+@{
+    var stt = 0;
+}
+<div class="card card-outline card-success" style="margin-bottom: 15px">
+    <div class="card-header">
+        <h3 class="card-title" style="font-weight: bold">Báo cáo thống kê về lịch sử truy cập hệ thống</h3>
+    </div>
+    <div class="card-body">
+        <div id="archive_chart_container" class="chart_container" style="padding: 0 1rem 1rem 0; ">
+            <canvas id="archive_chart" height="100"></canvas>
+        </div>
+    </div>
+    <input type="hidden" id="tableStatisticData" value="@(Utils.Serialize(Model.ChartData))" />
+</div>
+<div class="card" hidden id="cardImgChart">
+    <div class="card-header">
+        <h3 class="card-title" style="font-weight: bold">Báo cáo thống kê về lịch sử truy cập hệ thống</h3>
+        <img id="imgChart" src="" alt="Biểu đồ" />
+    </div>
+</div>
+<div class="card card-outline card-success mt-5">
+    <div class="card-header">
+        <h3 class="card-title" style="font-weight: bold">Bảng thống kê số lượng bản ghi về lịch sử truy cập hệ thống</h3>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="data_table" class="table table-borderless table-space table-hover dataTable no-footer dtr-inline table-bid-custom">
+                <thead class="thead-light text-bold">
+                    <tr class="elevation-1">
+                        <th class="py-2 col-min font-s-14 font-weight-500 text-body-title p-l-r-12">STT</th>
+                        <th class="py-2 font-s-14 font-weight-500 text-body-title p-l-r-12 m-w-320-px">Action</th>
+                        <th class="py-2 font-s-14 font-weight-500 text-body-title p-l-r-12 m-w-100">Số lượng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.vMLogInfos)
+                    {
+                        stt++;
+                        <tr>
+                            <td class="font-s-13 text-color-4545 p-b-t-16 text-center">@stt</td>
+                            <td class="font-s-13 text-color-4545 p-b-t-16">
+                                @Html.DisplayFor(modelItem => item.Action)
+                            </td>
+                            <td class="font-s-13 text-color-4545 p-b-t-16">
+                                @Html.DisplayFor(modelItem => item.Total)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

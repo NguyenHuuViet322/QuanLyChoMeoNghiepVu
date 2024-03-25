@@ -1,0 +1,14 @@
+﻿using Temp.Domain.Models{.Group};
+using Temp.Application.Models.Param{.Group};
+using System.Collections.Generic;
+
+namespace Temp.Application.Models.ViewModels{.Group}
+{
+    public class VMIndex{Table}
+    {
+        public PaginatedList<VM{Table}> {Table}s { get; set; } 
+        public {Table}Condition SearchParam { get; set; } 
+
+        //RenderHere
+    }
+}

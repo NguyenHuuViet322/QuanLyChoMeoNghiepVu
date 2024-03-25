@@ -1,0 +1,10 @@
+﻿@using ESD.Utility.Helper;
+@{
+    var roles = (ViewBag.ListRole as List<SelectListItem>) ?? new List<SelectListItem>();
+    string name = ViewBag.IdName.ToString();
+}
+@Html.CusDropdownListSelect2(name, name, null, roles, new
+{
+    @class = "select2",
+    @data_placeholder = "--Chọn vai trò--"
+}, isMultiple: true)

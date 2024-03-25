@@ -1,0 +1,197 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@using ESD.Application.Models.ViewModels
+@{
+    ViewData["PageHeaderContent"] = "Categories";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var categoryType = Model.VMCategoryType;
+    var categoryTypeName = Model.VMCategoryType.Name?.ToLower() ?? "";
+    var title = $"Quản lý danh mục {Model.VMCategoryType.Name?.ToLower()}";
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/Category", title);
+    ViewData["Breadcrumb"] = breadcrum;
+    ViewData["Title"] = title;
+
+    var searchFields = Model.VMCategoryTypeFields.Where(n => n.IsSearchGrid);
+}
+@model VMIndexCategory
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="SearchByCondition" id="frmCategory" role="form" method="post" class="quickSearch" data-target="#divCategories">
+                    <div class="row">
+
+                        @*<div class="form-group">
+                                <div class="col-12">
+                                    <input type="text" name="Name" value="@ViewBag.Name" class="form-control" placeholder="Nhập tên danh mục">
+                                </div>
+                            </div>*@
+                        @foreach (var field in searchFields)
+                        {
+
+                            var fieldName = "Field" + field.ID;
+                            if (field.Code == "Name" || field.Code == "Code")
+                            {
+                                fieldName = field.Code;
+                            }
+                            if (field.InputType == (int)EnumCategoryType.InputType.Parent)
+                            {
+                                fieldName = "ParentId";
+                            }
+                            var dataSearch = Model.VMCategoryFieldSearchs.FirstOrNewObj(n => n.IDCategoryTypeField == field.ID);
+
+                            switch (field.InputType)
+                            {
+                                case (int)EnumCategoryType.InputType.CategoryType:
+                                case (int)EnumCategoryType.InputType.Agency:
+                                //case (int)EnumCategoryType.InputType.ProfileList:
+                                case (int)EnumCategoryType.InputType.ProfileTemplate:
+                                case (int)EnumCategoryType.InputType.Parent:
+                                    var codeType = string.Empty;
+                                    if (field.InputType == (int)EnumCategoryType.InputType.CategoryType)
+                                    {
+                                        codeType = Model.VMCategoryTypes.FirstOrNewObj(n => n.ID == field.IDCategoryTypeRelated).Code;
+                                    }
+                                    else if (field.InputType == (int)EnumCategoryType.InputType.ProfileTemplate)
+                                    {
+                                        codeType = EnumCategoryType.Code.DM_Phong.ToString();
+                                    }
+                                    else if (field.InputType == (int)EnumCategoryType.InputType.Parent)
+                                    {
+                                        codeType = Model.VMCategoryType.Code;
+                                    }
+                                    <div class="col-3">
+                                        @Html.CusDropdownListSelect2("sSelect" + field.ID, fieldName, "--" + field.Name + "--", (dataSearch.IntVal > 0) ? new List<SelectListItem> { new SelectListItem { Text = dataSearch.DisplayVal, Value = dataSearch.IntVal.ToString(), Selected = true @*Chỉ trả về 1 item đc chọn*@} } : null, new
+                                        {
+                                            @class = "form-control select2 onOpenCate",
+                                            @data_code_type = codeType,
+                                            @data_categorytype_id = field.IDCategoryTypeRelated,
+                                            @data_selected_id = Utils.GetInt(Model.DataSearch, fieldName),
+                                            @data_default_text = "--" + field.Name + "--",
+                                            @data_default_value = "",
+                                            @data_input_type = field.InputType,
+                                            @data_source_url = "/Category/GetOptions",
+                                            @data_width = "100%"
+                                        }, field.Name, field.IsRequire, defaultVal: "")
+                                                                            </div>
+                                    break;
+
+                                case (int)EnumCategoryType.InputType.InpDate:
+                                    <div class="form-group col-3">
+                                        <div class="input-group date_input" data-format="@field.Format" id="search_SDate@(field.ID)" data-target-input="nearest">
+                                            <div class="input-group-prepend" data-target="#search_SDate@(field.ID)" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                            @Html.CusTextBoxDate("", "From_" + fieldName, Utils.GetString(Model.DataSearch, "From_" + fieldName), field.Name, $"Từ {field.Name.ToLower()}", field.IsRequire, new
+                                            {
+                                                 data_target = "#search_SDate" + field.ID,
+                                            data_toggle = "datetimepicker",
+                                            }, 0)
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <div class="input-group date_input" data-format="@field.Format" id="search_EDate@(field.ID)" data-target-input="nearest">
+                                            <div class="input-group-prepend" data-target="#search_EDate@(field.ID)" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                            @Html.CusTextBoxDate("", "To_" + fieldName, Utils.GetString(Model.DataSearch, "To_" + fieldName), field.Name, $"Đến {field.Name.ToLower()}", field.IsRequire, new
+                                            {
+                                                 data_target = "#search_EDate" + field.ID,
+                                            data_toggle = "datetimepicker",
+                                            }, 0)
+                                        </div>
+                                    </div>
+                                    break;
+
+                                case (int)EnumCategoryType.InputType.InpFloat:
+
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@("From_"+fieldName)" value="@Utils.GetString(Model.DataSearch, "To_" + fieldName)" class="form-control isNumber" placeholder="@($"Từ {field.Name.ToLower()}")">
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@("To_"+fieldName)" value="@Utils.GetString(Model.DataSearch, "To_" + fieldName)" class="form-control isNumber" placeholder="@($"Đến {field.Name.ToLower()}")">
+                                    </div>
+                                    break;
+
+                                case (int)EnumCategoryType.InputType.InpNumber:
+
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@("From_"+fieldName)" value="@Utils.GetString(Model.DataSearch, "To_" + fieldName)" class="form-control isNumberInteger" placeholder="@($"Từ {field.Name.ToLower()}")">
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@("To_"+fieldName)" value="@Utils.GetString(Model.DataSearch, "To_" + fieldName)" class="form-control isNumberInteger" placeholder="@($"Đến {field.Name.ToLower()}")">
+                                    </div>
+                                    break;
+
+                                case (int)EnumCategoryType.InputType.InpMoney:
+
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@("From_"+fieldName)" value="@Utils.GetString(Model.DataSearch, "To_" + fieldName)" class="form-control isNumberInteger useMoney" placeholder="@($"Từ {field.Name.ToLower()}")">
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@("To_"+fieldName)" value="@Utils.GetString(Model.DataSearch, "To_" + fieldName)" class="form-control isNumberInteger useMoney" placeholder="@($"Đến {field.Name.ToLower()}")">
+                                    </div>
+                                    break;
+
+                                default:
+                                    <div class="form-group col-3">
+                                        <input type="text" name="@fieldName" value="@dataSearch.DisplayVal" class="form-control" placeholder="Nhập @field.Name">
+                                    </div>
+                                    break;
+                            }
+                        }
+                        <div class="col-2">
+                            <input type="hidden" name="CodeType" value="@ViewBag.CodeType">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-search"></i><span>Tìm kiếm</span></button>
+                        </div>
+                    </div>
+                </form>
+                <div id="data_table_wrapper" class="dataTables_wrapper">
+                    <div class="table-control">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12 text-left mb-2 mb-md-0">
+
+                            </div>
+                            @if (categoryType.ID > 0)
+                            {
+                                <div class="col-md-9 col-sm-12 text-md-right">
+                                    <span class="actMultiTicks hidden">
+                                        <a class="btn btn-danger quickDeletes" data-url="/Category/Deletes" tabindex="0" data-comfirm-message="Xoá nhiều @categoryTypeName:Bạn có muốn xoá {n} @categoryTypeName đã chọn?">
+                                            <span><i class="fas fa-trash-alt mr-2"></i>Xoá</span>
+                                        </a>
+                                    </span>
+                                    <a class="btn btn-success quickUpdate" tabindex="0" href="/Category/Create/@(categoryType.Code)" data-target="#mdUpdateCategory" aria-controls="data_table">
+                                        <i class="fas fa-fw fa-plus"></i><span>Thêm mới</span>
+                                    </a>
+                                    <a class="btn btn-primary quickExport" href="#" action="/Category/Export/@(categoryType.Code)" data-target="#frmCategory" aria-controls="data_table">
+                                        <i class="fas fa-fw fa-file-export"></i><span>Xuất file</span>
+                                    </a>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div id="divCategories">
+                        @await Html.PartialAsync("Index_Categories", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdUpdateCategory" aria-labelledby="planEditModalTitle" style="display: none;" aria-hidden="true">
+
+</div>
+<script src="~/js/controller/CategoryController.js" asp-append-version="true"></script>
+<script src="~/js/controller/AutocompleteController.js" asp-append-version="true"></script>
+
+<script type="text/javascript">
+    InitCategory();
+    InitAutocomplete();
+</script>

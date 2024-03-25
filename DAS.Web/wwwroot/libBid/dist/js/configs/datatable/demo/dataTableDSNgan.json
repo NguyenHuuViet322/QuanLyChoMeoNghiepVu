@@ -1,0 +1,67 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "id": "5421",
+      "SoDKKD": "102027219",
+      "TenGT": "Ngân hàng TMCP Ngoại thương Việt Nam chi nhánh Tp Hồ Chí Minh",
+      "VBQD": "Quyết định số 916/QĐ-CAT-PH10 ngay 03/6/2021",
+      "price": "1.981.194.600",
+      "BMT": "Z105623 - Công ty TNHH tư vấn và đầu tư xây dựng 988",
+      "field": "Hàng hóa",
+      "ngayDang": "04/06/2021",
+      "SoDKKDNT": "4600272612",
+      "TenCongTy": "CÔNG TY TNHH XUÂN THỦY",
+      "TenLienDanh": "Liên danh Đức Hương Giang-Xuân Thủy",
+      "diaChiCT": "Xóm Vàng, Xã Tân Hương, Thị xã Phổ Yên, Tỉnh Thái Nguyên, Việt Nam"
+    },
+    {
+      "no": "2",
+      "id": "8422",
+      "SoDKKD": "20210622482-00",
+      "TenGT": "07 2021 XBP-XCH Cung cấp vật tư điện tử G04",
+      "VBQD": "Quyết định số 916/QĐ-CAT-PH10 ngay 03/6/2021",
+      "price": "1.981.194.600",
+      "BMT": "Z105623 -Công ty TNHH MTV Thông tin M1",
+      "field": "Hàng hóa",
+      "ngayDang": "04/06/2021",
+      "SoDKKDNT": "4600561251",
+      "TenCongTy": "CÔNG TY TNHH HÙNG SƠN",
+      "TenLienDanh": "",
+      "diaChiCT": "Số 50, tổ 8, Phường Tân Thịnh, Thành phố Thái Nguyên, Tỉnh Thái Nguyên, Việt Nam"
+    },
+    {
+      "no": "3",
+      "id": "1562",
+      "SoDKKD": "20210613887-00",
+      "TenGT": "Gói 3: Tivi màn hình cảm ứng 65inch ,thiết bị phòng học thông minh",
+      "VBQD": "Quyết định số 916/QĐ-CAT-PH10 ngay 03/6/2021",
+      "price": "1.981.194.600",
+      "BMT": "Z105623 - Công ty TNHH tư vấn và đầu tư xây dựng 988",
+      "field": "Hàng hóa",
+      "ngayDang": "04/06/2021",
+      "SoDKKDNT": "4700150431",
+      "TenCongTy": "CÔNG TY CỔ PHẦN NANO THÁI NGUYÊN",
+      "TenLienDanh": "",
+      "diaChiCT": "Số 100, tổ 10, Phường Tân Thịnh, Thành phố Thái Nguyên, Tỉnh Thái Nguyên, Việt Nam"
+    },
+    {
+      "no": "4",
+      "id": "6224",
+      "SoDKKD": "20210622280-00",
+      "TenGT": "Bệnh viện Y học cổ truyền – Phục hồi chức năng Bình Thuận",
+      "VBQD": "Quyết định số 916/QĐ-CAT-PH10 ngay 03/6/2021",
+      "price": "1.981.194.600",
+      "BMT": "Z105623 - mua vị thuốc cổ truyền năm 2021",
+      "field": "Hàng hóa",
+      "ngayDang": "8/6/2021 9:27:00",
+      "SoDKKDNT": "4700150436",
+      "TenCongTy": "CÔNG TY TNHH XUÂN THỦY",
+      "TenLienDanh": "",
+      "diaChiCT": "Tổ 9, Thị trấn Bằng Lũng, huyện Chợ Đồn, tỉnh Bắc Kạn"
+    }
+  ]
+}
+

@@ -1,0 +1,60 @@
+﻿@using ESD.Application.Models.ViewModels;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMTeam>
+@{
+    ViewData["Title"] = "Danh sách nhóm người dùng";
+    ViewData["PageHeaderContent"] = "Teams";
+    ViewBag.BreadcrumbMenu = "Quản trị hệ thống";
+    ViewBag.Breadcrumb = new List<string> { "Quản lý nhóm người dùng" };
+    List<SelectListItem> lstOrgan = ViewBag.ListOrgan == null ? new List<SelectListItem>() : (List<SelectListItem>)ViewBag.ListOrgan;
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+
+<div class="container pt-30">
+    <div class="box-wrap-cs">
+        <form method="post" data-target="#ContentAreaTable" id="frmTeam" asp-action="SearchByCondition" class="quickSearch">
+            <div class="row row-ip">
+                <div class="col-md-6 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-6 col-ip-12">
+                    <div class="input-group input-group-sm mb-3">
+                        @*@Html.CustTexBoxSearch("", "Keyword", (object)ViewBag.Keyword, "", "Nhập tên nhóm người dùng")*@
+                        <input class="form-control " name="Keyword" placeholder="Nhập tên nhóm người dùng" title="" type="search">
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/Team/DeleteMulti" data-name="{n} nhóm người dùng" title="Xóa">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+
+                        <a class="btn-icon-search quickUpdate ml-5 text-success"
+                           href="/Team/CreatePopup" data-target="#planCreateModal" aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+
+                        <a class="quickExportTeam ml-5" href="javascript:void(0)" action="/Team/Export" data-target="#frmTeam"
+                           aria-controls="data_table" title="Xuất excel">
+                            <i class="bid-icons bid-icon-csv"></i>
+                        </a>
+                    </div>
+                    <!-- /.input-group -->
+                </div><!-- /.col -->
+            </div>
+        </form>
+
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-10">
+            <div class="card-body p-0">
+                <div id="dataTables_wrapper" class="dataTables_wrapper">
+                    <div id="ContentAreaTable">
+                        @await Html.PartialAsync("_IndexTeam", Model)
+                    </div>
+                </div>
+            </div><!-- /.card -->
+        </div><!-- /Card 1 -->
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade popup-modal" id="planCreateModal" role="dialog" aria-labelledby="planCreateModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/TeamsController.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,31 @@
+.dataTables_wrapper {
+  tbody {
+    background-color: $white;
+    tr {
+      box-shadow: map-get($elevations, 1);
+    }
+  }
+}
+.dataTables_length {
+  margin-right: 1rem;
+  label {
+    margin-bottom: 0;
+  }
+}
+.paginate_button {
+  .page-item {
+    border: none;
+    background-color: transparent;
+  }
+}
+.table-scroll {
+  min-height: 250px;
+  margin-bottom: 1rem;
+  table.dataTable {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+.dataTables_wrapper .d-flex .dataTables_info {
+  padding-top: 0;
+}

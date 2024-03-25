@@ -1,0 +1,227 @@
+﻿.files.images .fileitem {
+    width: 30%;
+    display: inline-block;
+}
+
+    .files.images .fileitem img {
+        display: block;
+    }
+
+.thumbnails .fileNames {
+    width: auto;
+    border: none;
+    background: none !important;
+    padding: 5px 0;
+    display: block;
+}
+
+    .thumbnails .fileNames:focus {
+        border: none;
+        box-shadow: none !important;
+    }
+
+.thumbnails .fileitem {
+    padding: 5px 0;
+    display: inline-block;
+    width: auto;
+    position: relative;
+}
+
+    .thumbnails .fileitem .delMember {
+        bottom: 10px;
+        height: 20px;
+        line-height: 0 !important;
+        margin: 0 !important;
+        opacity: 1;
+        padding: 0 !important;
+        position: absolute;
+        right: 0;
+        width: 20px;
+    }
+
+
+.files img {
+    display: none;
+}
+
+.files .fileNames {
+    width: 100%;
+    border: none;
+    background: none !important;
+    padding: 5px 0;
+}
+
+    .files .fileNames:focus {
+        border: none;
+        box-shadow: none !important;
+    }
+
+.files .fileitem {
+    /*border: 1px solid #ccc;*/
+    display: inline-block;
+    margin: -1px 0 0;
+    padding: 5px;
+    position: relative;
+    width: 100%;
+}
+
+    .files .fileitem .delMember {
+        opacity: 1;
+        position: absolute;
+        /*right: 0;*/
+        top: 5px;
+    }
+
+._hctc ._hc_2r {
+    width: 25%;
+    float: left;
+}
+
+.aa_upload_file .fileitem {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    /*border-bottom: 1px solid #eee;*/
+}
+
+    .aa_upload_file .fileitem::before {
+        font-family: FontAwesome;
+        margin: 0 11px 0 0;
+        /*content: "\f15c";*/
+        color: #555;
+    }
+
+.aa_upload_file .fileNames {
+    width: 90%;
+    padding-right: 0;
+}
+
+.aa_upload_file .fileitem .delMember {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 0 !important;
+    top: 10px;
+}
+
+._hc_2r #CrOCRBasic_18 {
+    padding: 0 15px;
+}
+
+._hc_2r .files .fileitem {
+    width: calc(100% - 15px);
+    padding: 0;
+}
+
+.cr__SAI._hc_2r .files .fileitem {
+    width: calc(100% - 45px);
+    word-break: break-all;
+}
+
+._hc_2r .aa_upload_file .fileNames {
+    width: calc(100% - 50px);
+}
+
+._hc_2r .aa_upload_file .fileitem .delMember {
+    width: auto;
+    height: auto;
+    top: 0px;
+    right: -5px;
+}
+/*delMember_AF TC CV*/
+.form-group .delMember_AF,
+.form-group .delMember_TC,
+.form-group .delMember_PF,
+.form-group .delMember_CV {
+    color: gray;
+    font-size: 16px;
+    height: 18px;
+    line-height: 18px;
+    position: absolute;
+    right: 20px;
+    top: 8px;
+}
+
+button.close.delMember_AF,
+button.close.delMember_TC,
+button.close.delMember_PF,
+button.close.delMember_CV {
+    text-indent: -9999px;
+}
+
+.files .fileitem .delMember_AF,
+.files .fileitem .delMember_TC,
+.files .fileitem .delMember_PF,
+.files .fileitem .delMember_CV {
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+.aa_upload_file .fileitem .delMember_AF,
+.aa_upload_file .fileitem .delMember_TC,
+.aa_upload_file .fileitem .delMember_PF,
+.aa_upload_file .fileitem .delMember_CV {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 0 !important;
+    top: 10px;
+}
+
+._hc_2r .aa_upload_file .fileitem .delMember_AF,
+._hc_2r .aa_upload_file .fileitem .delMember_TC,
+._hc_2r .aa_upload_file .fileitem .delMember_PF,
+._hc_2r .aa_upload_file .fileitem .delMember_CV {
+    width: auto;
+    height: auto;
+    top: 0px;
+    right: -5px;
+}
+
+button.close.delMember_AF:before,
+button.close.delMember_TC:before,
+button.close.delMember_PF:before,
+button.close.delMember_CV:before {
+    content: "\f129";
+    display: inline-block;
+    font-family: "Ionicons";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    padding: 0 !important;
+    text-indent: 1px;
+    vertical-align: middle;
+    line-height: 25px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    -webkit-transition: all .25s;
+    -moz-transition: all .25s;
+    -ms-transition: all .25s;
+    -o-transition: all .25s;
+    transition: all .25s;
+}
+
+._hc_2r .close.delMember:before,
+._hc_2r .close.delMember_AF:before,
+._hc_2r .close.delMember_TC:before,
+._hc_2r .close.delMember_PF:before,
+._hc_2r .close.delMember_CV:before {
+    color: #337ab7;
+}
+
+._hc_2r .aa_upload_file .fileitem {
+    border-bottom: none;
+}

@@ -1,0 +1,57 @@
+//
+// Pages: Profile
+//
+.avatar-frame {
+	padding: 3px;
+	border: 3px solid $success;
+	border-radius: 50%;
+}
+.avatar {
+	border-radius: 50%;
+	display: block;
+	margin: 0 auto;
+	overflow: hidden;
+	padding-bottom: 100%;
+	position: relative;
+	width: 100%;
+
+	.profile-user-img {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+.profile-username {
+	font-size: 21px;
+	margin-top: 5px;
+}
+
+.post {
+	border-bottom: 1px solid $gray-500;
+	color: #666;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+
+	&:last-of-type {
+		border-bottom: 0;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	.user-block {
+		margin-bottom: 15px;
+		width: 100%;
+	}
+
+	.row {
+		width: 100%;
+	}
+}
+
+.dark-mode {
+	.post {
+		color: $white;
+		border-color: $gray-600;
+	}
+}

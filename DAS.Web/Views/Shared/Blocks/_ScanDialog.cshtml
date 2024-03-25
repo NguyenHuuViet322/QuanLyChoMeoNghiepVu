@@ -1,0 +1,224 @@
+﻿@model KeyValuePair<int, string>
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+        <div class="modal-header bg-success">
+            <h3 class="modal-title" id="planCreateModalTitle">Scan tài liệu</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-success card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin scan</h3>
+                        </div> <!-- /.card-body -->
+                        <div class="card-body">
+
+                            <div class="padt20">
+                                <div class="">
+                                    <form id="FrmScan" action="#" method="post" class="form-horizontal frm-df typing" enctype="multipart/form-data" title="@("Quét tài liệu")">
+                                        <!--form-group-sm-->
+                                        <div class="container-fluid">
+                                            <div class="form-group form-group-source">
+                                                <label for="ScanSource" class="control-label">@("Máy scan")</label>
+                                                <div class="row">
+                                                    <div class="col-sm-9 nopadr">
+                                                        <div class="input-group input-group">
+                                                            <div class="input-group">
+                                                                <select id="ScanSource" name="Source" class="form-control select2 " data-width="100%"></select>
+                                                            </div>
+                                                            <span class="input-group-append">
+                                                                <button type="button" id="ScanSourceRefresh" class="btn btn-info">
+                                                                    <i class="fas fa-sync"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class=" row form-group form-group-custom groupopts">
+                                                <label class="col-sm-12 control-label"></label>
+                                                <div class="col-sm-3">
+                                                    <label>
+                                                        <input value="1" id="ScanShowUi" name="ShowUi" type="checkbox" checked readonly>
+                                                        <span class="text">@("Tùy chỉnh")</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label>
+                                                        <input value="1" id="ScanAutoFeeder" name="AutoFeeder" type="checkbox">
+                                                        <span class="text">@("Auto Feeder")</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label>
+                                                        <input value="1" id="ScanDuplex" name="Duplex" type="checkbox" checked>
+                                                        <span class="text">@("Duplex")</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class=" row form-group form-group-colors groupradios">
+                                                <label>
+                                                    <input name="BlackAndWhite" id="ScanBnW" value="1" type="radio" class="radio">
+                                                    <span class="text">B&amp;W</span>
+                                                </label>
+                                                <label>
+                                                    <input name="Gray" id="ScanGray" value="1" type="radio" class="radio">
+                                                    <span class="text">@("Gray")</span>
+                                                </label>
+                                                <label>
+                                                    <input checked name="Color" id="ScanColor" value="1" type="radio" class="radio">
+                                                    <span class="text">@("Color")</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group form-group-resolution">
+                                                <label for="ScanResolution" class="control-label">@("Độ phân giải")</label>
+                                                <div class="row">
+                                                    <div class="col-sm-9">
+                                                        <select id="ScanResolution" name="Resolution" class="form-control select2">
+                                                            <option value="300">300</option>
+                                                            <option value="200">200</option>
+                                                            <option value="150">150</option>
+                                                            <option value="100">100</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-9">
+                                                    <a id="ScanPlugin" class="btn btn-sm btn-danger" href="/plugin/DASPluginInstaller.msi">
+                                                        <i class="icons-16 icon-download"></i> @("Tải Plugin và cài đặt trước khi dùng (Chỉ hỗ trợ Windows)")
+                                                    </a>
+                                                    <button id="Scanning" class="btn btn-primary hidden" type="submit">
+                                                        <i class="icons-16 icon-scan"></i> @("Quét")
+                                                    </button>
+                                                    <button id="ScanReset" class="btn btn-danger hidden" type="button">
+                                                        <i class="icons-16 icon-save"></i> @("Xóa scan")
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input name="UILang" value="vi" type="hidden">
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div id="ScanUpfile" class="scan-upfile hidden">
+                                <hr />
+                                <div class="widget-header">
+                                    <h3 class="mt-3">Tải lên</h3>
+                                </div>
+                                <div class="padt20">
+                                    <div class="">
+                                        @*<div class="form-group form-group-extension">
+                                                <label class="col-sm-3 control-label">@("Định dạng: PDF")</label>
+                                                <div class="col-sm-9 groupradios">
+                                                    <label>
+                                                        <span class="text">BMP</span>
+                                                    </label>
+                                                    <label>
+                                                        <input class="scanExts" name="Extension" id="ScanExtJPEG" value="jpeg" type="radio">
+                                                        <span class="text">JPEG</span>
+                                                    </label>
+
+                                                    <label>
+                                                        <input class="scanExts" name="Extension" id="ScanExtPNG" value="png" type="radio">
+                                                        <span class="text">PNG</span>
+                                                    </label>
+
+                                                    <label>
+                                                        <input class="scanExts" name="Extension" id="ScanExtTIFF" value="tiff" type="radio">
+                                                        <span class="text">TIFF</span>
+                                                    </label>
+
+                                                    <label>
+                                                        <input checked class="scanExts" name="Extension" id="ScanExtPDF" value="pdf" type="radio">
+                                                        <span class="text">PDF</span>
+                                                    </label>
+                                                </div>
+                                            </div>*@
+                                        @*<div class="form-group form-group-multipage">
+                                                <label class="col-sm-3 control-label"></label>
+                                                <div class="col-sm-9 groupradios">
+                                                    <label>
+                                                        <input disabled="" class="checkboxes" id="ScanMultiPageTIFF" value="1" type="radio">
+                                                        <span class="text">TIFF nhiều trang</span>
+                                                    </label>
+                                                    <label>
+                                                        <input checked="" class="checkboxes" id="ScanMultiPagePDF" value="1" type="radio">
+                                                        <span class="text">PDF nhiều trang</span>
+                                                    </label>
+                                                </div>
+                                            </div>*@
+                                        <div class="form-group">
+                                            <form id="formSaveScan" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                                  title="@("Lưu tài liệu đã quyét")" action="@Model.Value" class="form-horizontal bv-form formSaveScan" data-submit-handler="scanSaveFile" method="post" novalidate="novalidate">
+                                                <div class="">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">@("Định dạng: ") <b>PDF</b></label>
+                                                    </div>
+
+                                                    <div class="form-group has-feedback">
+                                                        <label class="col-lg-4 control-label">@("Tên file")</label>
+                                                        <div class="col-lg-8">
+                                                            <input id="SaveScanStgfileName" name="Name" data-bv-field="Name" data-bv-notempty="true" type="text" data-bv-notempty-message="@("Tên file không được trống")" placeholder="@("Tên file")" class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-offset-4 col-lg-8">
+                                                            <input id="ScanMsgSucess" value="@("Tài liệu tải lên thành công")" type="hidden" />
+                                                            <input id="ScanMsgUnsucess" value="@("Không có tài liệu nào đượct tải lên")" type="hidden" />
+                                                            <input id="ScanMsgSucessCount" value="@("Chỉ có @count tài liệu tải lên thành công")" type="hidden">
+                                                            <input name="IDDoc" value="@Model.Key" type="hidden" />
+                                                            @*<input name="IDForm" class="idformhidden" value="0" type="hidden" />
+                                                                <input name="IDUnit" class="idunithidden" value="0" type="hidden" />*@
+                                                            <button type="submit" class="btn btn-primary">@("Xong")</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-success card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Kết quả scan</h3>
+                        </div> <!-- /.card-body -->
+                        <div class="card-body">
+                            <div class="tab-pane fade show active" id="divDocInfo" role="tabpanel" aria-labelledby="docInfo-tab" style="height: 680px; overflow: auto;">
+
+
+                                <div id="ScanResult">
+                                    @*  Scan result Here *@
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+            </button>
+        </div>
+    </div>
+
+</div>

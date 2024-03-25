@@ -1,0 +1,140 @@
+﻿@using ESD.Utility.Helper
+@using ESD.Utility
+@using ESD.Application.Enums
+@using ESD.Application.Models.ViewModels;
+@model VMUpdateCategoryTypeField
+@{
+    var sIndex = Model.Index.HasValue ? Model.Index.ToString() : "n";
+    var scbIndex = Model.Index.HasValue ? Model.Index.ToString() : string.Empty;
+    if (Model.DlInputTypes.IsNotEmpty())
+    {
+        foreach (var item in Model.DlInputTypes)
+        {
+            item.Selected = Model.InputType.ToString() == item.Value;
+        }
+    }
+    if (Model.DlCategoryTypes.IsNotEmpty())
+    {
+        foreach (var item in Model.DlCategoryTypes)
+        {
+            item.Selected = Model.IDCategoryTypeRelated.ToString() == item.Value;
+        }
+    }
+    if (Model.DlDefaultValueTypes.IsNotEmpty())
+    {
+        foreach (var item in Model.DlDefaultValueTypes)
+        {
+            item.Selected = Model.DefaultValueType.ToString() == item.Value;
+        }
+    }
+    var isUpdate = Model.IsUpdate && !Model.IsDefault ? string.Empty : "readonly";
+    var isDetail = Model.IsDetail ? "readonly" : string.Empty;
+    var isDefault = Model.IsDefault ? "readonly" : string.Empty;
+}
+<tr class="item">
+    <td>
+        <input type="hidden" class="form-control" name="CategoryTypeFields[@sIndex].ID" value="@Model.ID" />
+        <input type="text" class="form-control" @isDetail placeholder="Tên" name="CategoryTypeFields[@sIndex].Name" value="@Model.Name" />
+        <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].Name" data-valmsg-replace="true"></span>
+    </td>
+    <td>
+        <input type="text" @isDefault @isDetail class="form-control" placeholder="Mã" name="CategoryTypeFields[@sIndex].Code" value="@Model.Code" />
+        <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].Code" data-valmsg-replace="true"></span>
+    </td>
+    <td>
+        @Html.CusDropdownListSelect2(null, "CategoryTypeFields[" + sIndex + "].InputType", null, Model.DlInputTypes, new
+        {
+            @class = "form-control select2 onSwitchDiv",
+            @data_target = ".onHidden",
+            @data_container = "body",
+            @data_width = "150px",
+            //@data_value_target = (int)EnumCategoryType.InputType.Drd,
+        }, isReadonly: !Model.IsUpdate || Model.IsDetail || Model.IsDefault)
+        <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].InputType" data-valmsg-replace="true"></span>
+    </td>
+    <td>
+        <div class="@(Model.InputType == (int)EnumCategoryType.InputType.CategoryType ? string.Empty: "hidden") onHidden" data-selected-id="@((int)EnumCategoryType.InputType.CategoryType)">
+            @Html.CusDropdownListSelect2(null, "CategoryTypeFields[" + sIndex + "].IDCategoryTypeRelated", "--Chọn danh mục--", Model.DlCategoryTypes, new { @data_container = "body", @data_width = "150px", }, isReadonly: !Model.IsUpdate || Model.IsDetail)
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].IDCategoryTypeRelated" data-valmsg-replace="true"></span>
+        </div>
+        <div class="@(Model.InputType == (int)EnumCategoryType.InputType.InpDate ? string.Empty: "hidden") onHidden" data-selected-id="@((int)EnumCategoryType.InputType.InpDate)">
+            <input type="text" class="form-control" @isDetail placeholder="Định dạng" name="CategoryTypeFields[@sIndex].Format" value="@Model.Format" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].Format" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+
+
+    <td>
+        <div class="custom-control custom-checkbox @isDetail">
+            <input type="checkbox" class="checkboxes custom-control-input" name="CategoryTypeFields[@sIndex].IsRequire" id="isRquire@(scbIndex)" data-id="1" value="1" @(Model.IsRequire > 0 ? "checked" : string.Empty)>
+            <label class="custom-control-label" for="isRquire@(scbIndex)"></label>
+
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].IsRequire" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    <td>
+        <div class="custom-control custom-checkbox @isDetail">
+            <input type="checkbox" class="checkboxes custom-control-input" name="CategoryTypeFields[@sIndex].IsShowGrid" id="isShowGrid@(scbIndex)" data-id="1" value="1" @(Model.IsShowGrid > 0 ? "checked" : string.Empty)>
+            <label class="custom-control-label" for="isShowGrid@(scbIndex)"></label>
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].IsShowGrid" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    <td>
+        <div class="custom-control custom-checkbox @isDetail">
+            <input type="checkbox" class="checkboxes custom-control-input" name="CategoryTypeFields[@sIndex].IsSearchGrid" id="isSearchGrid@(scbIndex)" data-id="1" value="1" @(Model.IsSearchGrid > 0 ? "checked" : string.Empty)>
+            <label class="custom-control-label" for="isSearchGrid@(scbIndex)"></label>
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].IsSearchGrid" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+
+    <td>
+        <div class="@(Model.InputType == (int)EnumCategoryType.InputType.InpText ? string.Empty: "hidden") onHidden" data-selected-id="@((int)EnumCategoryType.InputType.InpText)">
+            <input type="text" @isUpdate @isDetail class="form-control isNumberInteger isPositiveNumber" maxlength="4" placeholder="Số ký tự tối thiểu" name="CategoryTypeFields[@sIndex].Minlenght" value="@Model.Minlenght" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].Minlenght" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    <td>
+        <div class="@(Model.InputType == (int)EnumCategoryType.InputType.InpText ? string.Empty: "hidden") onHidden" data-selected-id="@((int)EnumCategoryType.InputType.InpText)">
+            <input type="text" @isUpdate @isDetail class="form-control isNumberInteger isPositiveNumber" maxlength="4" placeholder="Số ký tự đa" name="CategoryTypeFields[@sIndex].Maxlenght" value="@Model.Maxlenght" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].Maxlenght" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    <td>
+        <div class="@(new[] {  (int)EnumCategoryType.InputType.InpNumber, (int)EnumCategoryType.InputType.InpFloat, (int)EnumCategoryType.InputType.InpMoney}.Contains(Model.InputType)   ? string.Empty: "hidden") onHidden" data-selected-id="@string.Join(",",(int)EnumCategoryType.InputType.InpNumber, (int)EnumCategoryType.InputType.InpFloat, (int)EnumCategoryType.InputType.InpMoney)">
+            <input type="text" @isUpdate @isDetail class="form-control isNumberInteger" maxlength="18" placeholder="Giá trị tối thiểu" name="CategoryTypeFields[@sIndex].MinValue" value="@Model.MinValue" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].MinValue" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    <td>
+        <div class="@(new[] {  (int)EnumCategoryType.InputType.InpNumber, (int)EnumCategoryType.InputType.InpFloat, (int)EnumCategoryType.InputType.InpMoney}.Contains(Model.InputType)   ? string.Empty: "hidden") onHidden" data-selected-id="@string.Join(",",(int)EnumCategoryType.InputType.InpNumber, (int)EnumCategoryType.InputType.InpFloat, (int)EnumCategoryType.InputType.InpMoney)">
+            <input type="text" maxlength="18" @isUpdate @isDetail class="form-control isNumberInteger" placeholder="Giá trị tối đa" name="CategoryTypeFields[@sIndex].MaxValue" value="@Model.MaxValue" />
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].MaxValue" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    <td>
+        <input type="text" @isDetail class="form-control isNumberInteger isPositiveNumber" maxlength="8" placeholder="Thứ tự" name="CategoryTypeFields[@sIndex].Priority" value="@Model.Priority" data-name="Priority" />
+        <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].Priority" data-valmsg-replace="true"></span>
+    </td>
+    <td>
+        @Html.CusDropdownListSelect2(null, "CategoryTypeFields[" + sIndex + "].DefaultValueType", "--Chọn--", Model.DlDefaultValueTypes, new { @data_container = "body", @data_width = "150px", })
+        <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].DefaultValueType" data-valmsg-replace="true"></span>
+    </td>
+    <td>
+        <div class="custom-control custom-checkbox @isDetail">
+            <input type="checkbox" class="checkboxes custom-control-input" name="CategoryTypeFields[@sIndex].IsReadonly" id="isReadonly@(scbIndex)" data-id="1" value="1" @(Model.IsReadonly > 0 ? "checked" : string.Empty)>
+            <label class="custom-control-label" for="isReadonly@(scbIndex)"></label>
+            <span class="text-danger field-validation-valid" data-valmsg-for="CategoryTypeFields[@sIndex].IsReadonly" data-valmsg-replace="true"></span>
+        </div>
+    </td>
+    @if (!Model.IsDetail)
+    {
+        <td>
+            @if (Model.IsDelete && !Model.IsDefault)
+            {
+                <a title="Xoá" class="btn btn-sm btn-outline-secondary btn-hover-danger onDeleteItem" data-reindex="1" data-id="">
+                    <i class="fas fa-fw fa-trash-alt"></i>
+                </a>
+            }
+        </td>
+    }
+</tr>

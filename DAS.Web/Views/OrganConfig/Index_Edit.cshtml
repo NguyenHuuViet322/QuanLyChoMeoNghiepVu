@@ -1,0 +1,183 @@
+﻿@model ESD.Application.Models.ViewModels.VMUpdateOrganConfig
+@using ESD.Utility.Helper;
+@{
+    Layout = "";
+    var text = Model.ID > 0 ? "Chỉnh sửa" : "Thêm mới";
+    var url = Model.ID > 0 ? "/OrganConfig/Update" : "/OrganConfig/Create";
+    var index = 0;
+    var inputType = new List<string> { "IntVal", "FloatVal", "DateTimeVal", "StringVal" };
+    Dictionary<string, string> dicInput = new Dictionary<string, string>();
+    dicInput.Add("IntVal", "Kiểu số nguyên");
+    dicInput.Add("FloatVal", "Kiểu số thực");
+    dicInput.Add("DateTimeVal", "Kiểu ngày tháng");
+    dicInput.Add("StringVal", "Kiểu chuỗi");
+    var selected = "";
+    if (Model.ID > 0)
+    {
+        foreach (var item in inputType)
+        {
+            if (Model.GetType().GetProperty(item).GetValue(Model, null) != null)
+            {
+                selected = item;
+                break;
+            }
+        }
+    }
+    else
+    {
+        selected = "IntVal";
+    }
+
+    var listinput = dicInput.Select(x =>
+        new SelectListItem
+        {
+            Value = x.Key,
+            Text = x.Value,
+            Selected = x.Key == selected
+        }
+    );
+}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <form id="frmOrganConfigEdit" class="modal-content onUpdateInputState" role="form" asp-action="" autocomplete="off">
+        <div class="modal-header bg-success">
+            <h3 class="modal-title" id="planCreateModalTitle">@text tham số</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input asp-for="ID" type="hidden" class="form-control" />
+            <input asp-for="IDOrgan" type="hidden" class="form-control" />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="Code"></label>
+                        <div class="col-sm-8">
+                            @if (Model.ID > 0)
+                            {
+                                <input asp-for="Code" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <input asp-for="Code" class="form-control" />
+                            }
+
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-sm-4 col-form-label input-required"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label "> Kiểu giá trị</label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("ValueType", "ValueType", null, listinput, new
+                            {
+                                @class = "select2 w-100",
+                                @data_placeholder = "--Chọn cơ quan--",
+                            }, defaultVal: "IntVal")
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="IntVal" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @if (selected == "IntVal")
+                            {
+                                <input asp-for="IntVal" class="form-control" />
+                            }
+                            else
+                            {
+                                <input asp-for="IntVal" class="form-control" readonly />
+                            }
+
+                            <span asp-validation-for="IntVal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="FloatVal" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @if (selected == "FloatVal")
+                            {
+                                <input asp-for="FloatVal" class="form-control" />
+                            }
+                            else
+                            {
+                                <input asp-for="FloatVal" class="form-control" readonly />
+                            }
+
+                            <span asp-validation-for="FloatVal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="DateTimeVal" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+
+                            @if (selected == "DateTimeVal")
+                            {
+                                <div class="input-group date_input" id="dpDateTimeVal" data-target-input="nearest">
+                                    <div class="input-group-prepend" data-target="#dpDateTimeVal" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                    @Html.CusTextBoxDate("DateTimeVal", "DateTimeVal", Model.DateTimeVal, "Giá trị ngày tháng", "Giá trị ngày tháng", false, new { data_target = "#dpDateTimeVal", data_toggle = "datetimepicker" }, 0,false)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="input-group date_input" id="dpDateTimeVal" data-target-input="nearest">
+                                    <div class="input-group-prepend" data-target="#dpDateTimeVal" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                    @Html.CusTextBoxDate("DateTimeVal", "DateTimeVal", Model.DateTimeVal, "Giá trị ngày tháng", "Giá trị ngày tháng", false, new { data_target = "#dpDateTimeVal", data_toggle = "datetimepicker" },isReadOnly:true)
+                                </div>
+                            }
+
+
+                            <span asp-validation-for="DateTimeVal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="StringVal" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @if (selected == "StringVal")
+                            {
+                                <input asp-for="StringVal" class="form-control" />
+                            }
+                            else
+                            {
+                                <input asp-for="StringVal" class="form-control" readonly />
+                            }
+
+                            <span asp-validation-for="StringVal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Description" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <textarea asp-for="Description" class="form-control" rows="5">@Model.Description</textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+            </button>
+            <button data-url="@url" class="btn btn-outline-primary quickSubmit"><i class="fas fa-fw fa-save"></i><span>Lưu</span></button>
+        </div>
+    </form>
+</div>
+
+
+<script src="~/js/controller/OrganConfigController.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    OrganConfig.Init();
+</script>

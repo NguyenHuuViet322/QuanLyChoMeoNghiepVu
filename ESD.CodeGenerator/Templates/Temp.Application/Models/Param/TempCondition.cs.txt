@@ -1,0 +1,21 @@
+using Temp.Domain.Models{.Group};
+using System.Collections.Generic;
+
+namespace Temp.Application.Models.Param{.Group}
+{
+    
+    public class {Table}Condition
+{
+        public int PageIndex { get; set; }
+        public int PageSize { get; set; }
+        public string Keyword { get; set; }
+
+        //RenderHere
+
+        public {Table}Condition()
+        {
+            PageIndex = 1;
+            PageSize = 10;
+        }
+    }
+}

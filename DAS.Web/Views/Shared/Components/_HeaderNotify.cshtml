@@ -1,0 +1,13 @@
+﻿@using ESD.Application.Models.ViewModels;
+@model VMNotification
+@{ 
+    Layout = null;
+}
+<a class="dropdown-item @(Model.IsRead == true ? "" : "notRead")" style="cursor: pointer; @(Model.IsRead == true ? "" : "background-color: #D6F6F9;")" data-id="@Model.ID" href="@Model.Url">
+    <div class="media">
+        <div class="media-body">
+            <p class="text-sm">@Model.Content</p>
+        </div>
+    </div>
+</a>
+<div class="dropdown-divider"></div>

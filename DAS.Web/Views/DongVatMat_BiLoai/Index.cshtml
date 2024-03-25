@@ -1,0 +1,105 @@
+@{
+
+    var lowerMenuName = Model.SearchParam.MenuTypeName.ToLower();
+    var title = $"Báo cáo động vật chết, bị thải loại";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/InputInfo", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Báo cáo", "Báo cáo động vật chết, bị thải loại", $"Danh sách động vật chết, bị thải loại" };
+    ViewData["PageHeaderContent"] = "InputInfo";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using ESD.Application.Enums.DasKTNN;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using ESD.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMReportDongVatNghiepVu
+@{
+    var searchParam = Model.SearchParam;
+
+    var lstYear = Model.Years.Select(n => new SelectListItem
+        {
+            Text = n,
+            Value = n,
+            Selected = n == searchParam.Year
+        }).ToList();
+
+    var lstDvQl = Model.DonViNghiepVus.Where(n => n.PhanLoaiDonVi == (int)PhanLoaiDonVi.DVNghiepVu).OrderBy(n=>n.Ten).Select(n => new SelectListItem
+    {
+        Text = n.Ten.ToString(),
+        Value = n.ID.ToString(),
+        Selected = n.ID == searchParam.IDDonViQuanLy
+    }).ToList();
+}
+
+
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmDongVatNghiepVu" role="form" method="post" class="quickSearch" data-target="#divDongVatNghiepVus">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+
+                    <input type="hidden" name="Type" value="@searchParam.Type" />
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+                        <div class="form-group w-200 pr-2">
+                            @Html.CusDropdownListSelect2("", "Year", "--Chọn năm--", lstYear, new { @class = "select2 w-200", @data_placeholder = "--Chọn năm--", @value="" })
+                        </div>
+
+                        <div class="form-group w-200 pr-2">
+                            @Html.CusDropdownListSelect2("", "IDDonViQuanLy", "--Chọn đơn vị--", lstDvQl, new { @class = "select2 w-200", @data_placeholder = "--Chọn đơn vị--" })
+                        </div>
+                        @*<div class="form-group w-200 pr-2">
+                            @Html.CustTexBox("srKeyword", "Keyword", searchParam.Keyword, "Từ khóa", "Tên/mã động vật nghiệp vụ", false, new { }, false)
+                        </div>*@
+
+                        @*
+                        <button class="btn btn-sm ml-5" type="button" id="dataFilter_Dropdown" title="Tìm kiếm nâng cao" style="background-color: #eef2f5; border-radius: 6px;">
+                        <i class="fa fa-filter" style="color: #5e6278"></i>
+                        </button>
+                        *@
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+
+                        <a class="btn-icon-search quickExport ml-5 text-success" tabindex="0" href="#" action="/DongVatMat_BiLoai/Export" data-target="#frmDongVatNghiepVu" aria-controls="data_table" title="Xuất file">
+                            <i class="bid-icons bid-icon-csv"></i>
+                        </a>
+                    </div>
+                </div>
+                @* <div class="dropdown-menu dataFilter_Dropdown_target">
+                <div class="dropdown-menu-content">
+                <a href="#" title="Đóng" class="dataFilter_Dropdown_close"><i class="fa fa-times-circle"></i></a>
+                <div class="col-xs-12">
+                <div class="row">
+                <div class="col-md-3 DropdownFilter_item">
+
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>  *@
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divDongVatNghiepVus">
+                    @await Html.PartialAsync("Index_DongVatMat_BiLoai", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUDongVatNghiepVu" aria-labelledby="DongVatNghiepVuModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/DongVatNghiepVuController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitDongVatNghiepVu();
+    </script>
+
+}
+
+

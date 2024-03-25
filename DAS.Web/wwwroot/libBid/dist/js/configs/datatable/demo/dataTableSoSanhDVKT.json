@@ -1,0 +1,87 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "id": "1",
+      "tenDonVi": "Bộ Quốc phòng",
+      "tongSoLuong": "18",
+      "tongGiaTri": "703",
+      "tenDonViKT": "Khu vực kiểm toán I",
+      "tenTapDoan": "Tập đoàn Công nghiệp Cao su Việt Nam",
+      "tenTinhThanh": "Hà Nội"
+    },
+    {
+      "no": "2",
+      "id": "2",
+      "tenDonVi": "Bộ Công an",
+      "tongSoLuong": "5",
+      "tongGiaTri": "447",
+      "tenDonViKT": "Khu vực kiểm toán II",
+      "tenTapDoan": "Tập đoàn Xăng dầu Việt Nam",
+      "tenTinhThanh": "Hà Nam"
+    },
+    {
+      "no": "3",
+      "id": "3",
+      "tenDonVi": "Bộ nội vụ",
+      "tongSoLuong": "12",
+      "tongGiaTri": "922",
+      "tenDonViKT": "Khu vực kiểm toán III",
+      "tenTapDoan": "Tập đoàn Hóa chất Việt Nam",
+      "tenTinhThanh": "Nam Định"
+    },
+    {
+      "no": "4",
+      "id": "4",
+      "tenDonVi": "Bộ ngoại giao",
+      "tongSoLuong": "19",
+      "tongGiaTri": "740",
+      "tenDonViKT": "Khu vực kiểm toán IV",
+      "tenTapDoan": "Tập đoàn Bưu chính Viễn thông Việt Nam",
+      "tenTinhThanh": "Thái Bình"
+    },
+    {
+      "no": "5",
+      "id": "5",
+      "tenDonVi": "Bộ tư pháp",
+      "tongSoLuong": "18",
+      "tongGiaTri": "703",
+      "tenDonViKT": "Khu vực kiểm toán V",
+      "tenTapDoan": "Tổng công ty Khí Việt Nam",
+      "tenTinhThanh": "Ninh Bình"
+    },
+    {
+      "no": "6",
+      "id": "6",
+      "tenDonVi": "Bộ Kế hoạch và Đầu tư",
+      "tongSoLuong": "18",
+      "tongGiaTri": "703",
+      "tenDonViKT": "Khu vực kiểm toán VI",
+      "tenTapDoan": "Công ty Cổ phần Phân bón Dầu khí Cà Mau",
+      "tenTinhThanh": "Bắc Ninh"
+    },
+    {
+      "no": "7",
+      "id": "7",
+      "tenDonVi": "Bộ Tài chính",
+      "tongSoLuong": "5",
+      "tongGiaTri": "447",
+      "tenDonViKT": "Khu vực kiểm toán VII",
+      "tenTapDoan": "Tổng công ty Phân bón và Hóa chất Dầu khí",
+      "tenTinhThanh": "Phú Thọ"
+    },
+    {
+      "no": "8",
+      "id": "8",
+      "tenDonVi": "Bộ Công thương",
+      "tongSoLuong": "12",
+      "tongGiaTri": "922",
+      "tenDonViKT": "Khu vực kiểm toán VII",
+      "tenTapDoan": "Tổng công ty Viễn thông Mobifone",
+      "tenTinhThanh": "Vĩnh Phúc"
+    }
+  ]
+}
+

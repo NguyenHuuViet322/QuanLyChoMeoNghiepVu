@@ -1,0 +1,9 @@
+﻿using Temp.Domain.Models{.Group}; 
+
+namespace Temp.Domain.Interfaces{.Group}
+{
+    public interface I{Table}Repository : IBaseRepository<{Table}>
+    {
+    }
+
+}

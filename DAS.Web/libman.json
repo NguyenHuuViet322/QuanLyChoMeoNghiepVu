@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "select2@4.1.0-beta.1",
+      "destination": "wwwroot/lib/select2/"
+    },
+    {
+      "library": "microsoft-signalr@5.0.1",
+      "destination": "wwwroot/lib/microsoft-signalr/"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+﻿@using ESD.Utility.Helper;
+@{
+    var groupPers = (ViewBag.ListGroupPer as List<SelectListItem>) ?? new List<SelectListItem>();
+    string name = ViewBag.IdName.ToString();
+}
+@Html.CusDropdownListSelect2(name, name, null, groupPers, new { @class = "select2", @data_placeholder = "--Chọn nhóm quyền--" }, isMultiple: true)

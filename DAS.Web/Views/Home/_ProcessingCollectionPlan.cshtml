@@ -1,0 +1,50 @@
+﻿@using ESD.Application.Models.ViewModels;
+@model List<VMDashBoardPlan>
+@{
+    string RenderColor(int index)
+    {
+        switch (index % 4)
+        {
+            case 0:
+                return "bg-success";
+            case 1:
+                return "bg-primary";
+            case 2:
+                return "bg-warning";
+            case 3:
+                return "bg-danger";
+            default:
+                return "bg-success";
+
+        }
+    }
+    int i = 0;
+}
+
+<div class="card card-outline card-success">
+    <div class="card-header">
+        <h3 class="card-title">Tiến độ thực hiện kế hoạch thu thập</h3>
+    </div>
+    <div class="card-body">
+        <div class="progress-groups" style="height: calc(200px + 1rem); padding-right: 1rem;">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <div class="progress-group">
+                        <span class="progress-text">@item.PlanName</span>
+                        <span class="float-right"><b>@item.TotalProfileApproved</b>/@item.TotalProfile</span>
+                        <div class="progress">
+                            <div class="progress-bar @RenderColor(i)" role="progressbar" aria-valuenow="@item.TotalProfileApproved" aria-valuemin="0" aria-valuemax="@item.TotalProfile" style="width: calc(@item.TotalProfileApproved / @item.TotalProfile * 100%);">
+                                <span class="sr-only">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                }
+
+            }
+        </div>
+    </div>
+    <div class="card-footer"></div>
+</div>

@@ -1,0 +1,132 @@
+﻿@using ESD.Domain.Enums;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+@model ESD.Application.Models.ViewModels.VMAdminUser
+@{
+    var agencies = (ViewBag.ListOrgan as List<SelectListItem>) ?? new List<SelectListItem>();
+    var Agencys = (ViewBag.ListAgency as List<SelectListItem>) ?? new List<SelectListItem>();
+    var positions = (ViewBag.ListPosition as List<SelectListItem>) ?? new List<SelectListItem>();
+    var groupPers = (ViewBag.ListGroupPer as List<SelectListItem>) ?? new List<SelectListItem>();
+    var groups = (ViewBag.ListTeam as List<SelectListItem>) ?? new List<SelectListItem>();
+}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+    <form id="planCreateModal" class="modal-content" role="form">
+        <div class="modal-header d-flex align-items-center">
+            <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planDetailModalTitle">Xem chi tiết người dùng</h5>
+            <span class="w-h-32 icon-exit-white ml-auto" data-dismiss="modal" aria-hidden="true"></span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group row">
+                        <label asp-for="AccountName" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="AccountName" class="form-control" placeholder="Tên tài khoản" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Name" class="form-control" placeholder="Họ và tên" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="IdentityNumber" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="IdentityNumber" class="form-control" placeholder="Số CMND/Hộ chiếu" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Email" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Email" class="form-control" placeholder="Email" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Phone" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Phone" class="form-control" placeholder="Điện thoại" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Address" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Address" class="form-control" placeholder="Địa chỉ" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label asp-for="IDOrgan" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDOrgan", "IDOrgan", "--Chọn cơ quan--", agencies, new
+                            {
+                                @class = "select2 w-100",
+                                @data_placeholder = "--Chọn cơ quan--",
+                                @disabled = true
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="IDPosition" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDPosition", "IDPosition", "--Chọn chức vụ--", positions, new
+                            {
+                                @class = "select2 w-100",
+                                @data_placeholder = "--Chọn chức vụ--",
+                                @disabled = true
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Status" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">                            
+                            <div class="input-group col-form-label justify-content-between align-content-center">
+                                @if (Model.Status == (int)EnumCommon.Status.Active)
+                                {
+                                    <div class="custom-control custom-radio form-check-inline">
+                                        <input asp-for="Status" class="custom-control-input" type="radio" id="ActiveStatus" value="@((int)EnumCommon.Status.Active)" name="Status" checked disabled />
+                                        <label for="ActiveStatus" class="custom-control-label">@StringUltils.GetEnumDescription(EnumCommon.Status.Active)</label>
+                                    </div>
+                                    <div class="custom-control custom-radio form-check-inline">
+                                        <input asp-for="Status" class="custom-control-input" type="radio" id="InActiveStatus" value="@((int)EnumCommon.Status.InActive)" name="Status" disabled />
+                                        <label for="InActiveStatus" class="custom-control-label">@StringUltils.GetEnumDescription(EnumCommon.Status.InActive)</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="custom-control custom-radio form-check-inline">
+                                        <input asp-for="Status" class="custom-control-input" type="radio" id="ActiveStatus" value="@((int)EnumCommon.Status.Active)" name="Status" disabled />
+                                        <label for="ActiveStatus" class="custom-control-label">@StringUltils.GetEnumDescription(EnumCommon.Status.Active)</label>
+                                    </div>
+                                    <div class="custom-control custom-radio form-check-inline">
+                                        <input asp-for="Status" class="custom-control-input" type="radio" id="InActiveStatus" value="@((int)EnumCommon.Status.InActive)" name="Status" checked disabled />
+                                        <label for="InActiveStatus" class="custom-control-label">@StringUltils.GetEnumDescription(EnumCommon.Status.InActive)</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn bg-color-primary d-flex align-items-center quickUpdate" href="/SystemManagement/EditUserPopup?id=@Model.ID" data-target="#planCreateModal">
+                <span class="text-white font-s-14">Chỉnh sửa</span>
+            </a>
+            <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+            </button>
+        </div>
+    </form>
+</div>

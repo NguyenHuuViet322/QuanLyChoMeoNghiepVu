@@ -1,0 +1,157 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>DocumentTitle</title>
+
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				background-color: #fafafa;
+				font: 12pt 'Tahoma';
+			}
+
+			* {
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+			}
+
+			.page {
+				width: 24cm;
+				height: 30cm;
+				padding: 1cm;
+				margin: 1cm auto;
+				<!-- border: 1px #d3d3d3 solid; -->
+				background: white;
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+			}
+			.header {
+				display: flex;
+				margin: 0 -10px;
+			}
+			.header > * {
+                padding: 0 10px;
+				-ms-flex-preferred-size: 0;
+				flex-basis: 0;
+				-ms-flex-positive: 1;
+                flex-grow: 1;
+                text-align: center;
+			}
+			.header--left {
+			vertical-align: top;
+				width: 49%;
+				display: inline-block;
+			}
+			.header--right {
+				width: 49%;
+				display: inline-block;
+            }
+			.footer {
+				display: flex;
+				margin: 0 -10px;
+			}
+			.footer > * {
+                padding: 0 10px;
+				-ms-flex-preferred-size: 0;
+				flex-basis: 0;
+				-ms-flex-positive: 1;
+                flex-grow: 1;
+                text-align: center;
+			}
+			.footer--left {
+				vertical-align: top;
+				width: 48%;
+				display: inline-block;
+			}
+			.footer--right {
+				width: 48%;
+				display: inline-block;
+            }
+            p {
+                margin-top: 0 ;
+                margin-bottom: 10px;
+            }
+			@page {
+				size: A4;
+				margin: 0;
+			}
+			@media print {
+				html,
+				body {
+					width: 210mm;
+					height: 297mm;
+				}
+				.page {
+					margin: 0;
+					border: 0;
+					box-shadow: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="book">
+			<div class="page">
+				<div class="header">
+					<div class="header--left">
+                        <p>Tên CQ, TC CHỦ QUẢN:</p>
+                        <p>Department</p>
+                    </div>
+					<div class="header--right">
+                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                        <p>Độc lập - Tự do - Hạnh phúc</p>
+                        <p><i>CreateDate</i></p>
+                    </div>
+                </div>
+				<p></p>
+				<p></p>
+				<p></p>
+				<p></p>
+                <p style="text-align:center"><b style="font-size:18px">BIÊN BẢN</b></p>
+				<p style="text-align:center"><b style="font-size:15px">Giao nhận hồ sơ, tài liệu</b></p>
+				<p style="text-align:center"><b>-------------------------------</b></p>
+				<p></p>
+				<p></p>
+				<p>Căn cứ Nghị định số 30/2020/NĐ-CP số 30/2020/NĐ-CP ngày 05 tháng 3 năm 2020 của Chính phủ về công tác văn thư;</p>
+				<p>Căn cứ PlanName</p>
+				<p>Chúng tôi gồm:</p>
+				<p>BÊN GIAO:</p>
+				<p>Ông (bà): NameOfSendUser</p>
+				<p>Chức vụ công tác: RoleOfSendUser</p>
+				<p>BÊN NHẬN:</p>
+				<p>Ông (bà): NameOfReceiveUser</p>
+				<p>Chức vụ công tác: RoleOfReceiveUser</p>
+				<p>Thống nhất lập biên bản giao nhận tài liệu với những nội dung như sau:</p>
+				<p>1. Tên khối tài liệu giao nộp: DocumentName</p>
+				<p>2. Thời gian của hồ sơ, tài liệu: DocumentTime</p>
+				<p>3. Số lượng tài liệu:</p>
+				<p>a) Đối với hồ sơ, tài liệu giấy</p>
+				<p>- Tổng số hộp (cặp):.....................................................................................................................</p>
+				<p>- Tổng số hồ sơ (đơn vị bảo quản): ...................................... Quy ra mét giá:..........................mét.</p>
+				<p>b) Đối với hồ sơ, tài liệu điện tử</p>
+				<p>- Tổng số hồ sơ: TotalDocument</p>
+				<p>- Tổng số tệp tin trong hồ sơ: TotalFile</p>
+				<p></p>
+				<div class="footer row">
+					<div class="footer--left">
+                        <p><b>ĐẠI DIỆN BÊN GIAO</b></p>
+                        <p><i>(Ký và ghi rõ họ và tên)</i></p>
+						<p style="color:white">-</p>
+						<p style="color:white">-</p>
+						<p style="color:white">-</p>
+						<p>SenderName</p>
+                    </div>
+					<div class="footer--right">
+                        <p><b>ĐẠI DIỆN BÊN NHẬN</b></p>
+                        <p><i>(Ký và ghi rõ họ và tên)</i></p>
+						<p style="color:white">-</p>
+						<p style="color:white">-</p>
+						<p style="color:white">-</p>
+                        <p>ReceiverName</p>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</body>
+</html>

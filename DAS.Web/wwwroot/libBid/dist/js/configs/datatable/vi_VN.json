@@ -1,0 +1,23 @@
+{
+    "sEmptyTable": "Không có bản ghi nào",
+    "sInfo": "Có tổng cộng <span class=\"text-bold text-primary\">_TOTAL_</span> bản ghi",
+    "sInfoEmpty": "Không có bản ghi nào",
+    "sInfoFiltered": "(đã lọc trong tổng số _MAX_ bản ghi)",
+    "sInfoPostFix": "",
+    "sInfoThousands": ".",
+    "sLengthMenu": "_MENU_",
+    "sLoadingRecords": "Đang tải...",
+    "sProcessing": "Đang xử lý...",
+    "sSearch": "Tìm kiếm:",
+    "sZeroRecords": "Không có bản ghi phù hợp.",
+    "oPaginate": {
+        "sFirst": "<i class=\"fas fa-angle-double-left\"></i>",
+        "sPrevious": "<i class=\"fas fa-angle-left\"></i>",
+        "sNext": "<i class=\"fas fa-angle-right\"></i>",
+        "sLast": "<i class=\"fas fa-angle-double-right\"></i>"
+    },
+    "oAria": {
+        "sSortAscending": ": sắp xếp tăng dần",
+        "sSortDescending": ": sắp xếp giảm dần"
+    }
+}

@@ -1,0 +1,444 @@
+@using ESD.Application.Enums.DasKTNN;
+@using ESD.Application.Models.CustomModels;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateDongVatNghiepVu
+@{
+    var menuName = Model.IsKhaiBaoMat ? "động vật chết, bị loại" : "động vật nghiệp vụ";
+
+    var title = (Model.ID > 0 ? "Cập nhật" : "Thêm mới") + $" {menuName}";
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+    var url = Model.ID > 0 ? "/DongVatNghiepVu/Change" : "/DongVatNghiepVu/Save";
+
+    var isUpdate = Model.ID > 0;
+
+    var lstGioiTinh = Utils.EnumToDic<GioiTinhDongVat>().Select(n => new SelectListItem
+            {
+                Text = n.Value.ToString(),
+                Value = n.Key.ToString(),
+                Selected = n.Key == Model.GioiTinh
+            }).ToList();
+
+    var lstPhanLoaiDongVat = Utils.EnumToDic<PhanLoaiDongVat>().Select(n => new SelectListItem
+            {
+                Text = n.Value.ToString(),
+                Value = n.Key.ToString(),
+                Selected = n.Key == Model.PhanLoaiDongVat
+            }).ToList();
+
+    var lstTrongLuongToiDa = Utils.EnumToDic<TrongLuongToiDa>().Select(n => new SelectListItem
+            {
+                Text = n.Value.ToString(),
+                Value = n.Key.ToString(),
+                Selected = n.Key == Model.TrongLuongToiDa
+            }).ToList();
+
+    var lstLoaiChoNghiepVu = Model.LoaiChoNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDLoaiChoNghiepVu
+            }).ToList();
+
+    var lstNghiepVuDongVat = Model.NghiepVuDongVats.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDNghiepVuDongVat
+            }).ToList();
+    var lstThongTinCanBo = Model.ThongTinCanBos.Select(n => new SelectListItem
+            {
+                Text = n.TenCanBo.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDThongTinCanBo
+            }).ToList();
+
+    var lstDvNghiepVu = Model.DonViNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDDonViNghiepVu
+            }).ToList();
+
+    var lstDvQl = Model.DonViNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDDonViQuanLy
+            }).ToList();
+
+    var lstChoBo = Model.DongVats.Where(n => n.GioiTinh == (int)GioiTinhDongVat.Duc && n.ID != Model.ID).Select(n => new SelectListItem
+            {
+                Text = n.Code.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDChoBo
+            }).ToList();
+
+    var lstChoMe = Model.DongVats.Where(n => n.GioiTinh == (int)GioiTinhDongVat.Cai && n.ID != Model.ID).Select(n => new SelectListItem
+            {
+                Text = n.Code.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDChoMe
+            }).ToList();
+
+    var lstDongVat = Model.DongVats.Select(n => new SelectListItem
+            {
+                Text = n.Code.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.ID
+            }).ToList();
+
+    var lstPhanLoai = Utils.EnumToDic<PhanLoaiDVNV>().Select(n => new SelectListItem
+            {
+                Text = n.Value.ToString(),
+                Value = n.Key.ToString(),
+                Selected = n.Key == Model.PhanLoai
+            }).ToList();
+
+    var anhs = Model.DinhKems.Where(n => n.PhanLoai == (int)PhanLoaiDinhKem.HinhAnh);
+    var files = Model.DinhKems.Where(n => n.PhanLoai == (int)PhanLoaiDinhKem.File);
+}
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUDongVatNghiepVu">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class=" row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="Code"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upID", "ID", "--Chọn mã định danh--", lstDongVat,
+                            new {
+                            @class = "select2 w-100 onChangeDongVat",
+                            @data_url=$"/DongVatNghiepVu/Edit{(Model.IsKhaiBaoMat?$"?Type={(int)MenuDVNV.Loai}":"")}" ,
+                            @data_placeholder = "--Chọn mã định danh--",
+                            @data_target="#mdIUDongVatNghiepVu" ,
+                            @data_container = "body",
+                            @data_width = "150px",
+                            }, "Mã định danh", true, Model.IsUpdateKhaiBaoMat)
+
+                            <span asp-validation-for="Code" class="text-danger"></span>
+
+                            <input asp-for="Code" hidden class="form-control" />
+                            <input asp-for="IDChoBo" hidden class="form-control" />
+                            <input asp-for="IDChoMe" hidden class="form-control" />
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="Ten"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Ten" class="form-control" readonly />
+                            <span asp-validation-for="Ten" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="GioiTinh"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upGioiTinh", "GioiTinh", "--Chọn giới tính--", lstGioiTinh,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn giới tính--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            }, "Giới tính", false, true)
+                            <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="IDLoaiChoNghiepVu"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upIDLoaiChoNghiepVu", "IDLoaiChoNghiepVu", "--Chọn Loại/Giống--", lstLoaiChoNghiepVu,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn Loại/Giống--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            },"Loại/Giống",false, true)
+                            <span asp-validation-for="IDLoaiChoNghiepVu" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class=" row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="CanNang"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="CanNang" class="form-control" readonly />
+                            <span asp-validation-for="CanNang" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="SoQDBS"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="SoQDBS" class="form-control" readonly />
+                            <span asp-validation-for="SoQDBS" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" row">
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="PhanLoaiDongVat"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upPhanLoaiDongVat", "PhanLoaiDongVat", "--Chọn phân loại--", lstPhanLoaiDongVat,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn phân loại--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            }, defaultVal:" ", isReadonly:true)
+                            <span asp-validation-for="PhanLoaiDongVat" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" row">
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="NgaySinh"></label>
+                        <div class="col-sm-12">
+                            <div class="input-group" id="dpdpNgaySinh" data-target-input="nearest">
+                                @Html.CusTextBoxDate("", "StrNgaySinh",  Utils.DateToString(Model.NgaySinh), "Ngày khai sinh","Ngày khai sinh", false,
+                                new { data_target = "#dpdpNgaySinh" , data_toggle = "datetimepicker" }, 0,true)
+                                <div class="input-group-prepend" data-target="#dpdpNgaySinh" data-toggle="datetimepicker">
+                                    <div class="input-group-text">
+                                        <span class="icon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="SoCNTotNghiep"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="SoCNTotNghiep" class="form-control" readonly />
+                            <span asp-validation-for="SoCNTotNghiep" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" row">
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="IDNghiepVuDongVat"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upIDNghiepVuDongVat", "IDNghiepVuDongVat", "--Chọn chuyên khoa--", lstNghiepVuDongVat,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn chuyên khoa--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            },"Chuyên khoa", false, true)
+                            <span asp-validation-for="IDNghiepVuDongVat" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="IDDonViNghiepVu"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upIDDonViNghiepVu", "IDDonViNghiepVu", "--Chọn đơn vị huấn luyện--", lstDvNghiepVu,
+                            new {
+                            @class = "select2 w-100 onChangeDV",
+                            @data_placeholder = "--Chọn đơn vị huấn luyện--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            @OnSelectedIndexChanged="1"  ,
+                            @data_target="#upIDThongTinCanBo",
+                            @data_url="/DongVatNghiepVu/GetCanBoByIDDonVi",
+                            @data_default_text="--Chọn cán bộ--"
+                            },"Đơn vị huấn luyện", false, true)
+                            <span asp-validation-for="IDDonViNghiepVu" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class=" row">
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="IDThongTinCanBo"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upIDThongTinCanBo", "IDThongTinCanBo", "--Chọn Thông tin cán bộ--", lstThongTinCanBo,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn Thông tin cán bộ--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            },"Thông tin cán bộ", false, true)
+                            <span asp-validation-for="IDThongTinCanBo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-12 col-form-label" asp-for="IDDonViQuanLy"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upIDDonViQuanLy", "IDDonViQuanLy", "--Chọn đơn vị quản lý--", lstDvQl,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn đơn vị quản lý--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            },"Đơn vị quản lý", false, true)
+                            <span asp-validation-for="IDDonViQuanLy" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @await Html.PartialAsync("Components/Uploader/ImageUpload", new InputUploadModel{
+                    Title="Đính kèm hình ảnh",
+                    Name= "Img",
+                    BtnClass="btn btn-info ml-7",
+                    Multiple = true,
+                    ReadOnly= true,
+                    Files = anhs.Select(n=>new InputUploadFileModel{
+                    Name = n.TenFile,
+                    Path = n.PathFile,
+                    })
+                    })
+                </div>
+
+                <div class="row">
+                    @await Html.PartialAsync("Components/Uploader/FileUpload", new InputUploadModel{
+                    Title="Đính kèm file",
+                    Name= "File",
+                    BtnClass="btn btn-info ml-7",
+                    Multiple = true,
+                    ReadOnly= true,
+                    Files = files.Select(n=>new InputUploadFileModel{
+                    Name = n.TenFile,
+                    Path = n.PathFile
+                    })
+                    })
+                </div>
+                <div class=" row">
+                    <div class="col-sm-12 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="GhiChu"></label>
+                        <div class="col-sm-12">
+                            <textarea asp-for="GhiChu" class="form-control" rows="5" readonly>@Model.GhiChu</textarea>
+                            <span asp-validation-for="GhiChu" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="KhaiBaoDate"></label>
+                        <div class="col-sm-12">
+                            <div class="input-group  date_input" id="dpdpKhaiBaoDate" data-target-input="nearest">
+                                @Html.CusTextBoxDate("", "StrKhaiBaoDate",  Utils.DateToString(Model.KhaiBaoDate), "Ngày khai báo","Ngày khai báo", false,
+                                new { data_target = "#dpdpKhaiBaoDate" , data_toggle = "datetimepicker" })
+                                <div class="input-group-prepend" data-target="#dpdpKhaiBaoDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text">
+                                        <span class="icon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="KhaiBaoDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                    </div>
+                </div>
+                 <div class=" row">
+                    <div class="col-sm-5 form-group">
+                        <label class="col-sm-12 col-form-label required" asp-for="PhanLoai"></label>
+                        <div class="col-sm-12 form-group">
+
+                            @Html.CusDropdownListSelect2("upPhanLoai", "PhanLoai", null, lstPhanLoai,
+                            new {
+                            @class = "select2 w-100 onChangeDdlPhanLoai",
+                            @data_placeholder = "--Tình trạng--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            @data_hidden_value = (int)PhanLoaiDVNV.BinhThuong,
+                            @data_target="#divKhaiBaoMat"
+                            })
+
+
+                            @*<div class="custom-control custom-checkbox mb-2">
+                            <input type="checkbox" class="checkboxes custom-control-input onChangeCbPhanLoai" data-target="#divKhaiBaoMat"
+                            name="IsDaChet" id="cbDaChet" data-id="1" value="1" @(Model.PhanLoai==(int)PhanLoaiDVNV.Mat ? "checked" : string.Empty)>
+                            <label class="custom-control-label" for="cbDaChet">Chết</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="checkboxes custom-control-input onChangeCbPhanLoai" data-target="#divKhaiBaoMat"
+                            name="IsThaiLoai" id="cbTaiLoai" data-id="1" value="1" @(Model.PhanLoai==(int)PhanLoaiDVNV.Loai ? "checked" : string.Empty)>
+                            <label class="custom-control-label" for="cbTaiLoai">Thải loại</label>
+                            </div>*@
+                        </div>
+                    </div>
+
+                </div>
+                <div id="divKhaiBaoMat" class="@(Model.PhanLoai==(int)PhanLoaiDVNV.BinhThuong ?"hidden":"")">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label class="col-sm-12 col-form-label required">Ngày động vật chết, thải loại</label>
+                            <div class="col-sm-12">
+                                <div class="input-group  date_input" id="dpdpKhaiBaoDate" data-target-input="nearest">
+                                    @Html.CusTextBoxDate("", "StrKhaiBaoDate",  Utils.DateToString(Model.KhaiBaoDate), "Ngày khai báo","Ngày khai báo", false,
+                                    new { data_target = "#dpdpKhaiBaoDate" , data_toggle = "datetimepicker" })
+                                    <div class="input-group-prepend" data-target="#dpdpKhaiBaoDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <span class="icon-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="KhaiBaoDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="col-sm-12 col-form-label required" asp-for="SoQDThaiLoai"></label>
+                            <div class="col-sm-12">
+                                <input asp-for="SoQDThaiLoai" class="form-control" />
+                                <span asp-validation-for="SoQDThaiLoai" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <label class="col-sm-12 col-form-label" asp-for="LyDo"></label>
+                            <div class="col-sm-12">
+                                <textarea asp-for="LyDo" class="form-control" rows="5">@Model.LyDo</textarea>
+                                <span asp-validation-for="LyDo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="IsNew" value="@(Model.IsUpdateKhaiBaoMat? "0":"1")" />
+                <input asp-for="LyDoDieuChuyen" hidden class="form-control" />
+                <input type="hidden" value="@((int)MenuDVNV.Loai)" name="Type" />
+
+                <button data-url="@url" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                    <span class="text-white font-s-14">Lưu thông tin</span>
+                </button>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

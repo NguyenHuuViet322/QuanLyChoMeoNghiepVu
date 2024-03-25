@@ -1,0 +1,21 @@
+﻿@using ESD.Utility;
+@using ESD.Domain.Enums;
+@using ESD.Application.Models.ViewModels;
+@model List<SelectListItem>
+<select class="select2 w-100" multiple title="Cơ quan" data-placeholder="Cơ quan" id="Organ" name="Agencies">
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            if (item.Selected == true)
+            {
+                <option selected value="@item.Value">@item.Text</option>
+            }
+            else
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        }
+    }
+</select>
+<script type="text/javascript"></script>

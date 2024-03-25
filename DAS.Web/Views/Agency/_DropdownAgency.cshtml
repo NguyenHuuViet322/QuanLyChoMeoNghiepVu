@@ -1,0 +1,6 @@
+﻿@using ESD.Utility.Helper;
+@{
+    var agencys = (ViewBag.ListAgency as List<SelectListItem>) ?? new List<SelectListItem>();
+    string name = ViewBag.IdName.ToString();
+}
+@Html.CusDropdownListSelect2(name, name, "--Chọn đơn vị--", agencys, new { data_width = "100%", data_placeholder = "--Chọn đơn vị--" })

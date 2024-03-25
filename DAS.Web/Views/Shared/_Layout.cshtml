@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @if (ViewData["Title"] != null)
+    {
+        <title>@ViewData["Title"]</title>
+    }
+    else
+    {
+        <title>AdminLTE 3 | Dashboard</title>
+    }
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/fontawesome-free/css/all.min.css" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/lib/adminLte/dist/css/adminlte.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Google Font: Roboto -->
+    <link rel="stylesheet" href="~/lib/adminLte/dist/css/font.css" />
+    <link rel="stylesheet" href="~/css/loginBid.css" asp-append-version="true" />
+    <!-- Load Common lib js -->
+    <script src="~/lib/adminLte/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/lib/adminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="login-page container-fluid">
+    <div class="row">
+        @RenderBody()
+    </div>
+    
+    <!-- /.login-box -->
+    <script src="~/lib/adminLte/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/adminLte/dist/js/adminlte.min.js" asp-append-version="true"></script>
+    <script>
+        function togglePassword(e) {
+            txtBox = $('#password')
+            icon = $('#toggle_pw_icon');
+            if (icon.hasClass("fa fa-eye-slash")) {
+                txtBox.attr("Type", "Text");
+                icon.removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            }
+            else {
+                txtBox.attr("Type", "Password");
+                icon.removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+            }
+        }
+
+        var mainBid = {
+            AdapterMobile: function (isMobile) {
+                $('#IsMobile').val(isMobile);
+            },
+            SetStgMobile: function (checkMedia) {
+                localStorage.setItem('isMobile', checkMedia);
+                return localStorage.getItem('isMobile');
+            }
+        }
+
+        jQuery(function () {
+            // Set localStorage màn hình mobile
+            const wMedia = $(window).width();
+            let checkMedia = wMedia < 768 || wMedia === 812;
+            let isMobile = localStorage.getItem('isMobile');
+            if (isMobile === null) {
+                localStorage.setItem('isMobile', checkMedia);
+                isMobile = mainBid.SetStgMobile(checkMedia);
+            }
+
+            mainBid.AdapterMobile(isMobile);
+            $(window).resize(function () {
+                checkMedia = $(window).width() < 768 || $(window).width() === 812;
+                localStorage.setItem('isMobile', checkMedia);
+                isMobile = mainBid.SetStgMobile(checkMedia);
+                mainBid.AdapterMobile(isMobile);
+
+                let checkDpi = window.devicePixelRatio;
+                if (checkDpi != 1) {
+                    $('.login-info .register-title,  .register-info .register-title').css("margin-top", "-30%");
+                } else {
+                    $(' .login-info .register-title,  .register-info .register-title').css("margin-top", "-60%");
+                }
+            });
+
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

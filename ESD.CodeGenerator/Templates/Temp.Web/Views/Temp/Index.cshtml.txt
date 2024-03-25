@@ -1,0 +1,79 @@
+﻿@{
+    var title = "{Title}";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/{Table}", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Danh sách {title}", "{Title}" };
+    ViewData["PageHeaderContent"] = "{Table}";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using Temp.Application.Models.ViewModels{.Group}
+@using Temp.Domain.Models{.Group}
+@using Temp.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndex{Table}
+@{
+    var searchParam = Model.SearchParam;
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frm{Table}" role="form" method="post" class="quickSearch" data-target="#div{Table}s">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+                        
+                         <button class="btn btn-sm ml-5" type="button" id="dataFilter_Dropdown" title="Tìm kiếm nâng cao" style="background-color: #eef2f5; border-radius: 6px;">
+                            <i class="fa fa-filter" style="color: #5e6278"></i>
+                        </button>
+
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/{Table}/Deletes" tabindex="0" data-comfirm-message="Xoá nhiều {title}: Bạn có muốn xoá {n} {title} đã chọn?" title="Xóa">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate ml-5 text-success" tabindex="0" href="/{Table}/Create" data-target="#mdIU{Table}" aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                         <a class="btn-icon-search quickExport ml-5 text-success" tabindex="0" href="#" action="/{Table}/Export" data-target="#frm{Table}" aria-controls="data_table" title="Xuất file">
+                            <i class="bid-icons bid-icon-csv"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown-menu dataFilter_Dropdown_target">
+                    <div class="dropdown-menu-content">
+                        <a href="#" title="Đóng" class="dataFilter_Dropdown_close"><i class="fa fa-times-circle"></i></a>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                 <div class="col-md-3 DropdownFilter_item">
+                                    @Html.CustTexBox("srKeyword", "Keyword", @searchParam.Keyword, "Từ khóa cần tìm kiếm", "Từ khóa", false, new { }, false)
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="div{Table}s">
+                    @await Html.PartialAsync("Index_{Table}s", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIU{Table}" aria-labelledby="{Table}ModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/{Group}/{Table}Controller.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        Init{Table}();
+    </script>
+
+}
+
+

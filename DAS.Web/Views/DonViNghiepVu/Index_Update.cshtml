@@ -1,0 +1,236 @@
+@using ESD.Application.Enums.DasKTNN;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateDonViNghiepVu
+@{
+    var title = $"{(Model.ID > 0 ? "Cập nhật" : "Thêm mới")} {Model.TenPhanLoai.ToLower()}";
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+    var url = Model.ID > 0 ? "/DonViNghiepVu/Change" : "/DonViNghiepVu/Save";
+
+    var isUpdate = Model.ID > 0;
+    var lstPhanLoai = Utils.EnumToDic<PhanLoaiDonVi>().Select(n => new SelectListItem
+            {
+                Text = n.Value.ToString(),
+                Value = n.Key.ToString(),
+                Selected = n.Key == Model.PhanLoaiDonVi
+            }).ToList();
+
+}
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUDonViNghiepVu">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class=" row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="Code"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Code" class="form-control" />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label required" asp-for="Ten"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Ten" class="form-control" />
+                            <span asp-validation-for="Ten" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="DiaChi"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="DiaChi" class="form-control" />
+                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="PhanLoaiDonVi"></label>
+                        <div class="col-sm-12">
+                            @Html.CusDropdownListSelect2("upPhanLoaiDonVi", "PhanLoaiDonVi", null, lstPhanLoai,
+                            new {
+                            @class = "select2 w-100",
+                            @data_placeholder = "--Chọn phân loại--",
+                            @data_container = "body",
+                            @data_width = "150px",
+                            }, "Phân loại", true)
+                            <span asp-validation-for="PhanLoaiDonVi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="SoPhongLuuTruMuiHoi"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="SoPhongLuuTruMuiHoi" class="form-control" />
+                            <span asp-validation-for="SoPhongLuuTruMuiHoi" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label" asp-for="SoPhongXuLyHoi"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="SoPhongXuLyHoi" class="form-control" />
+                            <span asp-validation-for="SoPhongXuLyHoi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="CauTap"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="CauTap" class="form-control"  />
+                            <span asp-validation-for="CauTap" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="SanTap"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="SanTap" class="form-control"  />
+                            <span asp-validation-for="SanTap" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="NhaGb"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="NhaGb" class="form-control"  />
+                            <span asp-validation-for="NhaGb" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="PhuongTien"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="PhuongTien" class="form-control"  />
+                            <span asp-validation-for="PhuongTien" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="LanhDaoDonVi"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="LanhDaoDonVi" class="form-control"  />
+                            <span asp-validation-for="LanhDaoDonVi" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="Sdt_LanhDaoDonVi"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Sdt_LanhDaoDonVi" class="form-control"  />
+                            <span asp-validation-for="Sdt_LanhDaoDonVi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="LanhDaoPhuTrachTT"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="LanhDaoPhuTrachTT" class="form-control"  />
+                            <span asp-validation-for="LanhDaoPhuTrachTT" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="Sdt_LanhDaoPhuTrachTT"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Sdt_LanhDaoPhuTrachTT" class="form-control"  />
+                            <span asp-validation-for="Sdt_LanhDaoPhuTrachTT" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="DoiTruong"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="DoiTruong" class="form-control"  />
+                            <span asp-validation-for="DoiTruong" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="Sdt_DoiTruong"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Sdt_DoiTruong" class="form-control"  />
+                            <span asp-validation-for="Sdt_DoiTruong" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="DoiPho"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="DoiPho" class="form-control"  />
+                            <span asp-validation-for="DoiPho" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="Sdt_DoiPho"></label>
+                        <div class="col-sm-12">
+                            <input asp-for="Sdt_DoiPho" class="form-control"  />
+                            <span asp-validation-for="Sdt_DoiPho" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <div>
+                            <label class="col-sm-12 col-form-label" asp-for="NamThanhLap"></label>
+                            <div class="col-sm-12">
+                                <input asp-for="NamThanhLap" class="form-control" min="1900" maxlength="4" />
+                                <span asp-validation-for="NamThanhLap" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="col-sm-12 col-form-label" asp-for="DonViTrucThuoc"></label>
+                            <div class="col-sm-12">
+                                <input asp-for="DonViTrucThuoc" class="form-control" min="1900"/>
+                                <span asp-validation-for="DonViTrucThuoc" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label class="col-sm-12 col-form-label " asp-for="ThongTinKhac"></label>
+                        <div class="col-sm-12">
+                            <textarea asp-for="ThongTinKhac" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="ThongTinKhac" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:0px">
+                <button data-url="@url" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                    <span class="text-white font-s-14">Lưu</span>
+                </button>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <input type="hidden" value="1" name="IsConfig" />
+            </div>
+        </form>
+    </div>
+</div>

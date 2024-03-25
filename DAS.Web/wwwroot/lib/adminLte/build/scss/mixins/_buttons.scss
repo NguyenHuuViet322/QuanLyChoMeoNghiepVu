@@ -1,0 +1,20 @@
+
+@mixin button-hover-variant($color, $color-hover: color-yiq($color), $active-background: $color, $active-border: $color) {
+
+  //color: $color;
+  background-color: transparent;
+  //border-color: $color;
+
+  @include hover() {
+    
+    color: $color-hover;
+    background-color: rgba($color, 0.75);
+    border-color: $color;
+  }
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    color: $color-hover;
+    background-color: rgba($color, 0.75);
+    border-color: $color;
+  }
+}

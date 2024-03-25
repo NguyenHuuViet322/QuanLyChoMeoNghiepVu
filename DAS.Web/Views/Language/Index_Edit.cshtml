@@ -1,0 +1,60 @@
+﻿@model ESD.Application.Models.ViewModels.VMLanguage
+@{
+    Layout = "";
+    var text = Model.ID > 0 ? "Chỉnh sửa" : "Thêm mới";
+    var url = Model.ID > 0 ? "/Language/Update" : "/Language/Create";
+    var index = 0;
+}
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <form class="modal-content validateForm bv-form onUpdateInputState" role="form" asp-action="" id="frmLanguageEdit">
+        <div class="modal-header bg-success">
+            <h3 class="modal-title" id="planCreateModalTitle">@text ngôn ngữ </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group row">
+
+                <label class="col-sm-4 col-form-label input-required" asp-for="Code"></label>
+
+                <div class="col-sm-8">
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-4 col-form-label input-required" asp-for="Name"></label>
+
+                <div class="col-sm-8">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" asp-for="Description"></label>
+                <div class="col-sm-8">
+                    <textarea asp-for="Description" class="form-control" rows="5">@Model.Description</textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" asp-for="ID" />
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+            </button>
+            <button data-url="@url" class="btn btn-outline-primary quickSubmit"><i class="fas fa-fw fa-save"></i><span>Lưu</span></button>          
+        </div>
+    </form>
+</div>
+
+
+@*<script src="~/js/controller/LanguageController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitLanguage();
+    </script>*@

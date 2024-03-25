@@ -1,0 +1,39 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "id": "5421",
+      "SoDKKD": "102027219",
+      "TenNT": "CÔNG TY CỔ PHẦN KINH DOANH THƯƠNG MẠI VÀ SẢN XUẤT SEIKI",
+      "address": "Tổ 9, Thị trấn Bằng Lũng, huyện Chợ Đồn, tỉnh Bắc Kạn",
+      "price": "1.981.194.600"
+    },
+    {
+      "no": "2",
+      "id": "8422",
+      "SoDKKD": "105395771",
+      "TenNT": "CÔNG TY CỔ PHẦN CƠ ĐIỆN QUẢNG NINH",
+      "address": "Số 41 Phủ Doãn, Phường Hàng Trống, Quận Hoàn Kiếm, Thành phố Hà Nội, Việt Nam",
+      "price": "2.178.000.000"
+    },
+    {
+      "no": "3",
+      "id": "1562",
+      "SoDKKD": "106406666",
+      "TenNT": "Công ty Cổ phần kinh doanh thương mại và dịch vụ Hà Nội",
+      "address": "Tầng 5 Tòa Nhà Lạc Hồng Số 85 Lê Văn Lương, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội",
+      "price": "1.259.500.000"
+    },
+    {
+      "no": "4",
+      "id": "6224",
+      "SoDKKD": "5700642435",
+      "TenNT": "Công ty cổ phần đầu tư, khoáng sản và dịch vụ Vinacomin",
+      "address": "Số 1 Phan Đình Giót, Phường Phương Liệt, Quận Thanh Xuân, Thành Phố Hà Nội",
+      "price": "2.089.999.999"
+    }
+  ]
+}
+

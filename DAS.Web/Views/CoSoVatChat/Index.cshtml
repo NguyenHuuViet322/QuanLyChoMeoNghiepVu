@@ -1,0 +1,76 @@
+@{
+    var title = "Danh sách cơ sở vật chất";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/InputInfo", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Danh sách Cơ sở vật chất", "Cơ sở vật chất" };
+    ViewData["PageHeaderContent"] = "InputInfo";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using ESD.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndexCoSoVatChat
+@{
+    var searchParam = Model.SearchParam;
+    var lstDonViNghiepVu = Model.DonViNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten,
+                Value = n.ID.ToString(),
+                Selected = n.ID == searchParam.IDDoiTuongSuDung
+            }).ToList();
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmCoSoVatChat" role="form" method="post" class="quickSearch" data-target="#divCoSoVatChats">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+                        
+                        <div class="form-group w-200 pr-2">
+                            @Html.CusDropdownListSelect2("", "IDDoiTuongSuDung", "--Chọn đối tượng sử dụng--" ,lstDonViNghiepVu, new {
+                                @class = "w-200 pr-2", @data_placeholder = "--Chọn đối tượng sử dụng--"
+                            })
+                        </div>
+
+                        <div class="form-group w-200 pr-2">
+                            @Html.CustTexBox("srKeyword", "Keyword", @searchParam.Keyword, "", "Mã/Tên CSVC", false, new { }, false)
+                        </div>
+
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/CoSoVatChat/Deletes" tabindex="0" data-comfirm-message="Xoá nhiều danh mục cơ sở vật chất:Bạn có muốn xoá {n} danh mục cơ sở vật chất đã chọn?" title="Xóa">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate ml-5 text-success" tabindex="0" href="/CoSoVatChat/Create" data-target="#mdIUCoSoVatChat" aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divCoSoVatChats">
+                    @await Html.PartialAsync("Index_CoSoVatChats", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUCoSoVatChat" aria-labelledby="CoSoVatChatModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/CoSoVatChatController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitCoSoVatChat();
+    </script>
+
+}
+
+

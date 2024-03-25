@@ -1,0 +1,15 @@
+﻿using Temp.Domain.Interfaces{.Group};
+using Temp.Domain.Models{.Group};
+using Temp.Infrastructure.Contexts;
+
+namespace Temp.Infrastructure.Repositories{.Group}
+{
+    public class {Table}Repository : {Group}Repository<{Table}>, I{Table}Repository
+    {
+        public {Table}Repository({Context} repositoryContext)
+            : base(repositoryContext)
+        {
+
+        }
+    }
+}

@@ -1,0 +1,29 @@
+﻿@using ESD.Infrastructure.ContextAccessors;
+@using ESD.Application.Models.ViewModels;
+@using ESD.Utility;
+@using ESD.Domain.Enums;
+@using ESD.Utility.Helper;
+@inject IUserPrincipalService _userPrincipalService
+@model ESD.Application.Models.ViewModels.PaginatedList<VMNotification>
+@{
+    ViewData["Title"] = "Quản lý thông báo";
+    ViewData["PageHeaderContent"] = "Notifications";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách thông báo</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" data-target="#ContentAreaTable" id="frmUser" asp-action="SearchNotificationPaging" class="quickSearch">
+                    <input type="hidden" name="UserId" value="@_userPrincipalService.UserId" />
+                </form>
+                <div id="ContentAreaTable">
+                    @Html.Partial("_ListNotification", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

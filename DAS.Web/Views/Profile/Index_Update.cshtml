@@ -1,0 +1,284 @@
+﻿@using ESD.Utility.Helper;
+@using ESD.Utility;
+@using ESD.Application.Enums;
+@model ESD.Application.Models.ViewModels.VMUpdateProfile
+@{
+    var text = Model.ID > 0 ? "Chỉnh sửa" : "Thêm mới";
+    var url = Model.ID > 0 ? "/Profile/Edit" : "/Profile/Create";
+
+    var arrLanguge = Utils.Deserialize<List<string>>(Model.Language);
+
+    var lstStorage = Model.DictStorage.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.IDStorage
+    }).ToList();
+    var lstBox = Model.DictBox.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.IDCodeBox
+    }).ToList();
+    var lstExpiryDate = Model.DictExpiryDate.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.IDExpiryDate
+    }).ToList();
+    var lstLangugage = Model.DictLangugage.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = arrLanguge.IsNotEmpty() && arrLanguge.Contains(n.Key.ToString())
+    }).ToList();
+
+    var lstProfileTemplate = Model.DictProfileTemplate.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.IDProfileTemplate
+    }).ToList();
+    var lstProfileList = Model.DictProfileList.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.IDProfileList
+    }).ToList();
+
+    var lstSecurityLevel = Model.DictSecurityLevel.Select(n => new SelectListItem
+    {
+        Text = n.Value,
+        Value = n.Key.ToString(),
+        Selected = n.Key == Model.IDSecurityLevel
+    }).ToList();
+
+}
+
+<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <form class="modal-content bv-form onUpdateInputState" role="form" asp-action="" id="frmGroupPermUpdate">
+        <div class="modal-header bg-success">
+            <h3 class="modal-title" id="planCreateModalTitle">@text hồ sơ </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+
+                @* Start COl Left *@
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="FileCode"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="FileCode" class="form-control" />
+                            <span asp-validation-for="FileCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="Identifier"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Identifier" class="form-control" />
+                            <span asp-validation-for="Identifier" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="FileCatalog"></label>
+                        <div class="col-sm-8">
+                            @*<input class="form-control" asp-for="FileCatalog" />*@
+                            <input class="form-control isNumberInteger isPositiveNumber" type="number" data-val="true" data-val-maxlength="Năm hình thành hồ sơ không được quá 10 ký tự" data-val-maxlength-max="10" maxlength="10" id="FileCatalog" name="FileCatalog" placeholder="Năm hình thành hồ sơ" value="">
+                            @*<input class="form-control" asp-for="FileCatalog" />*@
+                            <span class="text-danger" asp-validation-for="FileCatalog"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="FileNotation"></label>
+                        <div class="col-sm-8">
+                            <input class="form-control" asp-for="FileNotation" />
+                            <span class="text-danger" asp-validation-for="FileNotation"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="Title"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="IDExpiryDate"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDExpiryDate", "IDExpiryDate", "--Chọn thời hạn bảo quản--", lstExpiryDate, new { @class = "select2 w-100", @data_placeholder = "--Chọn thời hạn bảo quản--" }, "Thời hạn bảo quản", true, defaultVal: "")
+                            <span asp-validation-for="IDExpiryDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="Rights"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Rights" class="form-control" />
+                            <span asp-validation-for="Rights" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="Language"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("Language", "Language", null, lstLangugage, new { @class = "select2 w-100", @data_placeholder = "--Chọn ngôn ngữ--" }, "Ngôn ngữ", false, false, true)
+                            <span asp-validation-for="Language" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="IDSecurityLevel"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDSecurityLevel", "IDSecurityLevel", "--Chọn cấp độ bảo mật--", lstSecurityLevel, new { @class = "select2 w-100", @data_placeholder = "--Chọn cấp độ bảo mật--" }, defaultVal: "0")
+                            <span asp-validation-for="IDStorage" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="IDStorage"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDStorage", "IDStorage", "--Chọn kho--", lstStorage,
+                           new
+                                {
+                               @class = "select2 w-100",
+                               @data_placeholder = "--Chọn kho--",
+                           }, defaultVal: "")
+                            <span asp-validation-for="IDStorage" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input-required" asp-for="IDProfileTemplate"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDProfileTemplate", "IDProfileTemplate", "--Chọn phông--", lstProfileTemplate,
+                           new
+                                {
+                               @class = "select2 w-100 onAutoUpdateChildData",
+                               @data_code_type = EnumCategoryType.Code.DM_Phong.ToString(),
+                               @data_placeholder = "--Chọn phông--"
+                           }, defaultVal: "")
+                            <span asp-validation-for="IDProfileTemplate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                @* End col Left *@
+
+                @* Start COl Right *@
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="StartDate"></label>
+                        <div class="col-sm-8">
+                            <div class="input-group date_input" id="dpStartDate" data-target-input="nearest">
+                                <div class="input-group-prepend" data-target="#dpStartDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                                @Html.CusTextBoxDate("", "StartDate", Model.StartDate, "Thời gian bắt đầu", "Thời gian bắt đầu", false, new
+                                {
+                                     data_target = "#dpStartDate",
+                                     data_toggle = "datetimepicker"
+                                }, 0)
+                            </div>
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="EndDate"></label>
+                        <div class="col-sm-8">
+                            <div class="input-group date_input" id="dpEndDate" data-target-input="nearest">
+                                <div class="input-group-prepend" data-target="#dpEndDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                                @Html.CusTextBoxDate("", "EndDate", Model.EndDate, "Thời gian kết thúc", "Thời gian kết thúc", false, new
+                                {
+                                     data_target = "#dpEndDate",
+                                     data_toggle = "datetimepicker"
+                                }, 0)
+                            </div>
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="TotalDoc"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="TotalDoc" readonly class="form-control" />
+                            <span asp-validation-for="TotalDoc" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="Description"></label>
+                        <div class="col-sm-8">
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Mô tả">@Model.Description</textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="InforSign"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="InforSign" class="form-control" />
+                            <span asp-validation-for="InforSign" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="Keyword"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Keyword" class="form-control" />
+                            <span asp-validation-for="Keyword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="Maintenance"></label>
+                        <div class="col-sm-3">
+                            <input asp-for="Maintenance" readonly class="form-control" />
+                            <span asp-validation-for="Maintenance" class="text-danger"></span>
+                        </div>
+                        <label class="col-sm-3 col-form-label" asp-for="PageNumber"></label>
+                        <div class="col-sm-2">
+                            <input asp-for="PageNumber" readonly class="form-control" />
+                            <span asp-validation-for="PageNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="Format"></label>
+                        <div class="col-sm-8">
+                            <input asp-for="Format" class="form-control" />
+                            <span asp-validation-for="Format" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="IDProfileList"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDProfileList", "IDProfileList", "--Chọn mục lục--", lstProfileList, new
+                            {
+                           @class = "select2 w-100 onAutoUpdateChildData",
+                               @data_code_type = EnumCategoryType.Code.DM_MucLuc.ToString(),
+                           @data_placeholder = "--Chọn mục lục--"
+                       }, defaultVal: "")
+                            <span asp-validation-for="IDProfileList" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="IDCodeBox"></label>
+                        <div class="col-sm-8">
+                            @Html.CusDropdownListSelect2("IDCodeBox", "IDCodeBox", "--Chọn hộp số--", lstBox,
+                           new
+                                {
+                               @class = "select2 w-100 onAutoUpdateChildData",
+                               @data_code_type = EnumCategoryType.Code.DM_HopSo.ToString(),
+                               @data_placeholder = "--Chọn hộp số--"
+                           }, defaultVal: "")
+                            <span asp-validation-for="IDCodeBox" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                @* End col Right *@
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+            </button>
+            <button data-url="@url" class="btn btn-outline-primary quickSubmit"><i class="fas fa-fw fa-save"></i><span>Lưu</span></button>
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,105 @@
+﻿@using ESD.Infrastructure.ContextAccessors;
+@using ESD.Application.Interfaces;
+@using ESD.Application.Models.ViewModels;
+@inject IAccountService _accountService
+@inject IHomeServices _homeService
+@inject IUserPrincipalService _userPrincipalService
+@{
+    //string currentUserName = _userPrincipalService.FullName;
+    var user = await _accountService.GetCurrentUser(_userPrincipalService.UserId);
+    var srcAvatar = user != null && !string.IsNullOrWhiteSpace(user.SrcAvatar) ? user.SrcAvatar : "/lib/adminLte/dist/img/avatar_default.png";
+    string currentUserName = user != null ? user.Name : "";
+    NotificationCondition condition = new NotificationCondition
+    {
+        UserId = _userPrincipalService.UserId,
+        PageIndex = 1,
+        PageSize = 30
+    };
+    PaginatedList<VMNotification> listNoti = await _homeService.GetListNotificationPaging(condition);
+    int totalUnreadNotification = await _homeService.TotalUnreadNotification();
+}
+<nav class="main-header navbar navbar-expand navbar-light navbar-white elevation-2">
+    <ul class="navbar-nav">
+        <li>
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+    <a class="navbar-brand py-0 mr-auto ml-2" href="/">
+        @*<svg width="56" height="30" viewBox="0 0 56 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#ED1C24" d="M23.9668 0H11.853C8.19681 0 4.84227 2.79205 3.99447 6.32593L0 29.1189H4.04745C6.2118 29.1148 8.27425 27.4029 8.73076 25.2589L10.0065 17.9873H16.8379C18.9819 17.9873 21.0239 16.3039 21.509 14.1885L22.0307 11.1764H11.2008L11.7592 8.00524H19.0349C20.9302 7.80144 22.6625 6.32593 23.1964 4.46728L23.9668 0Z"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#00A651" d="M45.329 0H45.0396C39.0194 0 37.3156 0 31.2954 0C27.7696 0 24.5496 3.04476 23.9504 6.79467L23.2494 11.1682C22.6502 14.9181 24.8757 17.9873 28.4218 17.9873H34.4094L33.9081 21.1177H25.3648C23.3757 21.1218 21.4804 22.8133 21.0483 24.945L20.3799 29.1189C31.2791 29.1189 23.5143 29.1189 34.4135 29.1189C37.9515 29.1189 41.1552 26.0863 41.7584 22.3242L42.4514 17.971C43.0464 14.2415 40.7965 11.1764 37.2789 11.1764H31.2954L31.8049 8.00524H40.3481C42.325 8.00524 44.2122 6.32593 44.6565 4.21049L45.329 0Z"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#2E3192" d="M56 0H52.0096C49.8656 0 47.8236 1.68338 47.3385 3.79882L42.8998 29.1189H46.9432C49.0871 29.1148 51.0762 27.4355 51.5613 25.32L56 0Z"></path>
+            </svg>*@
+        <img src="/lib/adminLte/dist/img/logo.jpg" alt="DAS Logo" style="height: 3.5rem; width:auto; margin: -0.75rem 0">
+    </a>
+    <div class="header-text d-none d-md-block mx-auto mb-0 text-uppercase text-success">Hệ thống quản lý danh mục dùng chung</div>
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        <!-- Messages Dropdown Menu -->
+        @*<li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown">
+                    <i class="far fa-comments"></i>
+                    <span class="badge badge-danger navbar-badge" id="totalUnreadNotification">@vMNotification.TotalUnreadNotification</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="headerNotification">
+                    @if (vMNotification.Notifications != null && vMNotification.Notifications.Count > 0)
+                    {
+                        @foreach (var item in vMNotification.Notifications)
+                        {
+                            @Html.Partial("_HeaderNotify", item)
+                        }
+                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                    }
+                </div>
+            </li>*@
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-bell"></i>
+                <span class="badge badge-warning navbar-badge" id="totalUnreadNotification">@totalUnreadNotification</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="headerNotification">
+                @if (listNoti != null && listNoti.Count > 0)
+                {
+                    @foreach (var item in listNoti)
+                    {
+                        @await Html.PartialAsync("_HeaderNotify", item)
+                        @*@Html.Partial("_HeaderNotify", item)*@
+                    }
+                    <a href="/Home/ListNotification" class="dropdown-item dropdown-footer">Xem tất cả thông báo</a>
+                }
+                else
+                {
+                    <a class="dropdown-item dropdown-footer">Hiện không có thông báo nào</a>
+                }
+            </div>
+        </li>
+        <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <img src="@srcAvatar" class="user-image img-circle elevation-2" alt="@currentUserName" onerror="this.onerror=null;this.src='/lib/adminLte/dist/img/avatar_default.png'" />
+                <span class="d-none d-md-inline">@currentUserName</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <div class="dropdown-divider"></div>
+                <a href="/Account/ViewProfile" class="dropdown-item"> <i class="fas fa-address-card mr-2"></i>Cập nhật thông tin </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item change-password" data-target="#change-password-modal"> <i class="fas fa-unlock-alt mr-2"></i>Đổi mật khẩu </a>
+                <div class="dropdown-divider"></div>
+                @*<a href="@Url.Action("Logout", "Account")" class="btn dropdown-item logout">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                    </a>*@
+                <a href="#" class="btn dropdown-item logout">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                </a>
+                <div class="dropdown-divider"></div>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div id='change-password-modal' class='modal'></div>
+<script src="~/js/controller/AccountController.js"></script>
+<script src="~/js/Notification.js"></script>
+<script>
+    AccountConfig.Init();
+    Notification.ReadNotify();
+</script>

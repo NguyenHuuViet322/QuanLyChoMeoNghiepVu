@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["PageHeaderContent"] = "Position";
+    Layout = "";
+    int stt = Model.PageSize * (Model.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 40, 50 };
+}
+@using ESD.Application.Models.ViewModels;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMPosition>
+
+<div class="table-responsive">
+    <table id="data_table" class="table table-bordered table-striped data_table useTreegrid" role="grid" data-tree="3">
+        <thead>
+            <tr>
+                <th class="text-center col-min">STT</th>
+                <th class="text-center col-min">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="group-checkable custom-control-input" id="checkall" value="">
+                        <label class="custom-control-label" for="checkall"></label>
+                    </div>
+                </th>
+                <th class="col-min">Mã chức vụ</th>
+                <th>Tên chức vụ</th>
+                <th>Mô tả</th>
+                <th class="col-min" data-column-id="commands" data-formatter="commands" data-sortable="false">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var clss = "treegrid-" + item.ID + (item.Parent > 0 ? " treegrid-parent-" + item.Parent : string.Empty);
+                stt++;
+                var detailLink = "/Position/Details?id=" + item.ID;
+                <tr class="@clss">
+                    <td class="text-center">@stt</td>
+                    <td class="text-center">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="checkboxes custom-control-input" id="role-@item.ID" data-id="@item.ID" value="@item.ID">
+                            <label class="custom-control-label" for="role-@item.ID"></label>
+                        </div>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                    <td>
+                        <a class="quickUpdate" title="Xem chi tiết"  href="@detailLink" data-target="#mdUpdatePosition"
+                           data-toggle="tooltip" data-original-title="Xem chi tiết">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>
+                        <div class="d-flex is-btn-action">
+                            <a class="quickUpdate" title="Xem chi tiết" href="@detailLink" data-target="#mdUpdatePosition"
+                               data-toggle="tooltip" data-original-title="Xem chi tiết">
+                                <i class="fas fa-fw fa-info"></i>
+                            </a>
+                            <a title="Sửa" class="quickUpdate" href="/Position/Edit?id=@item.ID" data-target="#mdUpdatePosition"
+                               data-toggle="tooltip" data-original-title="Sửa">
+                                <i class="fas fa-fw fa-edit"></i>
+                            </a>
+                            <a title="Xoá" data-comfirm-message="Bạn có muốn xoá chức vụ?" class="quickDelete" href="/Position/Delete?id=@item.ID" data-id="@item.ID"
+                               data-toggle="tooltip" data-original-title="Xóa">
+                                <i class="fas fa-fw fa-trash-alt"></i>
+                            </a>
+                        </div>
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="card-footer">
+    <div class="row">
+        <div class="col-6">
+            @if (Model.TotalFilter == 0)
+            {
+                <span>@ESD.Application.Constants.MessageConst.MSG_NOT_FOUND</span>
+            }
+            else
+            {
+                <span>Có tổng cộng <span class="text-red">@Model.TotalFilter</span> bản ghi</span>
+            }
+        </div>
+    </div>
+</div>

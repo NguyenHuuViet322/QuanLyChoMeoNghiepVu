@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Danh sách tham số cơ quan";
+    ViewData["PageHeaderContent"] = "OrganConfig";
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/OrganConfig", "Cấu hình tham số cơ quan");
+    ViewData["Breadcrumb"] = breadcrum;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using ESD.Application.Models.ViewModels;
+@model ESD.Application.Models.ViewModels.PaginatedList<VMOrganConfig>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header p">
+                <h3 class="card-title">Danh sách tham số </h3>
+            </div>
+            <div>
+                <div class="card-body">
+                    <form asp-action="SearchByConditionPagging" id="frmOrganConfig" role="form" method="post"
+                          class="quickSearch" data-target="#divOrganConfigs">
+                        <div class="row">
+                            <div class="col-4">
+                                <input type="text" value="@ViewBag.Keyword" name="Keyword" class="form-control" placeholder="Nhập tên tham số">
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-search"></i><span>Tìm kiếm</span></button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="data_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div class="table-control">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 text-left mb-2 mb-md-0"></div>
+                                <div class="col-md-9 col-sm-12 text-md-right">
+                                    @*<span class="actMultiTicks hidden">
+                                            <a class="btn btn-danger quickDeletes" data-url="/OrganConfig/DeleteMulti" data-comfirm-message="Bạn có muốn xóa {n} tham số"
+                                               tabindex="0">
+                                                <span><i class="fas fa-trash-alt mr-2"></i>Xoá</span>
+                                            </a>
+                                        </span>*@
+
+                                    <a class="btn btn-success quickUpdate" tabindex="0" href="/OrganConfig/CreatePopup"
+                                       data-target="#mdEditOrganConfig" aria-controls="data_table">
+                                        <i class="fas fa-fw fa-plus"></i><span>Thêm mới</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divOrganConfigs">
+                            @await Html.PartialAsync("Index_OrganConfigs", Model)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdEditOrganConfig" aria-labelledby="planEditModalTitle" aria-hidden="true"></div>

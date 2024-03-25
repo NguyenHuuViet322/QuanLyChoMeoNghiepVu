@@ -1,0 +1,231 @@
+﻿using AutoMapper;
+using Temp.Application.Enums;
+using Temp.Application.Interfaces;
+using Temp.Application.Interfaces{.Group};
+using Temp.Application.Models.ViewModels{.Group};
+using Temp.Application.Models.Param{.Group};
+using Temp.Utility.CustomClass;
+using Temp.Utility.LogUtils;
+using Temp.Web.Attributes;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
+using ESD.Application.Models.CustomModels;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Temp.Web.Controllers
+{
+    [Authorize]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public class {Table}Controller : BaseController
+    {
+        #region Properties
+
+        private readonly I{Table}Services _{table}Service;
+        private readonly IMapper _mapper;
+        private readonly ILoggerManager _logger;
+        private readonly string defaultPath = "/{Table}";
+        private readonly IExcelServices _excelService;
+
+        #endregion Properties
+
+        #region Ctor
+
+        public {Table}Controller(IMapper mapper, I{Table}Services {table}Service,  ILoggerManager logger, IExcelServices excel)
+        {
+            _{table}Service = {table}Service;
+            _mapper = mapper;
+            _excelService = excel;
+            _logger = logger;
+        }
+
+        #endregion Ctor
+
+        #region List
+
+        // GET: {Table}
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Read })]
+        public async Task<IActionResult> Index({Table}Condition condition)
+        {
+            var model = await _{table}Service.SearchByConditionPagging(condition);
+            return PartialView(model);
+        }
+
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Read })]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchByCondition({Table}Condition condition)
+        {
+            try
+            {
+                ViewBag.Keyword = condition.Keyword;
+                var model = await _{table}Service.SearchByConditionPagging(condition);
+                return PartialView("Index_{Table}s", model);
+            }
+            catch (LogicException ex)
+            {
+                SetError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                SetError("Có lỗi khi lấy dữ liệu");
+            }
+            return Redirect(defaultPath);
+        }
+        #endregion List
+
+        #region Create
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Create })]
+        public async Task<IActionResult> Create()
+        {
+            try
+            {
+                var model = await _{table}Service.Create();
+                return PartialView("Index_Update", model);
+            }
+            catch (LogicException ex)
+            {
+                SetError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                SetError("Có lỗi khi khởi tạo {title}");
+            }
+            return Redirect(defaultPath);
+        }
+
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Create })]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(VMUpdate{Table} vm{Table})
+        {
+            //Validate
+            if (!ModelState.IsValid)
+                return JSErrorModelStateByLine();
+
+            //CallService
+            var rs = await _{table}Service.Save(vm{Table});
+            return CustJSonResult(rs);
+        }
+
+        #endregion
+
+        #region Edit
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Update })]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            try
+            {
+                var model = await _{table}Service.Update(id);
+                return PartialView("Index_Update", model);
+            }
+            catch (LogicException ex)
+            {
+                SetError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                SetError("Có lỗi khi lấy thông tin cập nhật {title}");
+            }
+            return Redirect(defaultPath);
+        }
+
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Update })]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Change(VMUpdate{Table} {table})
+        {
+            //Validate
+            if (!ModelState.IsValid)
+                return JSErrorModelStateByLine();
+
+            //CallService
+            var rs = await _{table}Service.Change({table});
+            return CustJSonResult(rs);
+        }
+        #endregion
+
+        #region Delete 
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Deleted })]
+        public async Task<IActionResult> Delete({idDatatype} id)
+        {
+            var rs = await _{table}Service.Delete(id);
+            return CustJSonResult(rs);
+        }
+
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Deleted })]
+        public async Task<IActionResult> Deletes({idDatatype}[] ids)
+        {
+            if (ids == null || ids.Length == 0)
+                return JSErrorResult("Vui lòng chọn {title} cần xoá!");
+            var rs = await _{table}Service.Delete(ids);
+            return CustJSonResult(rs);
+        }
+        #endregion Delete
+         
+        #region Details
+        //[HasPermission((int)EnumModule.Code.{Table}, new int[] { (int)EnumPermission.Type.Read })]
+        public async Task<IActionResult> Details({idDatatype}? id)
+        {
+            try
+            {
+                var model = await _{table}Service.Update(id);
+                return PartialView("Index_Detail", model);
+            }
+            catch (LogicException ex)
+            {
+                SetError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                SetError("Có lỗi khi lấy thông tin {title}");
+            }
+            return Redirect(defaultPath);
+        }
+
+        #endregion
+
+        #region Exports
+        public async Task<IActionResult> Export({Table}Condition condition)
+        {
+            condition.PageSize = 5000;
+            var model = await _{table}Service.SearchByConditionPagging(condition);
+            var export = new ExportExtend
+            {
+                Data = model.{Table}s.Cast<dynamic>().ToList(),
+                Cols = new List<Col>
+                {
+                    new Col{
+                        DataType = 5
+                    },
+                    //new Col("Name"),
+                },
+                Headers = new List<Header>
+                {
+                  new Header("STT", 5),
+                  //new Header("Tên"),
+                }
+            };
+            var rs = await _excelService.ExportExcel(export, "Báo cáo");
+            if (rs is ServiceResultError)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var fileName = "Báo cáo {title}.xlsx";
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                return File((byte[])rs.Data, contentType, fileName);
+            }
+        }
+
+        #endregion
+
+    }
+}

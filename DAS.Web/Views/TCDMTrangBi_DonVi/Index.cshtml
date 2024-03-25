@@ -1,0 +1,76 @@
+@{
+    var title = "TCDMTrangBi_DonVi";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/TCDMTrangBi_DonVi", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Danh sách trang bị", "Trang bị" };
+    ViewData["PageHeaderContent"] = "TCDMTrangBi_DonVi";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using ESD.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndexTCDMTrangBi_DonVi
+@{
+    var searchParam = Model.SearchParam;
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmTCDMTrangBi_DonVi" role="form" method="post" class="quickSearch" data-target="#divTCDMTrangBi_DonVis">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+
+                        <button class="btn btn-sm ml-5" type="button" id="dataFilter_Dropdown" title="Tìm kiếm nâng cao" style="background-color: #eef2f5; border-radius: 6px;">
+                            <i class="fa fa-filter" style="color: #5e6278"></i>
+                        </button>
+
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/TCDMTrangBi_DonVi/Deletes" tabindex="0" data-comfirm-message="Xoá nhiều tcdmtrangbi_donvi: Bạn có muốn xoá {n} tcdmtrangbi_donvi đã chọn?" title="Xóa">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate ml-5 text-success" tabindex="0" href="/TCDMTrangBi_DonVi/Create" data-target="#mdIUTCDMTrangBi_DonVi" aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown-menu dataFilter_Dropdown_target">
+                    <div class="dropdown-menu-content">
+                        <a href="#" title="Đóng" class="dataFilter_Dropdown_close"><i class="fa fa-times-circle"></i></a>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-md-3 DropdownFilter_item">
+                                    @Html.CustTexBox("srKeyword", "Keyword", @searchParam.Keyword, "Từ khóa cần tìm kiếm", "Từ khóa", false, new { }, false)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divTCDMTrangBi_DonVis">
+                    @await Html.PartialAsync("Index_TCDMTrangBi_DonVis", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUTCDMTrangBi_DonVi" aria-labelledby="TCDMTrangBi_DonViModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/ESDNghiepVu/TCDMTrangBi_DonViController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitTCDMTrangBi_DonVi();
+    </script>
+
+}
+
+

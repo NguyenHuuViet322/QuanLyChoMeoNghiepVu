@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @{ ViewData["ModuleBookmark"] = null;}
+    @if (ViewData["Title"] != null)
+    {
+        <title>@ViewData["Title"]</title>
+    }
+    else
+    {
+        <title>Hệ thống quản lý danh mục dùng chung</title>
+    }
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/fontawesome-free/css/all.min.css">
+    <!-- jQuery UI 1.12.1 -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/jquery-ui/jquery-ui.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/daterangepicker/daterangepicker.css" />
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" />
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <!-- DataTables Buttons -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+    <!-- Sweet Alert 2-->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" />
+    <!-- bootstrapValidator -->
+    <link rel="stylesheet" href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.css" />
+    <!-- treegrid -->
+    <link rel="stylesheet" href="~/lib/treegrid/jquery.treegrid.css" />
+    <!-- pdf -->
+    <link rel="stylesheet" href="/pdf/viewer.css" />
+    <!-- dropzone -->
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/dropzone/basic.css" />
+    <link rel="stylesheet" href="~/lib/adminLte/plugins/dropzone/dropzone.css" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/lib/adminLte/dist/css/adminlte.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Google Font: Roboto -->
+    <link rel="stylesheet" href="~/lib/adminLte/dist/css/font.css" />
+    <!-- Json Viewer -->
+    <link rel="stylesheet" href="~/lib/json-viewer/jquery.json-viewer.css">
+
+
+    <!-- Load Common JS libs -->
+    <!-- jQuery -->
+    <script src="~/lib/adminLte/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.12.1 -->
+    <script src="~/lib/adminLte/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>$.widget.bridge('uibutton', $.ui.button);</script>
+    <!-- Bootstrap 4 -->
+    <script src="/lib/adminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/lib/adminLte/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/adminLte/plugins/select2/js/i18n/vi.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/lib/adminLte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- InputMask -->
+    <script src="~/lib/adminLte/plugins/moment/moment.min.js"></script>
+    <script src="~/lib/adminLte/plugins/moment/locales.min.js"></script>
+    <script src="~/lib/adminLte/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- date-range-picker -->
+    <script src="~/lib/adminLte/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/lib/adminLte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/lib/adminLte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/adminLte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- DataTables Responsive -->
+    <script src="~/lib/adminLte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/adminLte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <!-- DataTables Select -->
+    <script src="~/lib/adminLte/plugins/datatables-select/js/dataTables.select.min.js"></script>
+    <!-- DataTables Buttons -->
+    <script src="~/lib/adminLte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/adminLte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <!-- bootstrapValidator -->
+    <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+    <!-- Tree Grid -->
+    <script src="~/lib/treegrid/jquery.treegrid.js"></script>
+    <!-- dropzonejs -->
+    <script src="~/lib/adminLte/plugins/dropzone/min/dropzone.min.js"></script>
+    <!-- Sweet Alert 2-->
+    <script src="~/lib/adminLte/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- simple.money.format-->
+    <script src="~/lib/simple.money.format/simple.money.format.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/lib/adminLte/dist/js/adminlte.min.js"></script>
+    <script src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script src="~/js/common.js" asp-append-version="true"></script>
+    @* <script src="~/js/Notification.js" asp-append-version="true"></script>*@
+
+    <!-- pdf -->
+    <link rel="resource" type="application/l10n" href="/pdf/locale/locale.properties">
+    <script src="/pdf/compatibility.js"></script>
+    <script src="/pdf/l10n.js"></script>
+    <script src="/pdf/build/pdf.js"></script>
+    <script src="/pdf/build/pdf.worker.js"></script>
+    <script src="/pdf/viewer.js"></script>
+    <!-- Json Viewer -->
+    <script src="~/lib/json-viewer/jquery.json-viewer.js"></script>
+</head>
+<body class="accent-success hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        @await Html.PartialAsync("_LayoutAdmin_Navbar")
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        @await Component.InvokeAsync("Menu")
+        <div class="content-wrapper">
+            @await Html.PartialAsync("~/Views/Common/_ContentHeader.cshtml")
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid" id="ContentArea">
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+@*        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="float-right d-none d-sm-inline">Hệ thống quản lý danh mục dùng chung</div>
+            <!-- Default to the left -->
+            <strong>Bản quyền thuộc <a target="_blank" href="https://fsivietnam.com.vn">FSI Việt Nam</a></strong> &copy; @DateTime.Now.Year
+        </footer>*@
+    </div>
+    
+    <script type="text/javascript">
+        InitCommonJs();
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

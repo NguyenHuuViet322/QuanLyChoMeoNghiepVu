@@ -1,0 +1,93 @@
+﻿@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Enums;
+@model ESD.Application.Models.ViewModels.VMCreateCategory
+@{
+    ViewData["PageHeaderContent"] = "Chi tiết danh mục";
+    var dropDownSource = "/Category/GetCategoties";
+
+}
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="validateForm bv-form" id="frmGroupPermUpdate">
+            <div class="modal-header bg-success">
+                <h3 class="modal-title" id="planCreateModalTitle">@ViewData["Title"]</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                @if (Model.VMCategoryTypeFields.IsNotEmpty())
+                {
+                    foreach (var field in Model.VMCategoryTypeFields)
+                    {
+                        var data = Model.CategoryFields.FirstOrNewObj(n => n.IDCategoryTypeField == field.ID);
+                        var fieldName = "Field" + field.ID;
+                        if (field.Code == "Name" || field.Code == "Code")
+                        {
+                            fieldName = field.Code;
+                        }
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">@field.Name</label>
+                            <div class="col-sm-8">
+                                @switch (field.InputType)
+                                {
+                                    case (int)EnumCategoryType.InputType.InpTextArea:
+                                        @Html.CusTextArea("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, 5, 5,  true)
+                                        break;
+                                    case (int)EnumCategoryType.InputType.InpDate:
+                                        if (field.IsReadonly)
+                                        {
+                                            <div class="input-group date_input" id="search_create-date@(field.ID)" data-target-input="nearest">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                                </div>
+                                                @Html.CusTextBoxDate("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null, 0, field.IsReadonly)
+                                            </div>
+                                        }
+                                        else
+                                        {
+
+                                            <div class="input-group date_input" data-format="@field.Format" id="search_create-date@(field.ID)" data-target-input="nearest">
+                                                <div class="input-group-prepend" data-target="#search_create-date@(field.ID)" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                                </div>
+                                                @Html.CusTextBoxDate("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, new
+                                                {
+                                                     data_target = "#search_create-date" + field.ID,
+                                                     data_toggle = "datetimepicker",
+                                                }, 0)
+                                            </div>
+                                        }
+                                        break;
+                                    default:
+                                        @Html.CustTexBox("", fieldName, data.DisplayVal, field.Name, field.Name, field.IsRequire, null,  true)
+                                        break;
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                    <i class="fas fa-fw fa-times"></i><span>Đóng</span>
+                </button>
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <input type="hidden" value="@Model.CodeType" name="CodeType" />
+                <input type="hidden" value="@Model.IdCategoryType" name="IdCategoryType" />
+                <a class="btn btn-outline-info quickUpdate" href="/Category/Edit?id=@Model.ID" data-target="#mdUpdateCategory"><i class="fas fa-fw fa-edit"></i><span>Chỉnh sửa</span></a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    //InitUserConfig();
+</script>

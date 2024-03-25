@@ -1,0 +1,62 @@
+﻿{
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+      "no": "1",
+      "content": "Đẩy dữ liệu năm 2021",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "0",
+      "id": "5421"
+    },
+    {
+      "no": "2",
+      "content": "Đẩy dữ liệu năm 2020",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "1",
+      "id": "8422"
+    },
+    {
+      "no": "3",
+      "content": "Đẩy dữ liệu năm 2019",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "2",
+      "id": "1562"
+    },
+    {
+      "no": "4",
+      "content": "Đẩy dữ liệu năm 2018",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "3",
+      "id": "6224"
+    },
+    {
+      "no": "5",
+      "content": "Đẩy dữ liệu năm 2017",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "4",
+      "id": "5407"
+    },
+    {
+      "no": "6",
+      "content": "Đẩy dữ liệu năm 2016",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "5",
+      "id": "4804"
+    },
+    {
+      "no": "7",
+      "content": "Đẩy dữ liệu năm 2015",
+      "detail": "danh-sach-chuan-hoa-chi-tiet",
+      "ngayTao": "12/08/2021",
+      "status": "5",
+      "id": "9608"
+    }
+  ]
+}

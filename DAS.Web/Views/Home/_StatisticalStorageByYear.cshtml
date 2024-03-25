@@ -1,0 +1,30 @@
+﻿@using ESD.Application.Models.ViewModels;
+@model VMDashBoardStorage
+
+<div class="card card-outline card-success">
+    <div class="card-header">
+        <h3 class="card-title">Thống kê kho lưu trữ theo năm</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div id="file_chart_container" class="chart_container" style="padding: 0 1rem 1rem 0 ">
+                    <canvas id="file_chart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <p class="row">
+                    <span class="col-6 text-lg-right">Tổng số hồ sơ:</span>&nbsp;<span class="text-bold text-success" id="txtNumberProfile">159,322</span>
+                </p>
+                @*<p class="row">
+                    <span class="col-6 text-lg-right">Tổng số trang:</span>&nbsp;<span class="text-bold text-success">1,593,220</span>
+                </p>
+                <p class="row">
+                    <span class="col-6 text-lg-right">Tổng số tờ:</span>&nbsp;<span class="text-bold text-success">1,593,220</span>
+                </p>*@
+            </div>
+        </div>
+    </div>
+    <div class="card-footer"></div>
+</div>
+<input type="hidden" id="hddstorages" value="@Model.StorageDictStr" />

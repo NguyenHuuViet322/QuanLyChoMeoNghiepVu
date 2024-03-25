@@ -1,0 +1,97 @@
+﻿@using ESD.Domain.Enums;
+@using ESD.Utility;
+@model ESD.Application.Models.ViewModels.VMOrgan
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUSchema">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">Xem chi tiết cơ quan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input asp-for="ID" type="hidden" class="form-control" />
+                @*<div class="form-group row">
+                        <label class="col-sm-4 col-form-label" asp-for="ParentName"></label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" data-placeholder="--Chọn cơ quan--" disabled>
+                                @if (!string.IsNullOrEmpty(Model.ParentName))
+                                {
+                                    <option>@Model.ParentName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>*@
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label input-required" asp-for="Code"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Code" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label input-required" asp-for="Name"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Name" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" asp-for="Description"></label>
+                    <div class="col-sm-8">
+                        <textarea asp-for="Description" readonly class="form-control" placeholder="Mô tả" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" asp-for="Phone"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Phone" class="form-control" readonly placeholder="Số điện thoại" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label input-required" asp-for="Email"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Email" class="form-control" readonly placeholder="Email" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" asp-for="Address"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Address" class="form-control" readonly placeholder="Địa chỉ" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" asp-for="Fax"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Fax" class="form-control" readonly placeholder="Fax" />
+                    </div>
+                </div>
+                @*<div class="form-group row">
+                        <label class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <div class="custom-control custom-checkbox">
+                                @if (Model.IsArchive)
+                                {
+                                    <input class="custom-control-input" type="checkbox" id="IsArchive" disabled checked />
+                                }
+                                else
+                                {
+                                    <input class="custom-control-input" type="checkbox" id="IsArchive" disabled />
+                                }
+                                <label for="IsArchive" class="custom-control-label">Cơ quan nộp lưu</label>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="modal-footer">
+                <a href="/Organ/EditPopup?id=@Model.ID" data-target="#mdUpdatePosition" class="btn bg-color-primary d-flex align-items-center quickUpdate">
+                    <span class="text-white font-s-14">Chỉnh sửa</span>
+                </a>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+

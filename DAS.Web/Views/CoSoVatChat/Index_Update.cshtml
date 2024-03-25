@@ -1,0 +1,99 @@
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+
+@model VMUpdateCoSoVatChat
+@{
+    var title = (Model.ID > 0 ? "Điều chỉnh" : "Khai báo") + " thông tin cơ sở vật chất";
+    ViewData["Title"] = title;
+    ViewData["PageHeaderContent"] = title;
+    Layout = "";
+    var url = Model.ID > 0 ? "/CoSoVatChat/Change" : "/CoSoVatChat/Save";
+
+    var isUpdate = Model.ID > 0;
+
+    var lstDonViNghiepVu = Model.DonViNghiepVus.Select(n => new SelectListItem
+            {
+                Text = n.Ten.ToString(),
+                Value = n.ID.ToString(),
+                Selected = n.ID == Model.IDDonViNghiepVu
+            }).ToList();
+}
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form role="form" asp-action="" class="onUpdateInputState bv-form" id="frmMDIUCoSoVatChat">
+            <div class="modal-header d-flex align-items-center">
+                <h5 class="modal-title font-weight-bold font-s-16 text-white" id="planCreateModalTitle">@title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="w-h-32 icon-exit-white ml-auto" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+             
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Code"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="Ten"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Ten" class="form-control" />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="DonViTinh"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="DonViTinh" class="form-control" />
+                        <span asp-validation-for="DonViTinh" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" asp-for="IDDonViNghiepVu"></label>
+                    <div class="col-sm-9">
+                        @Html.CusDropdownListSelect2("upIDDonViNghiepVu", "IDDonViNghiepVu", "--Chọn đối tượng sử dụng--", lstDonViNghiepVu,
+                        new {
+                        @class = "select2 w-100",
+                        @data_placeholder = "--Chọn đối tượng sử dụng--",
+                        @data_container = "body",
+                        @data_width = "150px",
+                        })
+                        <span asp-validation-for="IDDonViNghiepVu" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="NienHanSuDung"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="NienHanSuDung" class="form-control" />
+                        <span asp-validation-for="NienHanSuDung" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required" asp-for="MoTaChiTiet"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="MoTaChiTiet" class="form-control" />
+                        <span asp-validation-for="MoTaChiTiet" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button data-url="@url" class="btn bg-color-primary d-flex align-items-center quickSubmit">
+                    <span class="text-white font-s-14">Lưu</span>
+                </button>
+                <button type="button" class="btn bg-color-gray-6 d-flex align-items-center" data-dismiss="modal">
+                    <span class="font-s-14 text-color-body font-weight-500">Đóng</span>
+                </button>
+
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <input type="hidden" value="1" name="IsConfig" />
+            </div>
+        </form>
+    </div>
+</div>

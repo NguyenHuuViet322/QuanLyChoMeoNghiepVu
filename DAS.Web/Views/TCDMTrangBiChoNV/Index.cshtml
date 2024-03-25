@@ -1,0 +1,110 @@
+@{
+    var title = "Danh sách tiêu chuẩn";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/TCDMTrangBiChoNV", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Cấp phát hàng nghiệp vụ CSVC cho động vật", "Danh sách tiêu chuẩn" };
+    ViewData["PageHeaderContent"] = "TCDMTrangBiChoNV";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using ESD.Utility;
+@using ESD.Utility.Helper;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndexTCDMTrangBiChoNV
+@{
+    var searchParam = Model.SearchParam;
+    var lstDonVis = Model.DonViNghiepVus.Select(n => new SelectListItem
+    {
+        Text = n.Ten.ToString(),
+        Value = n.ID.ToString(),
+        Selected = searchParam.IDDonvi == n.ID
+    }).ToList();
+
+    var lstNienHans = Model.NienHans.Select(n => new SelectListItem
+    {
+        Text = n.Value.ToString(),
+        Value = n.Key.ToString(),
+        Selected = searchParam.NienHan == n.Key
+    }).ToList();
+
+    var lstDongVat = Model.DongVatNghiepVus.Select(n => new SelectListItem
+    {
+        Text = n.Ten.ToString(),
+        Value = n.ID.ToString(),
+        Selected = searchParam.ListDongVat == null ? false : searchParam.ListDongVat.Contains(n.ID.ToString())
+    }).ToList();
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmTCDMTrangBiChoNV" role="form" method="post" class="quickSearch" data-target="#divTCDMTrangBiChoNVs">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+                        <button class="btn btn-sm ml-5" type="button" id="dataFilter_Dropdown" title="Tìm kiếm nâng cao" style="background-color: #eef2f5; border-radius: 6px;">
+                            <i class="fa fa-filter" style="color: #5e6278"></i>
+                        </button>
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tổng hợp</button>
+                        <a class="btn btn-sm btn-primary ml-5 quickExport" tabindex="0" href="#" action="/TCDMTrangBiChoNV/Export" data-target="#frmTCDMTrangBiChoNV" aria-controls="data_table" title="Xuất file">
+                            Xuất Excel
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown-menu dataFilter_Dropdown_target">
+                    <div class="dropdown-menu-content">
+                        <a href="#" title="Đóng" class="dataFilter_Dropdown_close"><i class="fa fa-times-circle"></i></a>
+                        <div class="row">
+                            <div class="form-group mb-0 mr-5 w-275 DropdownFilter_item">
+                                @Html.CusDropdownListSelect2("strDongVat", "DongVat", "", lstDongVat, new { @class = "is-select2-search", data_placeholder = "Chọn động vật nghiệp vụ" }, isMultiple: true)
+                            </div>
+
+                            <div class="form-group mb-0 mr-5 w-220-px DropdownFilter_item">
+                                @Html.CusDropdownListSelect2("srIDDonviNghiepVu", "IDDonviNghiepVu", "Chọn đơn vị", lstDonVis,
+                                new
+                                {
+                                    @class = "select2 w-150 mw-200",
+                                    @style = "max-width:200px",
+                                    @data_placeholder = "Đơn vị",
+                                    @data_container = "body",
+                                    @data_width = "150px",
+                                })
+                            </div>
+
+                            <div class="form-group mb-0 mr-5 w-180-px DropdownFilter_item">
+                                <div class="input-group date_input" id="search_from-date" data-target-input="nearest">
+                                    @Html.CusTextBoxDate("CalculationDate", "CalculationDate", Utils.DateToString(Utils.GetFirstDayOfMonth(DateTime.Now)), "", "Từ ngày", false, new { data_target = "#search_from-date", data_toggle = "datetimepicker", }, 0)
+                                    <div class="input-group-prepend" data-target="#search_from-date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divTCDMTrangBiChoNVs">
+                    @await Html.PartialAsync("Index_TCDMTrangBiChoNVs", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUTCDMTrangBiChoNV" aria-labelledby="TCDMTrangBiChoNVModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/ESDNghiepVu/TCDMTrangBiChoNVController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitTCDMTrangBiChoNV();
+    </script>
+}
+
+

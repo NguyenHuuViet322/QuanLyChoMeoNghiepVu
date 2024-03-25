@@ -1,0 +1,83 @@
+@using DAS.Web.Constants;
+@using ESD.Domain.Models.ESDNghiepVu;
+@using ESD.Application.Models.ViewModels.ESDNghiepVu;
+@using ESD.Utility;
+@model VMIndexThongTinCanBo
+@{
+    int stt = Model.ThongTinCanBos.PageSize * (Model.ThongTinCanBos.PageIndex - 1);
+    var pageSizes = new[] { 10, 20, 30, 50, 100 };
+}
+<div class="table-responsive">
+    <table class="table table-borderless table-space table-hover dataTable dtr-inline useTreegrid table-bid-custom" role="grid" data-tree="3">
+        <thead class="thead-light">
+            <tr class="elevation-1">
+                <th class="pb-2 col-min">STT</th>
+
+                <th class="text-center col-min">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="group-checkable custom-control-input" id="checkall" value="">
+                        <label class="custom-control-label" for="checkall"></label>
+                    </div>
+                </th>
+                <th class="pb-2 m-w-200-px">Tên cán bộ</th>
+                <th class="pb-2 m-w-106 text-center">Giới tính</th>
+                <th class="pb-2 m-w-200-px text-center">Số điện thoại</th>
+                <th class="pb-2 m-w-200-px">Đơn vị quản lý</th>
+                <th class="pb-2 m-w-200-px">Chuyên môn kỹ thuật</th>
+                <th class="pb-2 m-w-200-px text-center">Số lượng chó quản lý</th>
+                <th class="pb-2 col-min text-center">Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ThongTinCanBos)
+            {
+                stt++;
+                var detailLink = Url.RouteUrl("ChiTietCanBo", new { type = Model.SearchParam.Type, id = item.ID });
+                var editLink = Url.RouteUrl("ChinhSuaCanBo", new { type = Model.SearchParam.Type, id = item.ID });
+                var deleteLink = Url.RouteUrl("XoaCanBo", new { type = Model.SearchParam.Type, id = item.ID });
+                var linkSearchDonVi = "/ThongTinCanBo/SearchByCondition";
+                var linkLienKetDongVat = "/DongVatNghiepVu?IDCanBo=" + item.ID;
+                <tr>
+                    <td class="text-center">@stt</td>
+                    <td class="text-center">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="checkboxes custom-control-input" id="role-@item.ID" data-id="@item.ID" value="@item.ID">
+                            <label class="custom-control-label" for="role-@item.ID"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="quickUpdate" title="Chi tiết cán bộ" href="@detailLink" data-target="#mdIUThongTinCanBo" data-toggle="tooltip">@item.TenCanBo</a>
+                    </td>
+                    <td class="text-center">@item.Gender</td>
+                    <td class="text-center">@item.SDT</td>
+                    <td>
+                        <a class="quickSearchCus" title="Chi tiết cán bộ trong đơn vị" href="@linkSearchDonVi" data-formtarget="#frmThongTinCanBo" data-fieldsearch="#Field_IDDonviNghiepVu" data-valuefield="@item.IDDonViNghiepVu" data-target="#divThongTinCanBos">@item.TenDonViNghiepVu</a>
+                    </td>
+                    <td>@item.TenChuyenMonKyThuat</td>
+                    <td class="text-center">
+                        <a href="@linkLienKetDongVat" title="Chi tiết số lượng chó cán bộ quản lý">@(item.SoLuongCho > 0 ? item.SoLuongCho + " (con)" : "")</a>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex is-btn-action">
+                            <a title="Chi tiết" class="quickUpdate" href="@detailLink"
+                               data-target="#mdIUThongTinCanBo" data-toggle="tooltip" data-original-title="Chi tiết">
+                                <i class="fas fa-fw fa-eye"></i>
+                            </a>
+                            <a title="Sửa" class=" quickUpdate" href="@editLink"
+                               data-target="#mdIUThongTinCanBo" data-toggle="tooltip" data-original-title="Sửa">
+                                <i class="fas fa-fw fa-edit"></i>
+                            </a>
+                            <a title="Xoá" data-comfirm-message="Xoá thông tin cán bộ: Bạn có chắc chắn muốn xoá thông tin cán bộ này?" class=" quickDelete" href="@deleteLink" data-id="@item.ID"
+                               data-toggle="tooltip" data-original-title="Xóa">
+                                <i class="fas fa-fw fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@await Html.PartialAsync("_PagingFooter", Model.ThongTinCanBos, new ViewDataDictionary(this.ViewData) { { "TargetForm", "frmThongTinCanBo" } })

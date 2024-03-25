@@ -1,0 +1,64 @@
+@{
+    var title = "Danh sách nghiệp vụ động vật";
+    ViewData["Title"] = title;
+    var breadcrum = new Dictionary<string, string>();
+    breadcrum.Add("/InputInfo", title);
+
+    ViewBag.Breadcrumb = new List<string> { "Danh sách Nghiệp vụ động vật", "Nghiệp vụ động vật" };
+    ViewData["PageHeaderContent"] = "InputInfo";
+    Layout = "~/Views/Shared/_LayoutCus.cshtml";
+}
+@using ESD.Application.Models.ViewModels.ESDNghiepVu
+@using ESD.Domain.Models.ESDNghiepVu
+@using ESD.Utility.Helper;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model VMIndexNghiepVuDongVat
+@{
+    var searchParam = Model.SearchParam;
+}
+<div class="container pt-30">
+    <div class="box-wrap-cs mb-15 dataTables_wrapper">
+        <form asp-action="SearchByCondition" id="frmNghiepVuDongVat" role="form" method="post" class="quickSearch" data-target="#divNghiepVuDongVats">
+            <div class="row row-ip">
+                <div class="col-md-4 align-items-center d-flex col-ip-12">
+                    <p class="is-header-table-search"><span>@ViewData["Title"]</span></p>
+                </div>
+                <div class="col-md-8 col-ip-12">
+                    <div class="pull-right input-group-sm mb-3">
+                        
+                        <div class="col-xs-12">
+                            @Html.CustTexBox("srKeyword", "Keyword", @searchParam.Keyword, "", "Tên/mã nghiệp vụ", false, new { }, false)
+                        </div>
+
+                        <button type="submit" class="btn btn-sm btn-primary ml-5">Tìm kiếm</button>
+                        
+                        <a class="btn-icon-search quickDeletes ml-28 text-danger actMultiTicks hidden" data-url="/NghiepVuDongVat/Deletes" tabindex="0" data-comfirm-message="Xoá nhiều nghiệp vụ động vật:Bạn có muốn xoá {n} nghiệp vụ động vật đã chọn?" title="Xóa">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn-icon-search quickUpdate ml-5 text-success" tabindex="0" href="/NghiepVuDongVat/Create" data-target="#mdIUNghiepVuDongVat" aria-controls="data_table" title="Thêm mới">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card card-danger card-outline card-outline-tabs rounded-0 border-0 elevation-0 bg-transparent mt-15">
+            <div class="card-body p-0">
+                <div id="divNghiepVuDongVats">
+                    @await Html.PartialAsync("Index_NghiepVuDongVats", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <div class="modal fade" id="mdIUNghiepVuDongVat" aria-labelledby="NghiepVuDongVatModalTitle" aria-hidden="true"></div>
+    <script src="~/js/controller/NghiepVuDongVatController.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        InitNghiepVuDongVat();
+    </script>
+
+}
+
+

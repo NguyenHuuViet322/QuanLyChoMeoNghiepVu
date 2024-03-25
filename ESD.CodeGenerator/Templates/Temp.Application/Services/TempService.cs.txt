@@ -1,0 +1,262 @@
+﻿using AutoMapper;
+using Temp.Application.Interfaces;
+using Temp.Application.Interfaces{.Group};
+using Temp.Application.Models.CustomModels;
+using Temp.Application.Models.Param{.Group};
+using Temp.Application.Models.ViewModels;
+using Temp.Application.Models.ViewModels{.Group};
+using Temp.Domain.Interfaces.DAS;
+using Temp.Domain.Interfaces.DASNotify;
+using Temp.Domain.Interfaces{.Group};
+using Temp.Domain.Models{.Group};
+using Temp.Infrastructure.Repositories{.Group};
+using Temp.Utility;
+using Temp.Utility.CustomClass;
+using Temp.Utility.LogUtils;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Temp.Application.Services{.Group}
+{
+    public class {Table}Service : BaseMasterService, I{Table}Services
+    {
+        #region Properties
+        private readonly IMapper _mapper;
+        private readonly ILoggerManager _logger;
+        private readonly IModuleService _module;
+        private readonly IDefaultDataService _defaultDataService;
+        private readonly IHostApplicationLifetime _host;
+        private ICacheManagementServices _cacheManagementServices;
+        private IWebHostEnvironment _env;
+
+        #endregion
+
+        #region Ctor
+        public {Table}Service(IDasRepositoryWrapper dasRepository
+            , IMapper mapper
+            , ILoggerManager logger
+            , IModuleService module
+            , IDefaultDataService defaultDataService,
+            IHostApplicationLifetime host
+            , ICacheManagementServices cacheManagementServices, IESDNghiepVuRepositoryWrapper dasNghiepVuRepo,
+            IWebHostEnvironment env) : base(dasRepository, dasNghiepVuRepo)
+        {
+            _mapper = mapper;
+            _logger = logger;
+            _module = module;
+            _cacheManagementServices = cacheManagementServices;
+            _defaultDataService = defaultDataService;
+            _host = host;
+            _env = env;
+        }
+
+
+        #endregion
+
+        #region Gets  
+
+        public async Task<IEnumerable<{Table}>> GetsList()
+        {
+            var temp = from ct in {_repo}.{Table}.GetAll()
+                       orderby ct.ID descending
+                       select ct;
+            return await temp.ToListAsync();
+        }
+        public async Task<{Table}> Get({idDatatype} id)
+        {
+            return await {_repo}.{Table}.FirstOrDefaultAsync(n => n.ID == id);
+        }
+
+        public async Task<VMIndex{Table}> SearchByConditionPagging({Table}Condition condition)
+        {
+            var model = new VMIndex{Table}
+            {
+                SearchParam = condition
+            };
+            UserData userData = await _cacheManagementServices.GetUserDataAndSetCache();
+
+            var temp = from tb in {_repo}.{Table}.GetAll()
+                       //where (condition.Keyword.IsEmpty() || tb.Name.Contains(condition.Keyword))
+                       orderby tb.UpdatedDate ?? tb.CreateDate descending
+                       select _mapper.Map<VM{Table}>(tb);
+
+            var total = await temp.LongCountAsync();
+            int totalPage = (int)Math.Ceiling(total / (double)condition.PageSize);
+            if (totalPage < condition.PageIndex)
+            {
+                condition.PageIndex = 1;
+            }
+            var result = await temp.Skip((condition.PageIndex - 1) * condition.PageSize).Take(condition.PageSize).ToListAsync();
+            
+            model.{Table}s = new PaginatedList<VM{Table}>(result, (int)total, condition.PageIndex, condition.PageSize);
+
+            //RenderHere1
+
+            return model;
+        }
+
+        #endregion
+
+        #region Create
+
+        public async Task<VMUpdate{Table}> Create()
+        {
+            var model = new VMUpdate{Table}()
+            {
+            };
+            
+            //RenderHere2
+
+            return model;
+        }
+        
+
+        public async Task<ServiceResult> Save(VMUpdate{Table} data)
+        {
+            try
+            {
+                UserData userData = await _cacheManagementServices.GetUserDataAndSetCache();
+                var {table} = Utils.Bind<{Table}>(data.KeyValue());
+                await ValidateData(data);
+                await {_repo}.{Table}.InsertAsync({table});
+                await {_repo}.SaveAync();
+                return new ServiceResultSuccess("Thêm {title} thành công");
+
+            }
+            catch (LogicException ex)
+            {
+                return new ServiceResultError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Guid.NewGuid().ToString();
+                _logger.LogError(ex);
+                return new ServiceResultError("Có lỗi khi thêm mới {title}");
+            }
+        }
+
+        #endregion
+
+        #region Update
+        public async Task<VMUpdate{Table}> Update({idDatatype}? id)
+        {
+            var {table} = await Get(id ?? 0);
+            if ({table} == null || {table}.ID == 0)
+            {
+                throw new LogicException("{Title} không còn tồn tại");
+            }
+            var model = _mapper.Map<{Table},VMUpdate{Table}>({table});
+
+            //RenderHere3
+            return model;
+        }
+
+        public async Task<ServiceResult> Change(VMUpdate{Table} vm{Table})
+        {
+            try
+            {
+                UserData userData = await _cacheManagementServices.GetUserDataAndSetCache();
+
+
+                var {table} = await {_repo}.{Table}.GetAsync(vm{Table}.ID);
+                if ({table} == null)
+                    return new ServiceResultError("{Title} này hiện không tồn tại hoặc đã bị xóa");
+                //   var oldParent = vm{Table}.ParentPath;
+
+                await ValidateData(vm{Table});
+                {table}.Bind(vm{Table}.KeyValue());
+
+                await {_repo}.{Table}.UpdateAsync({table});
+                await {_repo}.SaveAync();
+                return new ServiceResultSuccess("Cập nhật {title} thành công");
+            }
+            catch (LogicException ex)
+            {
+                return new ServiceResultError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                return new ServiceResultError(ex.Message);
+            }
+        }
+        #endregion
+
+
+        #region Delete
+        public async Task<ServiceResult> Delete({idDatatype} id)
+        {
+            try
+            {
+                var {Table} = await {_repo}.{Table}.GetAsync(id);
+                if ({Table} == null)
+                    return new ServiceResultError("{Title} này hiện không tồn tại hoặc đã bị xóa");
+
+              
+                await {_repo}.{Table}.DeleteAsync({Table});
+
+                await {_repo}.SaveAync();
+
+                return new ServiceResultSuccess("Xóa {title} thành công");
+            }
+            catch (LogicException ex)
+            {
+                return new ServiceResultError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                return new ServiceResultError(ex.Message);
+
+            }
+        }
+        public async Task<ServiceResult> Delete(IEnumerable<{idDatatype}> ids)
+        {
+            try
+            {
+                var {Table}Deletes = await {_repo}.{Table}.GetAllListAsync(n => ids.Contains(n.ID));
+                if ({Table}Deletes == null || {Table}Deletes.Count() == 0)
+                    return new ServiceResultError("{Title} đã chọn hiện không tồn tại hoặc đã bị xóa");
+
+                await {_repo}.{Table}.DeleteAsync({Table}Deletes);
+                await {_repo}.SaveAync();
+
+                return new ServiceResultSuccess("Xóa {title} thành công");
+            }
+            catch (LogicException ex)
+            {
+                return new ServiceResultError(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                return new ServiceResultError(ex.Message);
+            }
+        }
+        #endregion
+
+
+        #region Validate
+        private async Task ValidateData(VMUpdate{Table} vm{Table})
+        {
+
+            //if (await {_repo}.{Table}.IsNameExist(vm{Table}.Name, (int)EnumCommon.Status.InActive, vm{Table}.ID))
+            //{
+            //    throw new LogicException("Tên {title} đã tồn tại");
+            //}
+
+        }
+        #endregion
+
+        #region Funtions
+
+
+        #endregion
+    }
+}

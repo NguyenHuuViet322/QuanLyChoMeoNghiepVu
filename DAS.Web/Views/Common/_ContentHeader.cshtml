@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "";
+    ViewData["PageHeader"] = "";
+    var dictBookmark = ((Dictionary<string, int[]>)TempData["ModuleBookmark"]) ?? new Dictionary<string, int[]>();
+}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <ol class="breadcrumb text-truncate flex-nowrap" id="breadcrumb">
+            @if (ViewData["Breadcrumb"] != null)
+            {
+                <li class="breadcrumb-item"><a href="/">Tổng quan</a></li>
+                if (ViewData["Breadcrumb"] is string)
+                {
+                    <li class="breadcrumb-item active">@ViewData["Breadcrumb"]</li>
+                }
+                else
+                {
+                    if (ViewData["Breadcrumb"] is Dictionary<string, string>)
+                    {
+                        foreach (KeyValuePair<string, string> item in (Dictionary<string, string>)ViewData["Breadcrumb"])
+                        {
+                            if (((Dictionary<string, string>)ViewData["Breadcrumb"]).Last().Key == item.Key)
+                            {
+                                if (dictBookmark.Keys.Contains(item.Key.ToLower()))
+                                {
+                                    var pairStatus = dictBookmark.GetValueOrDefault(item.Key.ToLower());
+                                    if (pairStatus[1] == 0)
+                                    {
+                                        <li class="breadcrumb-item active"><a href="@item.Key">@item.Value</a><a class="far fa-star btn-bookmark text-secondary addBookmark" data-toggle="tooltip" title="Thêm lối tắt trang chủ" data-idModule="@pairStatus[0]"></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="breadcrumb-item active"><a href="@item.Key">@item.Value</a><a class="fas fa-star btn-bookmark text-yellow addBookmark" data-toggle="tooltip" title="Bỏ lối tắt trang chủ" data-idModule="@pairStatus[0]"></a></li>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <li class="breadcrumb-item active">@item.Value</li>
+                                }
+                            }
+                            else
+                            {
+                                if (dictBookmark.Keys.Contains(item.Key.ToLower()))
+                                {
+                                    var pairStatus = dictBookmark.GetValueOrDefault(item.Key.ToLower());
+                                    if (pairStatus[1] == 0)
+                                    {
+                                        <li class="breadcrumb-item"><a href="@item.Key">@item.Value</a><a class="far fa-star btn-bookmark text-secondary addBookmark" data-toggle="tooltip" data-idModule="@pairStatus[0]"></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="breadcrumb-item"><a href="@item.Key">@item.Value</a><a class="fas fa-star btn-bookmark text-yellow addBookmark" data-toggle="tooltip" data-idModule="@pairStatus[0]"></a></li>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <li class="breadcrumb-item"><a href="@item.Key">@item.Value</a></li>
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        </ol>
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
